@@ -1,0 +1,105 @@
+\section*{TD 4 --- Classification et évaluation}
+\addcontentsline{toc}{section}{TD 4 --- Classification et évaluation}
+
+\subsection*{Exercice 1 --- Lire une matrice de confusion \hfill \normalfont\footnotesize (12 min)}
+Sur 200 dossiers :
+
+\begin{center}
+\small
+\begin{tabular}{@{}lrr@{}}
+\toprule
+& \textbf{prédit sain} & \textbf{prédit malade} \\
+\midrule
+\textbf{réel sain} & 130 & 10 \\
+\textbf{réel malade} & 20 & 40 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{enumerate}
+  \item Calculer l'exactitude, la précision, le rappel et $F_1$.
+  \item Que signifie concrètement « précision = 0,80 » ?
+  \item Le modèle rate 20 malades sur 60. Est-ce acceptable ? De quoi dépend la
+        réponse ?
+\end{enumerate}
+
+\subsection*{Exercice 2 --- Déplacer le seuil \hfill \normalfont\footnotesize (8 min)}
+Le modèle produit une probabilité. On abaisse le seuil de 0,5 à 0,3.
+\begin{enumerate}
+  \item Le rappel augmente-t-il ou diminue-t-il ?
+  \item Et la précision ?
+  \item Dans quel contexte ce choix est-il justifié ?
+\end{enumerate}
+
+\subsection*{Exercice 3 --- ROC et AUC \hfill \normalfont\footnotesize (8 min)}
+\begin{enumerate}
+  \item Que représente un point de la courbe ROC ?
+  \item Que vaut l'AUC d'un classifieur aléatoire ? D'un classifieur parfait ?
+  \item Pourquoi l'AUC peut-elle être trompeuse sur des classes très
+        déséquilibrées ?
+\end{enumerate}
+
+\subsection*{Exercice 4 --- Le piège de l'exactitude \hfill \normalfont\footnotesize (8 min)}
+Sur 2\,000 dossiers, 5 \% sont positifs. Un modèle prédit toujours « négatif ».
+\begin{enumerate}
+  \item Calculer son exactitude et son rappel.
+  \item Pourquoi ce modèle est-il inutile malgré 95 \% ?
+  \item Quelle métrique publier à la place ?
+\end{enumerate}
+
+\subsection*{Exercice 5 --- Choisir la métrique \hfill \normalfont\footnotesize (6 min)}
+Indiquer la métrique à privilégier et pourquoi :
+\begin{enumerate}
+  \item dépistage d'une maladie rare ;
+  \item filtre anti-spam ;
+  \item prévision de stock (erreur en unités).
+\end{enumerate}
+
+
+\subsection*{Exercice 6 --- Précision-rappel ou ROC ? \hfill \normalfont\footnotesize (7 min)}
+\begin{enumerate}
+  \item Que montre une courbe précision-rappel que la courbe ROC ne montre pas ?
+  \item Dans quel cas la ROC est-elle trop optimiste ?
+  \item Laquelle publier pour un dépistage avec 2 \% de positifs ?
+\end{enumerate}
+
+\subsection*{Exercice 7 --- Calibration \hfill \normalfont\footnotesize (7 min)}
+Un modèle annonce une probabilité moyenne de 0,90 sur un lot de dossiers, dont
+seulement 60 \% sont réellement positifs.
+\begin{enumerate}
+  \item Le modèle est-il bien classé ? Est-il bien calibré ?
+  \item Que signifie concrètement ce biais pour l'utilisateur ?
+  \item Comment corriger la calibration ?
+\end{enumerate}
+
+\subsection*{Exercice 8 --- Trois classes \hfill \normalfont\footnotesize (10 min)}
+Matrice de confusion (150 dossiers, 50 par classe) :
+
+\begin{center}
+\small
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+ & \textbf{prédit A} & \textbf{prédit B} & \textbf{prédit C} \\
+\midrule
+\textbf{réel A} & 40 & 5 & 5 \\
+\textbf{réel B} & 10 & 30 & 10 \\
+\textbf{réel C} & 5 & 5 & 40 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{enumerate}
+  \item Calculer l'exactitude globale.
+  \item Calculer le rappel de chaque classe.
+  \item Quelle classe est la plus difficile, et que faire ensuite ?
+\end{enumerate}
+
+\subsection*{Exercice 9 --- Le seuil a un coût \hfill \normalfont\footnotesize (8 min)}
+Une fausse alerte coûte 1 unité ; un cas manqué coûte 10 unités.
+\begin{enumerate}
+  \item À partir de quelle probabilité faut-il alerter ?
+  \item Que devient ce seuil si un cas manqué coûte 100 unités ?
+  \item Pourquoi le seuil 0,5 n'a-t-il rien de naturel ?
+\end{enumerate}
+
+\newpage

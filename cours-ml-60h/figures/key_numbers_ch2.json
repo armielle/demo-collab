@@ -1,0 +1,65 @@
+{
+  "manquants": {
+    "Moyenne": 7.2,
+    "Revenu parental": 26.5,
+    "Absences": 4.8,
+    "Filière": 29.0
+  },
+  "imputation": {
+    "taux_manquant": 0.25,
+    "moyenne_vraie": 52041.4,
+    "ecart_type_vrai": 51818.8,
+    "ecart_type_apres_moyenne": 43220.5,
+    "ecart_type_apres_mediane": 43620.4,
+    "mediane_vraie": 37009.8,
+    "imputation_moyenne": 52248.0,
+    "imputation_mediane": 48982.0,
+    "biais_moyenne": 206.6,
+    "biais_mediane": -3059.4
+  },
+  "encodage": {
+    "one_hot": "3 colonnes binaires",
+    "ordinal": "1 colonne 0/1/2"
+  },
+  "echelle": {
+    "knn_sans_normalisation": 0.947,
+    "knn_avec_normalisation": 0.977,
+    "gain_points": 2.9,
+    "colonne_la_plus_large": "4069",
+    "colonne_la_plus_etroite": "0.029",
+    "ratio_etendues": 140569.0
+  },
+  "outliers": {
+    "n": 305,
+    "iqr_borne_haut": 71.5,
+    "detectes_iqr": 6,
+    "detectes_zscore": 4,
+    "vraies_valeurs_ajoutees": 5
+  },
+  "fuite_encodage": {
+    "modalites": 100,
+    "lignes_par_modalite": 2,
+    "score_fuite": 0.76,
+    "score_propre": 0.57,
+    "ecart_points": 19.0
+  },
+  "exploration": {
+    "corr_note1_note2": 0.85,
+    "corr_note1_absences": -0.63,
+    "corr_note2_absences": -0.57
+  },
+  "jointure": {
+    "etudiants": 400,
+    "lignes_apres_jointure": 752,
+    "facteur": 1.88,
+    "moyenne_par_etudiant": 0.487,
+    "moyenne_apres_jointure": 0.501,
+    "ecart_points": 1.4
+  },
+  "imputations_comparees": {
+    "moyenne": 3.112,
+    "médiane": 3.122,
+    "kNN (k=5)": 1.89,
+    "itératif": 1.566
+  }
+}

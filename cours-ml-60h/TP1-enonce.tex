@@ -1,0 +1,134 @@
+\documentclass[10.5pt,a4paper]{article}
+\usepackage[margin=14mm,top=11mm,bottom=11mm]{geometry}
+\usepackage{fontspec}
+\usepackage[french]{babel}
+\usepackage{amsmath,amssymb}
+\usepackage{xcolor}
+\usepackage[most]{tcolorbox}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage{array}
+\usepackage{titlesec}
+
+\definecolor{bleu}{HTML}{1F6FEB}
+\definecolor{gris}{HTML}{5B6470}
+\definecolor{vert}{HTML}{1E8449}
+\definecolor{orange}{HTML}{B45309}
+\definecolor{fond}{HTML}{F4F6F8}
+
+\setlength{\parindent}{0pt}
+\titlespacing*{\section}{0pt}{7pt}{2pt}
+\titleformat{\section}{\normalfont\bfseries\color{bleu}\normalsize}{\thesection}{0.6em}{}
+\setlist[itemize]{nosep,leftmargin=1.05em,labelsep=.4em}
+\setlist[enumerate]{nosep,leftmargin=1.35em,labelsep=.45em}
+
+\newtcolorbox{obj}[1]{enhanced,colback=vert!5,colframe=vert!70!black,boxrule=.5pt,
+  arc=2pt,left=5pt,right=5pt,top=3pt,bottom=3pt,fonttitle=\bfseries\footnotesize,title={#1}}
+\newtcolorbox{attn}[1]{enhanced,colback=orange!6,colframe=orange!80!black,boxrule=.5pt,
+  arc=2pt,left=5pt,right=5pt,top=3pt,bottom=3pt,fonttitle=\bfseries\footnotesize,title={#1}}
+
+\begin{document}
+
+\begin{tcolorbox}[enhanced,colback=fond,colframe=fond,arc=3pt,
+  left=9pt,right=9pt,top=6pt,bottom=6pt]
+\begin{minipage}[c]{0.76\textwidth}
+  {\color{gris}\footnotesize ENSPD --- UNIVERSITÉ DE DOUALA $\cdot$ LICENCE 3 SDIA}\\[2pt]
+  {\Large\bfseries TP1 --- Premier pipeline et première fuite}\\[3pt]
+  {\small Introduction au Machine Learning $\cdot$ durée \textbf{2 h} $\cdot$ barème \textbf{10 points}}\\[4pt]
+  {\color{gris}\footnotesize Dr.\ Noulapeu Ngaffo Armielle}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.20\textwidth}
+  \raggedleft\includegraphics[width=17mm]{logo_enspd.png}
+\end{minipage}
+\end{tcolorbox}
+
+\section*{\color{bleu}1. Objectifs}
+\begin{obj}{À la fin de ce TP, vous saurez}
+\begin{itemize}
+  \item charger un jeu de données réel et le découper en entraînement et test ;
+  \item construire une \textbf{baseline} et interpréter un score par rapport à elle ;
+  \item entraîner un modèle dans un \textbf{pipeline} scikit-learn ;
+  \item lire une matrice de confusion et une validation croisée ;
+  \item \textbf{fabriquer une fuite de données}, puis la corriger.
+\end{itemize}
+\end{obj}
+
+\section*{\color{bleu}2. Prérequis et matériel}
+{\small
+Python (variables, boucles, fonctions), notion de moyenne et d'écart-type.
+Notebook \texttt{TP1\_premier\_pipeline.ipynb}, noyau \texttt{ml-60h}.
+Aucun téléchargement : le jeu est fourni par scikit-learn.}
+
+\section*{\color{bleu}3. Données}
+{\small
+Jeu \textbf{breast\_cancer} : 569 patients, 30 mesures, étiquette bénin / malin.
+C'est un jeu de référence, déjà nettoyé : l'objectif du TP n'est pas la
+préparation (chapitre 2) mais la \textbf{démarche d'évaluation}.}
+
+\section*{\color{bleu}4. Travail demandé}
+
+\begin{center}
+\small
+\begin{tabular}{@{}p{0.05\textwidth}p{0.40\textwidth}p{0.47\textwidth}@{}}
+\toprule
+\textbf{\S} & \textbf{Étape} & \textbf{Ce que vous devez produire} \\
+\midrule
+1 & Charger les données & formes, répartition des classes, trois premières lignes \\
+2 & Découper & 75 \% entraînement / 25 \% test, \texttt{stratify=y} \\
+3 & Baseline & classe majoritaire, score obtenu \\
+4 & Modèle & pipeline avec standardisation, puis score de test \\
+5 & Matrice de confusion & matrice, précision, rappel, $F_1$ par classe \\
+6 & Validation croisée & 5 plis : scores, moyenne et écart-type \\
+7 & Fuite & 600 variables de bruit, étiquettes aléatoires : score avec fuite,
+     score propre, écart en points \\
+8 & À vous & trois réponses argumentées \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section*{\color{bleu}5. À rendre (noté)}
+
+\begin{enumerate}
+  \item Le \textbf{notebook exécuté} de bout en bout, sans cellule vide.
+  \item Les \textbf{trois réponses} de la section « À vous » :
+        \begin{enumerate}[label=\alph*)]
+          \item remplacer la régression logistique par une forêt aléatoire
+                (\texttt{n\_estimators=200, random\_state=4112}) : la baseline change-t-elle ?
+                le gain est-il plus grand ?
+          \item le jeu est-il déséquilibré ? quel serait le danger de juger avec
+                l'exactitude seule ?
+          \item expliquer en deux phrases pourquoi la sélection de variables faite
+                avant le split fabrique un score élevé alors que les étiquettes
+                sont aléatoires.
+        \end{enumerate}
+\end{enumerate}
+
+\section*{\color{bleu}6. Barème (10 points)}
+
+\small
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.62\textwidth}r@{}}
+\toprule
+\textbf{Critère} & \textbf{Points}\\
+\midrule
+Découpage correct et baseline comparée & 2\\
+Pipeline et matrice de confusion lus correctement & 2\\
+Validation croisée avec moyenne \textbf{et} écart-type & 2\\
+Fuite fabriquée et écart mesuré & 2\\
+Trois réponses argumentées (pas seulement un chiffre) & 2\\
+\bottomrule
+\end{tabular}
+\normalsize
+
+\section*{\color{bleu}7. Règles}
+
+\begin{attn}{Ce qui coûte des points}
+\begin{itemize}
+  \item Un chiffre annoncé sans la cellule qui le produit ne rapporte rien.
+  \item Un notebook qui ne s'exécute pas de bout en bout est plafonné à 5/10.
+  \item Une réponse du type « c'est mieux » sans chiffre n'est pas une réponse.
+  \item Graine fixée : deux exécutions doivent donner le même résultat.
+\end{itemize}
+\end{attn}
+
+\end{document}

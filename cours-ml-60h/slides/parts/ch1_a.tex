@@ -1,0 +1,231 @@
+% =====================================================================
+%  Chapitre 1 -- Qu'est-ce qu'apprendre ? Demarche et generalisation
+%  Partie a : definitions, familles, pipeline, surapprentissage
+% =====================================================================
+\section{Chapitre 1 --- Démarche et généralisation}
+
+\chapterslide{Chapitre 1}{Qu'est-ce qu'apprendre ?}%
+{6 h --- 4 h CM/TD + 2 h TP}%
+{\textbf{Objectifs.} Définir l'apprentissage automatique ; distinguer supervisé,
+non supervisé et renforcement ; décrire le pipeline complet ; reconnaître le
+sous-apprentissage et le surapprentissage sur une courbe.}
+
+\begin{frame}{Le problème, en une phrase}
+\begin{columns}[t]
+\begin{column}{0.48\textwidth}
+\begin{wbox}[Ce qu'on ne veut plus faire]
+Écrire les règles à la main. Pour trier un courriel en spam, il faudrait
+lister tous les mots suspects, toutes les fautes, toutes les astuces.
+Chaque nouvelle ruse casse la règle précédente.
+\end{wbox}
+\end{column}
+\begin{column}{0.48\textwidth}
+\begin{kbox}[Ce qu'on veut]
+Donner des \textbf{exemples} à un programme et le laisser trouver la règle.
+Il s'améliore avec l'expérience, sur une tâche, mesurée par une
+\textbf{performance}.
+\end{kbox}
+\end{column}
+\end{columns}
+\vspace{2mm}
+\begin{solbox}[Définition (Mitchell, 1997)]
+Un programme \emph{apprend} à partir de l'expérience $E$ pour une tâche $T$ et
+une mesure de performance $P$ si sa performance sur $T$, mesurée par $P$,
+s'améliore avec $E$.
+\end{solbox}
+\end{frame}
+
+\begin{frame}{Apprendre, ce n'est pas mémoriser}
+\begin{columns}[t]
+\begin{column}{0.52\textwidth}
+\begin{itemize}
+  \item Mémoriser les 1\,000 exemples vus ne sert à rien le jour de l'examen.
+  \item Ce qu'on veut : être bon sur des exemples \textbf{jamais vus}.
+  \item C'est la \textbf{généralisation} --- et c'est toute la difficulté.
+\end{itemize}
+\begin{kbox}[La conséquence immédiate]
+On ne peut pas juger un modèle sur les données qui ont servi à l'entraîner.
+Il faut un jeu mis de côté.
+\end{kbox}
+\end{column}
+\begin{column}{0.44\textwidth}
+\begin{ebox}[L'analogie de l'étudiant]
+Un étudiant qui apprend par cœur les annales et réussit le même sujet
+n'a rien prouvé. On le juge sur un sujet nouveau.
+\end{ebox}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Trois familles d'apprentissage}
+\begin{center}
+\includegraphics[width=0.97\textwidth]{g02_types.png}
+\end{center}
+\begin{columns}[t]
+\begin{column}{0.32\textwidth}
+\footnotesize\textbf{Supervisé} : on connaît la réponse. Classification,
+régression. C'est 80 \% de ce cours.
+\end{column}
+\begin{column}{0.32\textwidth}
+\footnotesize\textbf{Non supervisé} : aucune étiquette. Regrouper, réduire,
+détecter l'anomalie.
+\end{column}
+\begin{column}{0.32\textwidth}
+\footnotesize\textbf{Renforcé} : apprendre par essai-erreur, avec une
+récompense différée.
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Des exemples qui parlent}
+\begin{center}
+\small
+\begin{tabular}{@{}llll@{}}
+\toprule
+\textbf{Tâche} & \textbf{Type} & \textbf{Entrée} & \textbf{Sortie} \\
+\midrule
+Filtrer le spam & supervisé, classification & mots du courriel & spam / non spam \\
+Prédire un loyer & supervisé, régression & surface, quartier & montant en FCFA \\
+Segmenter des clients & non supervisé & achats, fréquence & groupes \\
+Détecter une panne & supervisé (série) & métriques serveur & alerte \\
+Jouer à un jeu & renforcé & état du jeu & action \\
+\bottomrule
+\end{tabular}
+\end{center}
+\vspace{1mm}
+\begin{kbox}[Le réflexe à prendre]
+Avant tout modèle : \textbf{quelle est la sortie attendue ?} Un nombre
+(régression), une classe (classification), un groupe (non supervisé) ?
+Tout le reste en découle.
+\end{kbox}
+\end{frame}
+
+\begin{frame}{Le pipeline, et l'endroit où tout casse}
+\begin{center}
+\includegraphics[width=0.98\textwidth]{g01_pipeline.png}
+\end{center}
+\vspace{1mm}
+\begin{wbox}[Le modèle n'est pas le cœur du problème]
+Dans la pratique, les erreurs viennent surtout des étapes 1, 2 et 4 :
+données mal comprises, variables construites avec fuite, évaluation trompeuse.
+Un modèle simple bien évalué bat un modèle complexe mal évalué.
+\end{wbox}
+\end{frame}
+
+\begin{frame}{Le vocabulaire minimal}
+\begin{center}
+\small
+\begin{tabular}{@{}lll@{}}
+\toprule
+\textbf{Notation} & \textbf{Nom} & \textbf{Exemple} \\
+\midrule
+$X$ & matrice des variables & 569 patients $\times$ 30 mesures \\
+$y$ & étiquette / cible & tumeur bénigne ou maligne \\
+$f_\theta$ & modèle de paramètres $\theta$ & régression logistique \\
+$L(y, f_\theta(x))$ & fonction de perte & entropie croisée \\
+$P$ & métrique de performance & exactitude, rappel, RMSE \\
+\bottomrule
+\end{tabular}
+\end{center}
+\vspace{1.5mm}
+\begin{kbox}[Paramètres vs hyperparamètres]
+\textbf{Paramètres} : appris par l'optimisation (poids $\theta$).
+\textbf{Hyperparamètres} : choisis par vous (degré du polynôme, profondeur
+d'un arbre, $k$ du k-means). Ils se règlent sur la \textbf{validation}, jamais
+sur le test.
+\end{kbox}
+\end{frame}
+
+\begin{frame}{Perte et métrique : ne pas confondre}
+\begin{columns}[t]
+\begin{column}{0.48\textwidth}
+\begin{ebox}[La perte --- ce que le modèle optimise]
+Différentiable, calculée sur chaque exemple : erreur quadratique,
+entropie croisée. C'est le moteur de l'entraînement.
+\end{ebox}
+\end{column}
+\begin{column}{0.48\textwidth}
+\begin{ebox}[La métrique --- ce que vous décidez]
+Ce qui compte pour l'utilisateur : RMSE en FCFA, rappel sur les pannes,
+F1 sur les cas rares. Elle n'est pas toujours différentiable.
+\end{ebox}
+\end{column}
+\end{columns}
+\vspace{2mm}
+\begin{wbox}[L'erreur classique]
+Minimiser une perte qui ne correspond pas à la métrique métier : un modèle
+qui optimise l'exactitude sur des données déséquilibrées prédit toujours
+la classe majoritaire.
+\end{wbox}
+\end{frame}
+
+\begin{frame}{Le surapprentissage, visible sur une courbe}
+\begin{center}
+\includegraphics[width=0.56\textwidth]{g03_surapprentissage.png}
+\end{center}
+\vspace{1mm}
+\begin{solbox}[Lecture (calculée, graine 4112)]
+Degré 5 : entraînement $0{,}042$, test $0{,}052$. Plus loin, l'entraînement
+descend encore mais le test remonte : le modèle apprend le \textbf{bruit}.
+\end{solbox}
+\end{frame}
+
+\begin{frame}{Trois régimes, trois remèdes}
+\begin{center}
+\small
+\footnotesize
+\begin{tabular}{@{}p{0.24\textwidth}p{0.28\textwidth}p{0.38\textwidth}@{}}
+\toprule
+\textbf{Régime} & \textbf{Symptôme} & \textbf{Remède} \\
+\midrule
+Sous-apprentissage & entraînement \textbf{élevé} & modèle plus complexe,
+meilleures variables \\
+Bon compromis & les deux erreurs basses & --- \\
+Surapprentissage & entraînement \textbf{très bas}, test \textbf{élevé} &
+plus de données, régularisation, modèle plus simple \\
+\bottomrule
+\end{tabular}
+\normalsize
+\end{center}
+\vspace{2mm}
+\begin{kbox}[La question à poser devant toute courbe]
+L'écart entraînement/validation se creuse-t-il ? Si oui, le problème n'est pas
+dans les données mais dans la \textbf{capacité du modèle}.
+\end{kbox}
+\end{frame}
+
+\begin{frame}{Quiz 1 --- fondements}
+\begin{columns}[t]
+\begin{column}{0.49\textwidth}
+\begin{qbox}[Question 1]
+Un modèle obtient 99 \% en entraînement et 61 \% en test. Que se passe-t-il ?
+\begin{itemize}
+  \item[(a)] sous-apprentissage \quad (b) surapprentissage
+  \item[(c)] fuite de données
+\end{itemize}
+\end{qbox}
+\begin{qbox}[Question 2]
+La différence entre paramètre et hyperparamètre :
+\begin{itemize}
+  \item[(a)] le paramètre est appris, l'hyperparamètre est choisi
+  \item[(b)] l'hyperparamètre est plus important
+  \item[(c)] aucune, ce sont des synonymes
+\end{itemize}
+\end{qbox}
+\end{column}
+\begin{column}{0.49\textwidth}
+\begin{qbox}[Question 3]
+Pourquoi ne pas juger un modèle sur ses données d'entraînement ?
+\begin{itemize}
+  \item[(a)] c'est plus lent
+  \item[(b)] cela ne mesure pas la généralisation
+  \item[(c)] les données sont trop nombreuses
+\end{itemize}
+\end{qbox}
+\begin{solbox}[Réponses]
+\textbf{1.} (b). \quad \textbf{2.} (a). \quad \textbf{3.} (b) : on mesure la
+mémorisation, pas la capacité à traiter un cas nouveau.
+\end{solbox}
+\end{column}
+\end{columns}
+\end{frame}

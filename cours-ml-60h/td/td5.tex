@@ -1,0 +1,101 @@
+\section*{TD 5 --- Arbres et ensembles}
+\addcontentsline{toc}{section}{TD 5 --- Arbres et ensembles}
+
+\subsection*{Exercice 1 --- Impureté de Gini \hfill \normalfont\footnotesize (12 min)}
+Un nœud contient 10 exemples : 6 positifs, 4 négatifs.
+\begin{enumerate}
+  \item Calculer son indice de Gini.
+  \item On le coupe en deux enfants : $A$ (5 positifs, 1 négatif) et $B$
+        (1 positif, 3 négatifs). Calculer le Gini de chacun.
+  \item Calculer le Gini pondéré des enfants, puis le gain.
+  \item La coupe est-elle utile ?
+\end{enumerate}
+
+\subsection*{Exercice 2 --- Arbre ou forêt ? \hfill \normalfont\footnotesize (8 min)}
+Un arbre unique atteint 0,96 en entraînement et 0,71 en test.
+\begin{enumerate}
+  \item Quel est le problème ?
+  \item Comment une forêt aléatoire le corrige-t-elle ? Expliquer en termes de
+        variance.
+  \item Pourquoi une forêt ne descend-elle jamais à 0 d'erreur d'entraînement ?
+\end{enumerate}
+
+\subsection*{Exercice 3 --- Importance et redondance \hfill \normalfont\footnotesize (8 min)}
+Deux colonnes sont corrélées à $r=0{,}95$, et le modèle leur attribue une
+importance de 0,20 à chacune, contre 0,45 pour une troisième variable.
+\begin{enumerate}
+  \item L'importance totale des deux colonnes redondantes est-elle faible ?
+  \item Peut-on conclure que chacune compte peu ?
+  \item Que faire pour y voir clair ?
+\end{enumerate}
+
+\subsection*{Exercice 4 --- Bagging ou boosting ? \hfill \normalfont\footnotesize (8 min)}
+Associer chaque affirmation au bon ensemble.
+\begin{enumerate}
+  \item Les arbres sont entraînés en parallèle, puis moyennés.
+  \item Chaque arbre corrige les erreurs du précédent.
+  \item Réduit surtout la variance.
+  \item Réduit surtout le biais, mais peut surapprendre si l'on ajoute trop
+        d'itérations.
+\end{enumerate}
+
+\subsection*{Exercice 5 --- Interpréter une décision \hfill \normalfont\footnotesize (6 min)}
+Un modèle refuse un crédit. On vous demande d'expliquer la décision à un
+client.
+\begin{enumerate}
+  \item Pourquoi l'importance globale des variables ne suffit-elle pas ?
+  \item Que apporte une explication locale (SHAP) ?
+  \item Quelle précaution prendre en présentant ces valeurs ?
+\end{enumerate}
+
+
+\subsection*{Exercice 6 --- Entropie contre Gini \hfill \normalfont\footnotesize (8 min)}
+Un nœud contient 6 positifs et 4 négatifs.
+\begin{enumerate}
+  \item Calculer son indice de Gini (déjà vu au TD précédent).
+  \item Calculer son entropie $-\sum p_k\log_2 p_k$.
+  \item Les deux critères classent-ils les mêmes découpages de la même façon ?
+        Que change le choix ?
+\end{enumerate}
+
+\subsection*{Exercice 7 --- Profondeur et généralisation \hfill \normalfont\footnotesize (7 min)}
+Un arbre donne les résultats suivants :
+
+\begin{center}
+\small
+\begin{tabular}{@{}lccc@{}}
+\toprule
+\textbf{Profondeur} & 2 & 5 & 12 \\
+\midrule
+Erreur entraînement & 0,22 & 0,08 & 0,01 \\
+Erreur validation & 0,24 & 0,11 & 0,19 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{enumerate}
+  \item Quelle profondeur choisir ?
+  \item Que se passe-t-il au-delà ?
+  \item Comment obtient-on cette courbe sans toucher au test ?
+\end{enumerate}
+
+\subsection*{Exercice 8 --- Pourquoi moyenner aide \hfill \normalfont\footnotesize (9 min)}
+Cinq arbres ont une variance individuelle $\sigma^2=100$ et une corrélation
+moyenne $\rho=0{,}2$.
+\begin{enumerate}
+  \item Rappeler la variance d'un arbre seul.
+  \item Calculer la variance de leur moyenne :
+        $\rho\sigma^2+(1-\rho)\sigma^2/5$.
+  \item Que se passerait-il avec $\rho=0{,}9$ ? Conclure sur l'intérêt de
+        décorréler les arbres.
+\end{enumerate}
+
+\subsection*{Exercice 9 --- Régler un boosting \hfill \normalfont\footnotesize (7 min)}
+On augmente le nombre d'itérations de 100 à 2\,000.
+\begin{enumerate}
+  \item Que fait l'erreur d'entraînement ?
+  \item Et l'erreur de validation ?
+  \item Quel rôle joue le pas d'apprentissage dans ce compromis ?
+\end{enumerate}
+
+\newpage

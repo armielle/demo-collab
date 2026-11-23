@@ -1,0 +1,96 @@
+\section*{TD 1 --- Démarche et généralisation}
+\addcontentsline{toc}{section}{TD 1 --- Démarche et généralisation}
+
+\subsection*{Exercice 1 --- Vocabulaire \hfill \normalfont\footnotesize (5 min)}
+Pour chaque situation, donner $X$ et $y$, puis le type de tâche.
+\begin{enumerate}
+  \item Prédire la consommation électrique d'un bâtiment à partir de l'heure,
+        du jour et de la température.
+  \item Regrouper des clients selon leurs achats, sans catégorie connue.
+  \item Décider si un dossier de crédit est risqué, à partir de revenus et
+        d'historiques de remboursement.
+\end{enumerate}
+
+\subsection*{Exercice 2 --- Risque empirique \hfill \normalfont\footnotesize (10 min)}
+On dispose de quatre observations :
+
+\begin{center}
+\small
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+$i$ & 1 & 2 & 3 & 4 \\
+\midrule
+$y_i$ & 100 & 150 & 80 & 200 \\
+$\hat y_i$ & 90 & 120 & 100 & 180 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{enumerate}
+  \item Calculer la perte quadratique moyenne $\hat R_4$ et la RMSE.
+  \item Calculer la perte absolue moyenne.
+  \item Une erreur de 30 pèse combien de fois plus qu'une erreur de 10 dans
+        chaque perte ?
+\end{enumerate}
+
+\subsection*{Exercice 3 --- Diagnostiquer \hfill \normalfont\footnotesize (8 min)}
+Trois modèles, trois bilans. Pour chacun : sous-apprentissage, bon compromis ou
+surapprentissage ? Justifier en une phrase.
+
+\begin{center}
+\small
+\begin{tabular}{@{}lccc@{}}
+\toprule
+& \textbf{Erreur entraînement} & \textbf{Erreur test} & \textbf{Diagnostic} \\
+\midrule
+A & 0,32 & 0,34 & \\
+B & 0,02 & 0,41 & \\
+C & 0,08 & 0,09 & \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection*{Exercice 4 --- Choisir le découpage \hfill \normalfont\footnotesize (8 min)}
+Quel découpage (aléatoire, temporel, groupé, stratifié) imposez-vous ?
+\begin{enumerate}
+  \item Prédire les ventes du mois suivant à partir de 3 ans d'historique.
+  \item Détecter une maladie rare : 4 \% de cas positifs.
+  \item Classer des élèves dont certains ont plusieurs relevés annuels.
+\end{enumerate}
+
+\subsection*{Exercice 5 --- Fuite ou pas ? \hfill \normalfont\footnotesize (8 min)}
+Un groupe prédit la réussite d'étudiants en octobre. Son notebook contient :
+\begin{itemize}
+  \item « moyenne du premier semestre » ;
+  \item « nombre d'absences » ;
+  \item « a été convoqué en tutorat en juin » ;
+  \item une standardisation calculée sur l'ensemble des données avant le split.
+\end{itemize}
+Identifier les deux problèmes et proposer une correction pour chacun.
+
+
+\subsection*{Exercice 6 --- Exactitude sur huit dossiers \hfill \normalfont\footnotesize (6 min)}
+Un modèle classe 8 dossiers : 6 sont correctement prédits.
+\begin{enumerate}
+  \item Calculer l'exactitude.
+  \item Ce chiffre suffit-il si 7 dossiers sur 8 sont négatifs ? Justifier.
+  \item Quelle information manque pour conclure ?
+\end{enumerate}
+
+\subsection*{Exercice 7 --- Choisir la perte \hfill \normalfont\footnotesize (6 min)}
+On prédit le \textbf{nombre d'incidents} mensuels d'un serveur (comptage).
+\begin{enumerate}
+  \item Pourquoi la perte quadratique est-elle peu adaptée ?
+  \item Quelle perte privilégier pour un comptage ?
+  \item Que se passe-t-il si l'on prédit une valeur négative ?
+\end{enumerate}
+
+\subsection*{Exercice 8 --- Le score trop beau \hfill \normalfont\footnotesize (5 min)}
+Un groupe annonce 100 \% d'exactitude sur un problème où les données contiennent
+du bruit. Rédiger les trois vérifications à demander avant de le croire.
+
+\subsection*{Exercice 9 --- 60/20/20 ou validation croisée ? \hfill \normalfont\footnotesize (6 min)}
+Donner un avantage et un inconvénient de chaque approche, puis indiquer laquelle
+choisir avec 120 observations.
+
+\newpage

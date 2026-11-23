@@ -1,0 +1,80 @@
+\section*{TD 6 --- SVM et noyaux}
+\addcontentsline{toc}{section}{TD 6 --- SVM et noyaux}
+
+\subsection*{Exercice 1 --- Marge et vecteurs de support \hfill \normalfont\footnotesize (8 min)}
+Deux classes sont séparables par une droite. Trois points sont sur la marge :
+$A$, $B$ et $C$.
+\begin{enumerate}
+  \item Qu'est-ce qu'un vecteur de support ?
+  \item Que devient la frontière si l'on supprime un point très éloigné de la
+        marge ?
+  \item Et si l'on supprime $A$ ?
+\end{enumerate}
+
+\subsection*{Exercice 2 --- Effet de $C$ \hfill \normalfont\footnotesize (8 min)}
+On fait varier $C$ de $0{,}01$ à $100$.
+\begin{enumerate}
+  \item Que se passe-t-il pour $C$ très petit ?
+  \item Et pour $C$ très grand ?
+  \item Comment choisir $C$ ?
+\end{enumerate}
+
+\subsection*{Exercice 3 --- Noyau RBF \hfill \normalfont\footnotesize (10 min)}
+Deux points : $x_1=(1,2)$ et $x_2=(3,4)$. Noyau
+$K(x_1,x_2)=\exp(-\gamma\lVert x_1-x_2\rVert^2)$.
+\begin{enumerate}
+  \item Calculer $\lVert x_1-x_2\rVert^2$.
+  \item Calculer $K$ pour $\gamma=0{,}1$, puis $\gamma=0{,}5$, puis $\gamma=2$.
+  \item Que se passe-t-il quand $\gamma$ augmente ?
+\end{enumerate}
+
+\subsection*{Exercice 4 --- SVM ou arbre ? \hfill \normalfont\footnotesize (8 min)}
+Indiquer le modèle le plus adapté et pourquoi :
+\begin{enumerate}
+  \item 80 observations, 500 variables, frontière nette.
+  \item 200\,000 lignes, variables catégorielles et manquantes.
+  \item Besoin d'expliquer chaque décision à un client.
+\end{enumerate}
+
+\subsection*{Exercice 5 --- Que fait le noyau ? \hfill \normalfont\footnotesize (6 min)}
+\begin{enumerate}
+  \item Pourquoi ne calcule-t-on pas explicitement la transformation
+        $\varphi(x)$ dans un espace de grande dimension ?
+  \item Que permet l'astuce du noyau ?
+  \item Citer deux noyaux usuels.
+\end{enumerate}
+
+
+\subsection*{Exercice 6 --- Calculer une marge \hfill \normalfont\footnotesize (8 min)}
+Le séparateur est $w=(1,1)$, $b=0$.
+\begin{enumerate}
+  \item Calculer $\lVert w\rVert$.
+  \item Calculer la marge $2/\lVert w\rVert$.
+  \item Calculer la distance du point $(1,1)$ à la droite. Que remarque-t-on ?
+\end{enumerate}
+
+\subsection*{Exercice 7 --- Points mal classés et marge souple \hfill \normalfont\footnotesize (7 min)}
+Deux points sont du mauvais côté de la frontière.
+\begin{enumerate}
+  \item Que se passe-t-il si l'on exige une séparation parfaite ?
+  \item Que permet la variable ressort (\emph{slack}) ?
+  \item Quel paramètre règle le compromis marge / erreurs ?
+\end{enumerate}
+
+\subsection*{Exercice 8 --- Noyau polynomial \hfill \normalfont\footnotesize (6 min)}
+Noyau $K(x,x')=(1+x\cdot x')^2$, avec $x=(1,2)$ et $x'=(2,1)$.
+\begin{enumerate}
+  \item Calculer $x\cdot x'$.
+  \item En déduire $K(x,x')$.
+  \item Pourquoi ne calcule-t-on pas explicitement $\varphi(x)$ ?
+\end{enumerate}
+
+\subsection*{Exercice 9 --- Complexité \hfill \normalfont\footnotesize (6 min)}
+Un SVM exact a un coût de l'ordre de $O(n^2)$ à $O(n^3)$.
+\begin{enumerate}
+  \item Que cela implique-t-il avec 500\,000 observations ?
+  \item Citer deux alternatives pratiques.
+  \item Le noyau RBF change-t-il cet ordre de grandeur ?
+\end{enumerate}
+
+\newpage

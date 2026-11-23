@@ -1,0 +1,74 @@
+\section*{TD 8 --- Fiabilité, éthique et mise en production}
+\addcontentsline{toc}{section}{TD 8 --- Fiabilité, éthique et mise en production}
+
+\subsection*{Exercice 1 --- Auditer un rapport \hfill \normalfont\footnotesize (12 min)}
+Un rapport annonce : « 98 \% d'exactitude pour prédire l'abandon scolaire ».
+On y lit que le modèle utilise « le nombre de semestres validés » et « la
+décision d'exclusion », et que le découpage est aléatoire sur 5 promotions.
+\begin{enumerate}
+  \item Relever la fuite métier.
+  \item Relever le problème de protocole.
+  \item Quelles deux exigences poser avant de valider ce travail ?
+\end{enumerate}
+
+\subsection*{Exercice 2 --- Biais et équité \hfill \normalfont\footnotesize (8 min)}
+Un modèle de sélection de candidats est entraîné sur 10 ans d'historique, où
+les femmes étaient sous-représentées dans les postes techniques.
+\begin{enumerate}
+  \item Pourquoi le modèle risque-t-il de reproduire ce déséquilibre ?
+  \item Suffit-il de retirer la variable « sexe » ? Justifier.
+  \item Proposer deux mesures de contrôle.
+\end{enumerate}
+
+\subsection*{Exercice 3 --- Dérive des données \hfill \normalfont\footnotesize (8 min)}
+Un modèle de prévision de la demande, entraîné avant une crise économique,
+perd 15 points de performance six mois plus tard.
+\begin{enumerate}
+  \item Nommer le phénomène.
+  \item Comment le détecter avant que les utilisateurs ne se plaignent ?
+  \item Que faire : réentraîner, recalibrer ou changer de modèle ?
+\end{enumerate}
+
+\subsection*{Exercice 4 --- Interprétable ou performant ? \hfill \normalfont\footnotesize (8 min)}
+Deux modèles : une régression logistique (AUC 0,81, coefficients lisibles) et
+un gradient boosting (AUC 0,86, opaque).
+\begin{enumerate}
+  \item Dans quel contexte choisir le premier ?
+  \item Dans quel contexte le second ?
+  \item Comment réduire l'écart entre les deux ?
+\end{enumerate}
+
+\subsection*{Exercice 5 --- Trois limites honnêtes \hfill \normalfont\footnotesize (6 min)}
+Rédiger trois limites d'un modèle de prédiction de la réussite étudiante,
+chacune en une phrase, en distinguant : les données, la méthode, l'usage.
+
+
+\subsection*{Exercice 6 --- Fuite temporelle \hfill \normalfont\footnotesize (7 min)}
+Un modèle de prévision de la demande est entraîné sur 2019--2023 et testé sur
+des mois tirés au hasard dans cette période.
+\begin{enumerate}
+  \item Expliquer pourquoi ce protocole est invalide.
+  \item Proposer un découpage correct.
+  \item Quel effet sur le score annoncé ?
+\end{enumerate}
+
+\subsection*{Exercice 7 --- Variables proxy \hfill \normalfont\footnotesize (7 min)}
+On retire la variable « sexe » d'un modèle de recrutement.
+\begin{enumerate}
+  \item Pourquoi le biais peut-il subsister ?
+  \item Citer deux variables pouvant servir de proxy.
+  \item Comment vérifier l'équité du modèle après entraînement ?
+\end{enumerate}
+
+\subsection*{Exercice 8 --- Surveillance en production \hfill \normalfont\footnotesize (7 min)}
+\begin{enumerate}
+  \item Citer quatre indicateurs à surveiller après déploiement.
+  \item Lesquels se détectent sans attendre les étiquettes réelles ?
+  \item Que faire si la distribution d'une variable d'entrée se décale ?
+\end{enumerate}
+
+\subsection*{Exercice 9 --- Fiche modèle \hfill \normalfont\footnotesize (6 min)}
+Une \emph{model card} documente un modèle. Citer cinq rubriques qu'elle doit
+contenir et, pour chacune, une phrase sur son utilité.
+
+\newpage

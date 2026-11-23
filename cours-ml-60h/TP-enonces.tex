@@ -1,0 +1,216 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[margin=15mm,top=12mm,bottom=12mm]{geometry}
+\usepackage{fontspec}
+\usepackage[french]{babel}
+\usepackage{amsmath,amssymb}
+\usepackage{xcolor}
+\usepackage[most]{tcolorbox}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage{array}
+\usepackage{titlesec}
+\usepackage{listings}
+\usepackage{hyperref}
+
+\definecolor{bleu}{HTML}{1F6FEB}
+\definecolor{gris}{HTML}{5B6470}
+\definecolor{vert}{HTML}{1E8449}
+\definecolor{orange}{HTML}{B45309}
+\definecolor{fond}{HTML}{F4F6F8}
+\definecolor{codebg}{HTML}{F6F8FA}
+
+\setlength{\parindent}{0pt}
+\titleformat{\section}{\normalfont\bfseries\color{bleu}\large}{}{0pt}{}
+\titlespacing*{\section}{0pt}{9pt}{4pt}
+\titleformat{\subsection}{\normalfont\bfseries\normalsize\color{bleu}}{}{0pt}{}
+\titlespacing*{\subsection}{0pt}{7pt}{2pt}
+\setlist[itemize]{nosep,leftmargin=1.1em,labelsep=.45em}
+\setlist[enumerate]{nosep,leftmargin=1.35em,labelsep=.5em}
+
+\lstdefinestyle{py}{language=Python,backgroundcolor=\color{codebg},
+  basicstyle=\ttfamily\fontsize{7.6}{9}\selectfont,
+  keywordstyle=\color{bleu}\bfseries,commentstyle=\color{vert}\itshape,
+  stringstyle=\color{orange},frame=none,breaklines=true,
+  showstringspaces=false,columns=fullflexible,keepspaces=true,
+  aboveskip=2pt,belowskip=2pt,
+  literate={é}{{\'e}}1 {è}{{\`e}}1 {à}{{\`a}}1 {ç}{{\c c}}1 {û}{{\^u}}1}
+\lstset{style=py}
+
+\newtcolorbox{obj}{enhanced,colback=fond,colframe=fond,arc=2pt,
+  left=6pt,right=6pt,top=4pt,bottom=4pt,breakable}
+\newtcolorbox{note}{enhanced,colback=orange!5,colframe=orange!65!black,boxrule=.5pt,
+  arc=2pt,left=6pt,right=6pt,top=4pt,bottom=4pt,breakable}
+\newtcolorbox{bareme}{enhanced,colback=bleu!4,colframe=bleu!55!black,boxrule=.5pt,
+  arc=2pt,left=6pt,right=6pt,top=4pt,bottom=4pt,breakable}
+
+\begin{document}
+
+% ===================================================== EN-TETE
+\begin{tcolorbox}[enhanced,colback=fond,colframe=fond,arc=3pt,
+  left=9pt,right=9pt,top=7pt,bottom=7pt]
+\begin{minipage}[c]{0.76\textwidth}
+  {\color{gris}\footnotesize LICENCE 3 SDIA $\cdot$ ENSPD --- UNIVERSITÉ DE DOUALA}\\[2pt]
+  {\Large\bfseries Travaux pratiques --- énoncés TP1 et TP2}\\[3pt]
+  {\small Introduction au Machine Learning $\cdot$ 60 h $\cdot$ 2 séances de 2 h}\\[4pt]
+  {\color{gris}\footnotesize Dr.\ Noulapeu Ngaffo Armielle}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.20\textwidth}
+  \raggedleft\includegraphics[width=17mm]{assets/logo_enspd.png}
+\end{minipage}
+\end{tcolorbox}
+
+\begin{note}
+\textbf{Modalités communes.}
+Chaque TP se fait \textbf{seul}, sur machine, en \textbf{2 h}.
+Le rendu est le \textbf{notebook exécuté} (toutes les cellules, sorties visibles)
+déposé sur la plateforme du cours avant la séance suivante.
+La graine est fixée à \texttt{4112} : deux exécutions doivent donner exactement
+les mêmes nombres. Tout tourne sur CPU, sans téléchargement.
+Les cellules marquées \textbf{« À vous »} sont les seules notées ; les autres
+sont guidées et servent de point de départ.
+\end{note}
+
+% ===================================================== TP1
+\section{TP1 --- Premier pipeline et première fuite}
+{\color{gris}\small Durée : 2 h $\cdot$ Barème : 10 points $\cdot$
+Jeu : \texttt{breast\_cancer} (569 patients, 30 mesures, bénin / malin)}
+
+\begin{obj}
+\textbf{Objectifs.}
+\begin{enumerate}
+  \item Charger des données réelles et les découper correctement.
+  \item Comparer un modèle à une \textbf{baseline} : sans elle, aucun score n'est interprétable.
+  \item Lire une matrice de confusion et une validation croisée.
+  \item Fabriquer une fuite de données, puis mesurer son effet.
+\end{enumerate}
+\end{obj}
+
+\subsection*{Déroulé guidé (non noté)}
+\begin{enumerate}
+  \item \textbf{Charger} le jeu et vérifier les dimensions et l'équilibre des classes
+        (\texttt{value\_counts}).
+  \item \textbf{Découper} en entraînement et test (\texttt{test\_size=0{,}3},
+        \texttt{random\_state=4112}, \texttt{stratify=y}).
+  \item \textbf{Baseline} : prédire toujours la classe majoritaire ; mesurer
+        l'exactitude. C'est le chiffre à battre.
+  \item \textbf{Pipeline} : standardisation puis régression logistique, ajustés
+        ensemble (\texttt{Pipeline}) ; mesurer sur le test.
+  \item \textbf{Matrice de confusion} : identifier les faux négatifs et les faux
+        positifs, puis calculer précision et rappel.
+  \item \textbf{Validation croisée} à 5 plis : rapporter la moyenne \emph{et}
+        l'écart-type.
+  \item \textbf{Fabriquer une fuite} : ajouter 300 colonnes de bruit pur et tirer
+        les étiquettes au hasard. Sélectionner les variables \emph{avant} la
+        validation croisée et observer le score. Refaites la sélection
+        \emph{dans} chaque pli et comparez.
+\end{enumerate}
+
+\subsection*{Travail noté}
+\begin{bareme}
+\textbf{Question 1 (4 points).}
+Remplacez la régression logistique par un \texttt{RandomForestClassifier}
+(\texttt{n\_estimators=200}, \texttt{random\_state=4112}).
+La baseline change-t-elle ? Le gain par rapport à la baseline est-il plus grand
+ou plus petit qu'avec la régression logistique ? Concluez en une phrase.
+\end{bareme}
+
+\begin{bareme}
+\textbf{Question 2 (3 points).}
+Le jeu est-il équilibré ? Regardez \texttt{y.value\_counts()}.
+Quel serait le danger de juger ce modèle avec l'exactitude seule ? Donnez le
+chiffre de la classe minoritaire et expliquez en deux phrases.
+\end{bareme}
+
+\begin{bareme}
+\textbf{Question 3 (3 points).}
+Dans l'étape 7, les étiquettes sont \emph{aléatoires}. Expliquez pourtant, en
+deux phrases, pourquoi la sélection faite avant la validation croisée produit un
+score élevé, et pourquoi la sélection faite dans chaque pli ramène le score au
+niveau du hasard.
+\end{bareme}
+
+\subsection*{Ce qui est attendu dans le rendu}
+\begin{itemize}
+  \item Les trois réponses rédigées dans des cellules markdown, avec les
+        \textbf{nombres obtenus} cités.
+  \item Le notebook exécuté de bout en bout, sans erreur.
+  \item Une phrase de conclusion personnelle sur ce que la baseline a changé
+        dans votre lecture du score.
+\end{itemize}
+
+\newpage
+% ===================================================== TP2
+\section{TP2 --- Préparer les données sans fuite}
+{\color{gris}\small Durée : 2 h $\cdot$ Barème : 10 points $\cdot$
+Jeu : synthétique (400 dossiers, graine 4112)}
+
+\begin{obj}
+\textbf{Objectifs.}
+\begin{enumerate}
+  \item Diagnostiquer les valeurs manquantes, les types et les échelles.
+  \item Construire un \texttt{ColumnTransformer} complet.
+  \item Ajouter un encodage cyclique pour une variable horaire.
+  \item Fabriquer une fuite par encodage cible, puis la corriger.
+\end{enumerate}
+\end{obj}
+
+\subsection*{Déroulé guidé (non noté)}
+\begin{enumerate}
+  \item \textbf{Diagnostiquer} : nombre de manquants par colonne, types, valeurs
+        extrêmes. On ne corrige que ce que l'on a vu.
+  \item \textbf{Découper avant toute transformation} : le test ne doit jamais
+        servir à calculer une moyenne, une médiane ou un encodage.
+  \item \textbf{Pipeline naïf} : imputation par la médiane et encodage one-hot,
+        ajustés sur l'entraînement seulement ; mesurer.
+  \item \textbf{Encodage cyclique} de l'heure : deux colonnes $\sin$ et $\cos$
+        pour que 23 h et 0 h soient voisines ; comparer.
+  \item \textbf{Fabriquer une fuite} : variable « agence » à 100 modalités,
+        2 lignes chacune, étiquette tirée au hasard. Calculer l'encodage cible
+        sur \emph{tout} le jeu et observer le score.
+  \item \textbf{Corriger} : recalculer l'encodage à l'intérieur de chaque pli
+        (ou utiliser \texttt{TargetEncoder} dans le pipeline) et comparer.
+\end{enumerate}
+
+\subsection*{Travail noté}
+\begin{bareme}
+\textbf{Question 1 (4 points).}
+Remplacez l'imputation médiane du revenu par une imputation par la
+\textbf{moyenne}. Le score change-t-il ? De combien de points ? Expliquez
+pourquoi l'écart est faible ou nul, en vous appuyant sur ce que vous avez
+observé dans le diagnostic (asymétrie, valeurs extrêmes).
+\end{bareme}
+
+\begin{bareme}
+\textbf{Question 2 (3 points).}
+Retirez la valeur aberrante (\texttt{9\,000\,000}) avant l'entraînement.
+Le rappel s'améliore-t-il ? Donnez les deux valeurs (avant / après) et concluez
+sur l'effet d'une seule observation sur un jeu de 400 lignes.
+\end{bareme}
+
+\begin{bareme}
+\textbf{Question 3 (3 points).}
+Dans l'étape 5, l'étiquette est tirée au hasard. Expliquez en deux phrases
+pourquoi l'encodage cible calculé sur tout le jeu produit un score élevé, et
+pourquoi le recalcul par pli le ramène au hasard.
+\end{bareme}
+
+\subsection*{Ce qui est attendu dans le rendu}
+\begin{itemize}
+  \item Les trois réponses rédigées, avec les \textbf{nombres obtenus}.
+  \item Le notebook exécuté de bout en bout, sans erreur.
+  \item Le tableau comparatif « pipeline naïf / avec encodage cyclique /
+        encodage cible fuité / encodage cible corrigé ».
+\end{itemize}
+
+\vspace{2mm}
+\begin{note}
+\textbf{Barème commun aux deux TP.}
+Exactitude des calculs et des chiffres cités : 6 points.
+Justification en deux phrases, vocabulaire du cours : 3 points.
+Notebook exécuté sans erreur et lisible : 1 point.\\[2pt]
+Un résultat faux mais une démarche correcte et explicitée vaut mieux qu'un
+résultat juste non justifié.
+\end{note}
+
+\end{document}

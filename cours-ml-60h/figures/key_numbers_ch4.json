@@ -1,0 +1,72 @@
+{
+  "logistique": {
+    "accuracy": 0.9825,
+    "precision": 0.9906,
+    "recall": 0.9813,
+    "f1": 0.9859,
+    "auc": 0.9963,
+    "matrice": [
+      [
+        63,
+        1
+      ],
+      [
+        2,
+        105
+      ]
+    ]
+  },
+  "seuil": {
+    "seuil_optimal_f1": 0.325,
+    "f1_max": 0.991,
+    "precision_a_0_5": 0.991,
+    "rappel_a_0_5": 0.981
+  },
+  "desequilibre": {
+    "prevalence": 0.05,
+    "accuracy_modele": 0.95,
+    "f1_modele": 0.2105,
+    "accuracy_tout_negatif": 0.95,
+    "average_precision": 0.2712
+  },
+  "ponderation": {
+    "sans_poids": {
+      "accuracy": 0.95,
+      "f1": 0.211,
+      "rappel": 0.133
+    },
+    "avec_poids": {
+      "accuracy": 0.753,
+      "f1": 0.221,
+      "rappel": 0.7
+    }
+  },
+  "calibration": {
+    "ecart_max": 0.086
+  },
+  "multiclasse": {
+    "accuracy": 0.988,
+    "rappel_par_classe": [
+      1.0,
+      0.981,
+      0.981
+    ],
+    "matrice": [
+      [
+        55,
+        0,
+        0
+      ],
+      [
+        0,
+        52,
+        1
+      ],
+      [
+        0,
+        1,
+        53
+      ]
+    ]
+  }
+}

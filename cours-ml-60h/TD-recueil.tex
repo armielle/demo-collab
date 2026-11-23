@@ -1,0 +1,98 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[margin=15mm,top=12mm,bottom=12mm]{geometry}
+\usepackage{fontspec}
+\usepackage[french]{babel}
+\usepackage{amsmath,amssymb}
+\usepackage{xcolor}
+\usepackage[most]{tcolorbox}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage{array}
+\usepackage{titlesec}
+\usepackage{listings}
+\usepackage{hyperref}
+
+\definecolor{bleu}{HTML}{1F6FEB}
+\definecolor{gris}{HTML}{5B6470}
+\definecolor{vert}{HTML}{1E8449}
+\definecolor{orange}{HTML}{B45309}
+\definecolor{fond}{HTML}{F4F6F8}
+\definecolor{codebg}{HTML}{F6F8FA}
+
+\setlength{\parindent}{0pt}
+\titlespacing*{\section}{0pt}{10pt}{4pt}
+\titleformat{\section}{\normalfont\bfseries\color{bleu}\large}{}{0pt}{}
+\titleformat{\subsection}{\normalfont\bfseries\normalsize}{}{0pt}{}
+\titlespacing*{\subsection}{0pt}{8pt}{3pt}
+\setlist[itemize]{nosep,leftmargin=1.1em,labelsep=.45em}
+\setlist[enumerate]{nosep,leftmargin=1.35em,labelsep=.5em}
+
+\lstdefinestyle{py}{language=Python,backgroundcolor=\color{codebg},
+  basicstyle=\ttfamily\fontsize{7.6}{9}\selectfont,
+  keywordstyle=\color{bleu}\bfseries,commentstyle=\color{vert}\itshape,
+  stringstyle=\color{orange},frame=none,breaklines=true,
+  showstringspaces=false,columns=fullflexible,keepspaces=true,
+  aboveskip=2pt,belowskip=2pt,
+  literate={é}{{\'e}}1 {è}{{\`e}}1 {à}{{\`a}}1 {ç}{{\c c}}1 {û}{{\^u}}1}
+\lstset{style=py}
+
+\newtcolorbox{corrige}{enhanced,colback=vert!4,colframe=vert!60!black,boxrule=.5pt,
+  arc=2pt,left=5pt,right=5pt,top=3pt,bottom=3pt,breakable,
+  fonttitle=\bfseries\footnotesize\color{white},colbacktitle=vert!70!black,
+  title={Éléments de réponse --- à ne lire qu'après avoir cherché}}
+\newtcolorbox{enonce}{enhanced,colback=fond,colframe=fond,arc=2pt,
+  left=5pt,right=5pt,top=3pt,bottom=3pt,breakable}
+
+\begin{document}
+
+\begin{tcolorbox}[enhanced,colback=fond,colframe=fond,arc=3pt,
+  left=9pt,right=9pt,top=7pt,bottom=7pt]
+\begin{minipage}[c]{0.76\textwidth}
+  {\color{gris}\footnotesize LICENCE 3 SDIA $\cdot$ ENSPD --- UNIVERSITÉ DE DOUALA}\\[2pt]
+  {\Large\bfseries Travaux dirigés --- recueil complet}\\[3pt]
+  {\small Introduction au Machine Learning $\cdot$ 8 chapitres $\cdot$ 76 exercices}\\[4pt]
+  {\color{gris}\footnotesize Dr.\ Noulapeu Ngaffo Armielle}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.20\textwidth}
+  \raggedleft\includegraphics[width=17mm]{logo_enspd.png}
+\end{minipage}
+\end{tcolorbox}
+
+\vspace{2mm}
+{\small
+\textbf{Mode d'emploi.} Chaque TD suit la progression du cours : calculs à la main,
+exercice de code, diagnostic, question de synthèse. \textbf{Aucun corrigé n'est
+inclus} : ce recueil est destiné à la distribution en séance. Sauf mention contraire,
+les calculs se font sans calculatrice.}
+
+\vspace{1.5mm}
+\begin{tcolorbox}[enhanced,colback=fond,colframe=fond,arc=2pt,left=6pt,right=6pt,
+  top=4pt,bottom=4pt]
+{\small
+\textbf{Organisation conseillée.} Chaque TD correspond à un chapitre et se traite
+en \textbf{2 h} : 30 min de recherche individuelle, 50 min de mise en commun,
+40 min de correction au tableau. Les neuf exercices sont progressifs : les quatre
+premiers sont faisables en séance, les suivants demandent un travail personnel.\\[2pt]
+\textbf{Volume total} : 76 exercices, soit environ 16 h de travail étudiant, et un
+TD de synthèse qui prépare le projet intégrateur. Les \textbf{TD ne
+remplacent pas les TP} : les TP font exécuter du code, les TD font raisonner et
+calculer à la main.}
+\end{tcolorbox}
+
+\vspace{1mm}
+\tableofcontents
+\vspace{2mm}
+\newpage
+
+\input{td/td1}
+\input{td/td2}
+\input{td/td3}
+\input{td/td4}
+\input{td/td5}
+\input{td/td6}
+\input{td/td7}
+\input{td/td8}
+\input{td/td9}
+
+\end{document}

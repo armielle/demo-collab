@@ -1,0 +1,54 @@
+{
+  "ols": {
+    "rmse_test": 53.52,
+    "mae_test": 43.37,
+    "r2_test": 0.503,
+    "n_train": 331,
+    "n_test": 111
+  },
+  "polynomes": {
+    "deg1_mse": 0.224,
+    "deg3_mse": 0.05,
+    "deg15_mse": 0.0279
+  },
+  "chemins": {
+    "variables": 10,
+    "lasso_non_nulles_alpha_max": 0
+  },
+  "lambda": {
+    "optimal": 0.01,
+    "rmse_test_optimal": 53.53,
+    "rmse_test_ols": 53.52,
+    "rmse_test_lambda_max": 61.12
+  },
+  "descente": {
+    "ecart_final_0.03": 0.505,
+    "ecart_final_0.2": 0.0
+  },
+  "heteroscedasticite": {
+    "corr_pred_abs_residu": 0.508
+  },
+  "multicolinearite": {
+    "corr_x1_x2": 0.999,
+    "coef1_moyen": 2.76,
+    "coef1_ecart_type": 1.13,
+    "coef2_moyen": -0.73,
+    "coef2_ecart_type": 1.12
+  },
+  "comparaison": {
+    "OLS": 53.52,
+    "Ridge": 53.53,
+    "Lasso": 53.65,
+    "ElasticNet": 53.73
+  },
+  "grande_dimension": {
+    "n": 120,
+    "p": 150,
+    "informatives": 8,
+    "rmse_ols": 6.04,
+    "rmse_ridge": 6.04,
+    "rmse_lasso": 1.48,
+    "lasso_coefficients_non_nuls": 11,
+    "lasso_vraies_variables_retrouvees": 8
+  }
+}

@@ -1,0 +1,79 @@
+\section*{TD 2 --- Préparation des données}
+\addcontentsline{toc}{section}{TD 2 --- Préparation des données}
+
+\subsection*{Exercice 1 --- Que faire des manquants ? \hfill \normalfont\footnotesize (8 min)}
+Une table de 1\,000 étudiants présente 41 \% de valeurs manquantes sur le
+revenu des parents, et 3 \% sur la moyenne générale.
+\begin{enumerate}
+  \item Proposer une décision pour chaque colonne, en justifiant.
+  \item Pourquoi supprimer les lignes à 41 \% de manquants est-il risqué ?
+  \item Quelle information ajouter pour améliorer l'imputation ?
+\end{enumerate}
+
+\subsection*{Exercice 2 --- Encodages \hfill \normalfont\footnotesize (8 min)}
+Trois colonnes : \texttt{filiere} (informatique, télécom, réseaux),
+\texttt{niveau} (faible, moyen, élevé), \texttt{code\_postal} (400 modalités).
+Indiquer l'encodage retenu pour chacune et la raison.
+
+\subsection*{Exercice 3 --- Effet de l'échelle \hfill \normalfont\footnotesize (10 min)}
+Deux étudiants sont décrits par (ancienneté en années, revenu en FCFA) :
+$A=(0,0)$ et $B=(3,\,4\,000)$.
+\begin{enumerate}
+  \item Calculer la distance euclidienne brute.
+  \item Les écarts-types valent 1,5 an et 2\,000 FCFA. Recalculer la distance
+        après standardisation.
+  \item Que conclure sur l'usage de kNN sans normalisation ?
+\end{enumerate}
+
+\subsection*{Exercice 4 --- Détecter une valeur aberrante \hfill \normalfont\footnotesize (8 min)}
+Série : $10,\,12,\,14,\,16,\,18,\,20,\,22,\,60$. On utilise la méthode de Tukey
+(médiane de chaque moitié).
+\begin{enumerate}
+  \item Calculer $Q_1$, $Q_3$, l'IQR et les deux bornes.
+  \item La valeur 60 est-elle aberrante ? Et la valeur 10 ?
+  \item Faut-il la supprimer ? Que faut-il vérifier avant ?
+\end{enumerate}
+
+\subsection*{Exercice 5 --- Trouver la fuite dans le code \hfill \normalfont\footnotesize (10 min)}
+\begin{lstlisting}
+X_scaled = StandardScaler().fit_transform(X)
+X_train, X_test, y_train, y_test = train_test_split(X_scaled, y, test_size=0.2)
+imputer = SimpleImputer(strategy="mean").fit(X)
+X_train = imputer.transform(X_train)
+\end{lstlisting}
+Deux lignes posent problème. Les identifier et réécrire le pipeline correctement.
+
+
+\subsection*{Exercice 6 --- Encodage cyclique \hfill \normalfont\footnotesize (8 min)}
+L'heure est encodée par $h_{\sin}=\sin(2\pi h/24)$ et $h_{\cos}=\cos(2\pi h/24)$.
+\begin{enumerate}
+  \item Calculer le couple $(\sin,\cos)$ pour 0 h, 6 h, 12 h et 18 h.
+  \item Quelle est la distance euclidienne entre 23 h et 0 h ? Entre 0 h et 12 h ?
+  \item Pourquoi un encodage entier de l'heure est-il trompeur ?
+\end{enumerate}
+
+\subsection*{Exercice 7 --- Imputation et dispersion \hfill \normalfont\footnotesize (7 min)}
+On impute 25 \% de valeurs manquantes d'un revenu très asymétrique.
+\begin{enumerate}
+  \item L'imputation par la moyenne conserve-t-elle la moyenne ? La variance ?
+  \item Que fait l'imputation par la médiane à la moyenne globale ?
+  \item Quelle information perd-on dans les deux cas ?
+\end{enumerate}
+
+\subsection*{Exercice 8 --- Discrétiser ou non ? \hfill \normalfont\footnotesize (6 min)}
+On découpe l'âge en quatre tranches.
+\begin{enumerate}
+  \item Citer deux avantages de ce choix.
+  \item Citer deux inconvénients.
+  \item Pour quel type de modèle la discrétisation est-elle la moins utile ?
+\end{enumerate}
+
+\subsection*{Exercice 9 --- La jointure qui double les lignes \hfill \normalfont\footnotesize (8 min)}
+Une jointure fait passer de 400 étudiants à 752 lignes.
+\begin{enumerate}
+  \item Expliquer la cause probable.
+  \item Quel effet sur le taux de réussite moyen ?
+  \item Proposer deux corrections possibles.
+\end{enumerate}
+
+\newpage

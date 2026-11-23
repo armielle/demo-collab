@@ -1,0 +1,21 @@
+# Environnement du cours « Introduction au Machine Learning » — Licence 3 SDIA
+# Python 3.11.16 (version utilisée pour produire tous les notebooks et figures)
+# Installation :  python -m venv .venv
+#                .venv\Scripts\activate        (Windows)
+#                pip install -r requirements.txt
+#                python -m ipykernel install --user --name ml-60h --display-name "ML 60h"
+
+numpy==2.4.6
+pandas==3.1.1
+scipy==1.17.1
+scikit-learn==1.9.1
+matplotlib==3.11.2
+
+# notebooks et exécution (versions réellement installées)
+jupyter_client==8.10.0
+ipykernel==7.4.0
+nbformat==5.11.1
+nbclient==0.11.0
+
+# lecture et contrôle des PDF produits (document maître, fiches)
+pymupdf==2.1

@@ -1,0 +1,250 @@
+\documentclass[9.5pt,a4paper]{article}
+\usepackage[margin=13mm,top=10mm,bottom=10mm]{geometry}
+\usepackage{fontspec}
+\usepackage[french]{babel}
+\usepackage{xcolor}
+\usepackage[most]{tcolorbox}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage{array}
+\usepackage{titlesec}
+\usepackage{listings}
+
+\definecolor{bleu}{HTML}{1F6FEB}
+\definecolor{gris}{HTML}{5B6470}
+\definecolor{vert}{HTML}{1E8449}
+\definecolor{orange}{HTML}{B45309}
+\definecolor{fond}{HTML}{F4F6F8}
+\definecolor{codebg}{HTML}{F6F8FA}
+
+\setlength{\parindent}{0pt}
+\titlespacing*{\section}{0pt}{7pt}{2pt}
+\titleformat{\section}{\normalfont\bfseries\color{bleu}\normalsize}{\thesection}{0.6em}{}
+\setlist[itemize]{nosep,leftmargin=1.05em,labelsep=.4em}
+\setlist[enumerate]{nosep,leftmargin=1.25em,labelsep=.45em}
+
+\lstdefinestyle{py}{language=Python,backgroundcolor=\color{codebg},
+  basicstyle=\ttfamily\fontsize{7.4}{8.6}\selectfont,
+  keywordstyle=\color{bleu}\bfseries,commentstyle=\color{vert}\itshape,
+  stringstyle=\color{orange},frame=none,breaklines=true,
+  showstringspaces=false,columns=fullflexible,keepspaces=true,
+  aboveskip=2pt,belowskip=2pt,
+  literate={é}{{\'e}}1 {è}{{\`e}}1 {à}{{\`a}}1 {ç}{{\c c}}1 {û}{{\^u}}1
+           {→}{{$\rightarrow$}}1 {≥}{{$\geq$}}1}
+\lstset{style=py}
+
+\newtcolorbox{piege}[1]{enhanced,colback=orange!6,colframe=orange!80!black,boxrule=.5pt,
+  arc=2pt,left=4pt,right=4pt,top=2pt,bottom=2pt,
+  fonttitle=\bfseries\footnotesize,title={#1}}
+\newtcolorbox{astuce}[1]{enhanced,colback=vert!5,colframe=vert!70!black,boxrule=.5pt,
+  arc=2pt,left=4pt,right=4pt,top=2pt,bottom=2pt,
+  fonttitle=\bfseries\footnotesize,title={#1}}
+
+\begin{document}
+
+\begin{tcolorbox}[enhanced,colback=fond,colframe=fond,arc=3pt,
+  left=8pt,right=8pt,top=5pt,bottom=5pt]
+\begin{minipage}[c]{0.78\textwidth}
+  {\color{gris}\footnotesize LICENCE 3 SDIA $\cdot$ ENSPD --- UNIVERSITÉ DE DOUALA}\\[2pt]
+  {\Large\bfseries Python pour le machine learning --- fiche de révision}\\[3pt]
+  {\small L'essentiel pour les TP : bases, NumPy, pandas, matplotlib, scikit-learn}\\[3pt]
+  {\color{gris}\footnotesize Dr.\ Noulapeu Ngaffo Armielle}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.18\textwidth}
+  \raggedleft\includegraphics[width=16mm]{logo_enspd.png}
+\end{minipage}
+\end{tcolorbox}
+
+\section*{\color{bleu}1. Les bases, en dix lignes}
+\begin{lstlisting}
+x = 12                 # entier
+prix = 12.5            # reel
+nom = "Ada"            # chaine de caracteres
+ok = True              # booleen
+notes = [12, 15, 9]    # liste
+etudiant = {"nom": "Ada", "note": 15}   # dictionnaire
+notes[0]               # 12
+etudiant["note"]       # 15
+for n in notes:        # boucle
+    print(n)
+if x > 10:             # condition
+    print("grand")
+def moyenne(liste):    # fonction
+    return sum(liste) / len(liste)
+\end{lstlisting}
+
+\begin{minipage}[t]{0.49\textwidth}
+\begin{astuce}{Ce que vous écrirez vraiment}
+\begin{itemize}
+  \item une liste pour les colonnes à garder ;
+  \item un dictionnaire pour les réglages ;
+  \item une fonction pour éviter de copier-coller ;
+  \item une boucle pour parcourir des fichiers.
+\end{itemize}
+\end{astuce}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\textwidth}
+\begin{piege}{Les trois erreurs de débutant}
+\textbf{IndentationError} : Python lit l'indentation (4 espaces, jamais de
+tabulation).\\
+\textbf{IndexError} : \texttt{notes[3]} n'existe pas dans une liste de 3.\\
+\textbf{KeyError} : la clé du dictionnaire est mal orthographiée.
+\end{piege}
+\end{minipage}
+
+\section*{\color{bleu}2. NumPy : le tableau, brique de base}
+\begin{lstlisting}
+import numpy as np
+a = np.array([[1, 2, 3], [4, 5, 6]])
+a.shape          # (2, 3)  -> 2 lignes, 3 colonnes
+a.mean(axis=0)   # [2.5 3.5 4.5]   moyenne par colonne
+a.mean(axis=1)   # [2. 5.]          moyenne par ligne
+a[:, 1]          # [2 5]            deuxieme colonne
+a[a > 3]         # [4 5 6]          filtre booleen
+a + 10           # ajoute 10 a chaque case
+\end{lstlisting}
+
+\begin{astuce}{La règle de l'axe, à retenir une fois pour toutes}
+\texttt{axis=0} écrase les \textbf{lignes} : on obtient une valeur par
+\textbf{colonne}. \quad \texttt{axis=1} écrase les \textbf{colonnes} : une
+valeur par \textbf{ligne}. C'est la source d'erreur numéro un.
+\end{astuce}
+
+\begin{piege}{Formes}
+\texttt{a.shape} doit correspondre à ce qu'attend la fonction suivante.
+Une erreur \texttt{shapes not aligned} vient presque toujours d'un désaccord
+de dimensions, pas d'un bug de la bibliothèque.
+\end{piege}
+
+\section*{\color{bleu}3. pandas : le tableau qui a des noms}
+\begin{lstlisting}
+import pandas as pd
+df = pd.read_csv("donnees.csv")
+df.head()                  # 5 premieres lignes
+df.shape                   # (lignes, colonnes)
+df.info()                  # types et valeurs manquantes
+df.describe()              # min, max, moyenne, quartiles
+df["note"]                 # une colonne (Series)
+df[["note", "absences"]]   # plusieurs colonnes
+df[df["note"] > 12]        # filtre
+df.loc[0, "note"]          # ligne 0, colonne "note"
+df.iloc[0, 1]              # ligne 0, colonne 1 (position)
+df.groupby("groupe")["note"].mean()
+df.isna().sum()            # manquants par colonne
+df["note"].fillna(df["note"].median())
+\end{lstlisting}
+
+\begin{astuce}{Sur un tableau de 4 lignes (vérifié)}
+\texttt{groupe = A, A, B, B} ; \texttt{note = 12, 15, 9, 13}.\\
+\texttt{df[df.note > 12]} garde les notes \textbf{15 et 13}.\\
+\texttt{groupby("groupe").mean()} donne \textbf{A = 13,5} et \textbf{B = 11,0}.\\
+\texttt{isna().sum()} vaut \textbf{0} : aucune valeur manquante.
+\end{astuce}
+
+\begin{piege}{Deux pièges classiques}
+\textbf{SettingWithCopy} : ne modifiez pas une tranche ; utilisez
+\texttt{df.loc[condition, "colonne"] = valeur}.\\
+\textbf{Index désaligné} : après un filtre, l'index garde des trous ;
+\texttt{reset\_index(drop=True)} avant de concaténer.
+\end{piege}
+
+\section*{\color{bleu}4. matplotlib : montrer, pas décorer}
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+plt.figure(figsize=(7, 4))
+plt.plot(x, y, label="observe")
+plt.scatter(x, y, s=10)
+plt.hist(valeurs, bins=20)
+plt.xlabel("temps"); plt.ylabel("valeur")
+plt.title("Titre qui dit ce qu'on voit")
+plt.legend(); plt.show()
+\end{lstlisting}
+
+\begin{astuce}{Les quatre obligations d'une figure}
+\begin{enumerate}
+  \item un titre qui énonce le constat, pas le nom de la variable ;
+  \item des axes nommés, avec l'unité ;
+  \item une légende dès qu'il y a deux courbes ;
+  \item une échelle honnête --- pas d'axe tronqué pour exagérer un écart.
+\end{enumerate}
+\end{astuce}
+
+\section*{\color{bleu}5. scikit-learn : cinq lignes, toujours les mêmes}
+\begin{lstlisting}
+from sklearn.model_selection import train_test_split
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.25, random_state=4112, stratify=y)
+
+modele = Pipeline([("sc", StandardScaler()),
+                   ("clf", LogisticRegression(max_iter=1000))])
+modele.fit(X_train, y_train)      # apprendre
+pred = modele.predict(X_test)     # predire
+accuracy_score(y_test, pred)      # mesurer
+\end{lstlisting}
+
+\begin{astuce}{Le vocabulaire de l'API}
+\texttt{fit} : apprendre sur l'entraînement. \quad
+\texttt{predict} : produire une réponse. \quad
+\texttt{score} : mesurer sur des données nouvelles.
+
+Un objet scikit-learn a toujours ces méthodes : changer de modèle ne change
+que le nom de la classe.
+\end{astuce}
+
+\begin{piege}{Les formes attendues}
+\texttt{X} : matrice $(n_{\text{exemples}}, n_{\text{variables}})$ --- ici
+\texttt{(4, 2)}. \quad \texttt{y} : vecteur de longueur $n$.
+Passer une colonne au lieu d'une matrice provoque
+\texttt{Expected 2D array}.
+\end{piege}
+
+\section*{\color{bleu}6. Diagnostiquer une erreur, dans l'ordre}
+\begin{center}
+\footnotesize
+\begin{tabular}{@{}p{0.27\textwidth}p{0.30\textwidth}p{0.33\textwidth}@{}}
+\toprule
+\textbf{Message} & \textbf{Cause probable} & \textbf{Correction} \\
+\midrule
+\texttt{ModuleNotFoundError} & paquet absent ou mauvais noyau &
+\texttt{pip install}, vérifier le noyau Jupyter \\
+\texttt{FileNotFoundError} & chemin relatif erroné &
+afficher \texttt{os.getcwd()}, utiliser un chemin absolu \\
+\texttt{KeyError} & nom de colonne mal écrit & afficher \texttt{df.columns} \\
+\texttt{ValueError: NaN} & valeurs manquantes & imputer ou retirer \\
+\texttt{Expected 2D array} & \texttt{X} est une Series & écrire
+\texttt{X[["col"]]} \\
+\texttt{shapes not aligned} & dimensions incompatibles & afficher les
+\texttt{.shape} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{astuce}{Réflexe de débogage}
+Affichez \textbf{avant} de calculer : \texttt{type(x)}, \texttt{x.shape},
+\texttt{x.head()}. Quatre-vingts pour cent des erreurs se voient là, avant
+même d'être levées.
+\end{astuce}
+
+\section*{\color{bleu}7. Six exercices de vérification}
+\begin{enumerate}
+  \item Créer une liste de 5 notes et en calculer la moyenne sans NumPy.
+  \item Créer un tableau $3 \times 4$ et calculer la somme de chaque colonne.
+  \item Charger un CSV et afficher le nombre de valeurs manquantes par colonne.
+  \item Filtrer les lignes où une note dépasse 10, puis compter les lignes.
+  \item Calculer la moyenne d'une colonne par groupe.
+  \item Découper un jeu en entraînement et test, entraîner une régression
+        logistique et afficher l'exactitude.
+\end{enumerate}
+
+\vspace{1mm}
+{\footnotesize\color{gris}Si l'un de ces six gestes bloque, c'est celui-là
+qu'il faut revoir avant le prochain TP : ils couvrent l'essentiel de ce que
+vous aurez à écrire.}
+
+\end{document}

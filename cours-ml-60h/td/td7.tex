@@ -1,0 +1,82 @@
+\section*{TD 7 --- Apprentissage non supervisé}
+\addcontentsline{toc}{section}{TD 7 --- Apprentissage non supervisé}
+
+\subsection*{Exercice 1 --- Une itération de $k$-means à la main \hfill \normalfont\footnotesize (12 min)}
+Quatre points : $P_1=(1,1)$, $P_2=(2,1)$, $P_3=(4,5)$, $P_4=(5,4)$.
+Centres initiaux : $C_1=(1,1)$, $C_2=(5,4)$.
+\begin{enumerate}
+  \item Calculer les distances au carré de chaque point aux deux centres.
+  \item Affecter chaque point au centre le plus proche.
+  \item Recalculer les deux centres.
+  \item Les affectations changeraient-elles à l'itération suivante ?
+\end{enumerate}
+
+\subsection*{Exercice 2 --- Choisir $k$ \hfill \normalfont\footnotesize (8 min)}
+On trace l'inertie intra-classe en fonction de $k$ : elle décroît de 120 à 40
+entre $k=1$ et $k=3$, puis de 40 à 34 entre $k=3$ et $k=8$.
+\begin{enumerate}
+  \item Où se situe le « coude » ?
+  \item Pourquoi l'inertie ne permet-elle pas de choisir $k$ seule ?
+  \item Quel autre critère utiliser, et que mesure-t-il ?
+\end{enumerate}
+
+\subsection*{Exercice 3 --- ACP \hfill \normalfont\footnotesize (8 min)}
+Une ACP sur 4 variables donne des variances expliquées de 60 \%, 25 \%, 10 \%
+et 5 \%.
+\begin{enumerate}
+  \item Combien de composantes faut-il pour dépasser 85 \% ?
+  \item Que contient la quatrième composante ?
+  \item Pourquoi l'ACP impose-t-elle de standardiser les variables ?
+\end{enumerate}
+
+\subsection*{Exercice 4 --- DBSCAN ou $k$-means ? \hfill \normalfont\footnotesize (8 min)}
+Indiquer l'algorithme adapté :
+\begin{enumerate}
+  \item trois groupes de tailles comparables, bien séparés ;
+  \item des groupes en forme de croissant ;
+  \item des points isolés que l'on veut signaler comme bruit.
+\end{enumerate}
+
+\subsection*{Exercice 5 --- Détection d'anomalies \hfill \normalfont\footnotesize (6 min)}
+\begin{enumerate}
+  \item Pourquoi ne peut-on pas entraîner un classifieur supervisé quand les
+        anomalies sont très rares ?
+  \item Que fait l'Isolation Forest, en une phrase ?
+  \item Quelle métrique utiliser pour évaluer un détecteur d'anomalies ?
+\end{enumerate}
+
+
+\subsection*{Exercice 6 --- Calculer une silhouette \hfill \normalfont\footnotesize (8 min)}
+Pour un point : distance moyenne aux points de son groupe $a=2$ ; distance
+moyenne au groupe voisin $b=6$.
+\begin{enumerate}
+  \item Calculer la silhouette $(b-a)/\max(a,b)$.
+  \item Que vaut-elle si $a=5$ et $b=5$ ? Comment l'interpréter ?
+  \item Quelle est la plage de valeurs possibles ?
+\end{enumerate}
+
+\subsection*{Exercice 7 --- Reconstruire après une ACP \hfill \normalfont\footnotesize (7 min)}
+On garde une seule composante expliquant 60 \% de la variance.
+\begin{enumerate}
+  \item Que perd-on en reconstruisant les données d'origine ?
+  \item Pourquoi 60 \% peut-il suffire pour visualiser, mais pas pour décider ?
+  \item Que mesure la variance expliquée cumulée ?
+\end{enumerate}
+
+\subsection*{Exercice 8 --- Minima locaux de $k$-means \hfill \normalfont\footnotesize (7 min)}
+Deux initialisations différentes donnent deux partitions différentes.
+\begin{enumerate}
+  \item Pourquoi l'algorithme dépend-il de l'initialisation ?
+  \item Que fait l'initialisation $k$-means++ ?
+  \item Comment rendre le résultat plus stable ?
+\end{enumerate}
+
+\subsection*{Exercice 9 --- Choisir un seuil d'anomalie \hfill \normalfont\footnotesize (7 min)}
+L'Isolation Forest fournit un score continu.
+\begin{enumerate}
+  \item Pourquoi ne pas prendre un seuil arbitraire à 0,5 ?
+  \item Quel coût comparer pour choisir le seuil ?
+  \item Quelle métrique évaluer en l'absence d'étiquettes ?
+\end{enumerate}
+
+\newpage

@@ -1,0 +1,93 @@
+\section*{TD 3 --- Régression et régularisation}
+\addcontentsline{toc}{section}{TD 3 --- Régression et régularisation}
+
+\subsection*{Exercice 1 --- Ajuster une droite à la main \hfill \normalfont\footnotesize (12 min)}
+Quatre points : $(1,3)$, $(2,5)$, $(3,6)$, $(4,8)$.
+\begin{enumerate}
+  \item Calculer $\bar x$ et $\bar y$.
+  \item Calculer la pente $\hat\beta_1=\dfrac{\sum (x_i-\bar x)(y_i-\bar y)}{\sum (x_i-\bar x)^2}$.
+  \item En déduire l'ordonnée à l'origine, puis la prédiction en $x=5$.
+  \item Calculer le $R^2$.
+\end{enumerate}
+
+\subsection*{Exercice 2 --- Interpréter un coefficient \hfill \normalfont\footnotesize (6 min)}
+Un modèle estime $\hat y = 15{,}2 + 0{,}42\,x$ où $x$ est la surface en m$^2$
+et $y$ le loyer en milliers de FCFA.
+\begin{enumerate}
+  \item Que signifie le coefficient $0{,}42$ ?
+  \item Que signifie l'ordonnée $15{,}2$ ? A-t-elle un sens ici ?
+  \item Prédire le loyer pour 60 m$^2$.
+\end{enumerate}
+
+\subsection*{Exercice 3 --- Ridge ou Lasso ? \hfill \normalfont\footnotesize (8 min)}
+On dispose de 40 variables, dont beaucoup sont redondantes.
+\begin{enumerate}
+  \item Quelle pénalité privilégier si l'on veut \textbf{sélectionner} des
+        variables ? Pourquoi ?
+  \item Laquelle privilégier si l'on veut seulement \textbf{stabiliser} les
+        coefficients sans en annuler ?
+  \item Comment choisit-on $\lambda$ ?
+\end{enumerate}
+
+\subsection*{Exercice 4 --- RMSE contre MAE \hfill \normalfont\footnotesize (8 min)}
+Deux modèles, sur le même jeu de test :
+\begin{center}
+\small
+\begin{tabular}{@{}lcc@{}}
+\toprule
+& \textbf{RMSE} & \textbf{MAE} \\
+\midrule
+Modèle A & 12,0 & 11,4 \\
+Modèle B & 15,2 & 8,1 \\
+\bottomrule
+\end{tabular}
+\end{center}
+\begin{enumerate}
+  \item Lequel a les plus grosses erreurs ponctuelles ?
+  \item Lequel choisir si une grosse erreur coûte très cher ?
+  \item Lequel choisir si l'on veut l'erreur typique la plus faible ?
+\end{enumerate}
+
+\subsection*{Exercice 5 --- Diagnostic de résidus \hfill \normalfont\footnotesize (8 min)}
+On observe un nuage de résidus en forme de U en fonction de la prédiction.
+\begin{enumerate}
+  \item Quel défaut du modèle cela révèle-t-il ?
+  \item Citer deux remèdes possibles.
+  \item Que signifierait au contraire un entonnoir (variance croissante) ?
+\end{enumerate}
+
+
+\subsection*{Exercice 6 --- Interpréter un $R^2$ \hfill \normalfont\footnotesize (6 min)}
+Deux modèles obtiennent $R^2=0{,}98$ et $R^2=0{,}45$ sur le même problème.
+\begin{enumerate}
+  \item Que signifie chaque valeur en termes de variance expliquée ?
+  \item Le $R^2$ élevé garantit-il de bonnes prévisions ? Pourquoi ?
+  \item Que ne dit pas le $R^2$ ?
+\end{enumerate}
+
+\subsection*{Exercice 7 --- Multicolinéarité \hfill \normalfont\footnotesize (7 min)}
+Deux variables sont corrélées à $0{,}95$ et leurs coefficients changent de signe
+d'un échantillon à l'autre.
+\begin{enumerate}
+  \item Nommer le phénomène.
+  \item Pourquoi les coefficients deviennent-ils instables ?
+  \item Citer deux remèdes.
+\end{enumerate}
+
+\subsection*{Exercice 8 --- Une descente de gradient à la main \hfill \normalfont\footnotesize (10 min)}
+On minimise $J(w)=(w-3)^2+1$, avec $w_0=0$ et $\eta=0{,}1$.
+\begin{enumerate}
+  \item Calculer le gradient en $w_0$.
+  \item En déduire $w_1$, puis $w_2$ et $w_3$.
+  \item Vers quelle valeur la suite converge-t-elle ?
+\end{enumerate}
+
+\subsection*{Exercice 9 --- MAE ou MSE ? \hfill \normalfont\footnotesize (6 min)}
+Les données de prix contiennent quelques valeurs extrêmes.
+\begin{enumerate}
+  \item Quelle perte est la plus robuste ? Pourquoi ?
+  \item Quelle perte pénalise davantage une grosse erreur ponctuelle ?
+  \item Laquelle choisir si le coût est proportionnel à l'erreur ?
+\end{enumerate}
+
+\newpage

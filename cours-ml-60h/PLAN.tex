@@ -1,0 +1,137 @@
+\documentclass[10.5pt,a4paper]{article}
+\usepackage[margin=14mm,top=11mm,bottom=11mm]{geometry}
+\usepackage{fontspec}
+\usepackage[french]{babel}
+\usepackage{xcolor}
+\usepackage[most]{tcolorbox}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage{array}
+\usepackage{titlesec}
+
+\definecolor{bleu}{HTML}{1F6FEB}
+\definecolor{gris}{HTML}{5B6470}
+\definecolor{vert}{HTML}{1E8449}
+\definecolor{fond}{HTML}{F4F6F8}
+
+\setlength{\parindent}{0pt}
+\titlespacing*{\section}{0pt}{7pt}{3pt}
+\titleformat{\section}{\normalfont\bfseries\color{bleu}\normalsize}{\thesection}{0.6em}{}
+\setlist[itemize]{nosep,leftmargin=1.05em,labelsep=.4em}
+\setlist[enumerate]{nosep,leftmargin=1.3em,labelsep=.45em}
+
+\begin{document}
+
+\begin{tcolorbox}[enhanced,colback=fond,colframe=fond,arc=3pt,
+  left=9pt,right=9pt,top=7pt,bottom=7pt]
+\begin{minipage}[c]{0.76\textwidth}
+  {\color{gris}\footnotesize MASTER 1 SCIENCES DES DONNÉES ET IA $\cdot$ ENSPD --- UNIVERSITÉ DE DOUALA}\\[2pt]
+  {\Large\bfseries Introduction au Machine Learning}\\[3pt]
+  {\small \textbf{60 heures} $\cdot$ 35 h CM/TD + 25 h TP $\cdot$ 8 chapitres + projet}\\[4pt]
+  {\color{gris}\footnotesize Dr.\ Noulapeu Ngaffo Armielle}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.20\textwidth}
+  \raggedleft\includegraphics[width=18mm]{logo_enspd.png}
+\end{minipage}
+\end{tcolorbox}
+
+\section*{\color{bleu}1. Cadrage}
+
+\small
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.22\textwidth}>{\raggedright\arraybackslash}p{0.72\textwidth}@{}}
+\toprule
+\textbf{Public} & Licence 3 SDIA ; prérequis : \textbf{mathématiques, Python, statistique}.\\
+\textbf{Outils} & Python, NumPy, pandas, scikit-learn, matplotlib --- \textbf{CPU uniquement}.\\
+\textbf{Évaluation} & TP notés \textbf{20 \%} $\cdot$ examen final \textbf{40 \%} $\cdot$ projet \textbf{40 \%}.\\
+\textbf{Fil rouge} & un même jeu de données tabulaires traverse les 8 chapitres jusqu'au projet.\\
+\bottomrule
+\end{tabular}
+\normalsize
+
+\section*{\color{bleu}2. Les huit chapitres}
+
+\small
+\begin{tabular}{@{}p{0.035\textwidth}>{\raggedright\arraybackslash}p{0.50\textwidth}>{\centering\arraybackslash}p{0.10\textwidth}>{\centering\arraybackslash}p{0.07\textwidth}>{\centering\arraybackslash}p{0.09\textwidth}@{}}
+\toprule
+& \textbf{Titre} & \textbf{CM/TD} & \textbf{TP} & \textbf{Total}\\
+\midrule
+1 & Qu'est-ce qu'apprendre ? Démarche et généralisation & 4 h & 2 h & \textbf{6 h}\\
+2 & Préparer les données sans se tromper & 2 h & 2 h & \textbf{4 h}\\
+3 & Régression et régularisation & 5 h & 3 h & \textbf{8 h}\\
+4 & Classification linéaire et évaluation & 5 h & 3 h & \textbf{8 h}\\
+5 & Arbres, ensembles et interprétabilité & 5 h & 3 h & \textbf{8 h}\\
+6 & SVM et modèles à noyaux & 3 h & 2 h & \textbf{5 h}\\
+7 & Apprentissage non supervisé & 5 h & 3 h & \textbf{8 h}\\
+8 & Fiabilité, éthique et mise en production & 4 h & 1 h & \textbf{5 h}\\
+--- & Projet intégrateur & 2 h & 6 h & \textbf{8 h}\\
+\midrule
+& \textbf{Total} & \textbf{35 h} & \textbf{25 h} & \textbf{60 h}\\
+\bottomrule
+\end{tabular}
+\normalsize
+
+\section*{\color{bleu}3. Contenu et objectifs}
+
+\footnotesize
+\begin{enumerate}[itemsep=3pt]
+  \item \textbf{Qu'est-ce qu'apprendre ?} Apprentissage supervisé, non supervisé, par
+        renforcement ; le pipeline données $\rightarrow$ modèle $\rightarrow$ décision ;
+        risque empirique et généralisation ; compromis biais-variance ; découpage
+        train/validation/test et validation croisée ; \textbf{fuite de données}.
+        \textit{Objectif : savoir ce qu'un score mesure, et ce qu'il ne mesure pas.}
+
+  \item \textbf{Préparer les données.} Valeurs manquantes (suppression, imputation
+        moyenne/médiane/KNN) ; encodage one-hot, ordinal, cible ; variables cycliques ;
+        standardisation et outliers. \textbf{Le prétraitement vit dans le pipeline},
+        jamais avant le split. \textit{Objectif : ne jamais laisser fuiter le test.}
+
+  \item \textbf{Régression et régularisation.} Moindres carrés (forme fermée, hypothèses,
+        lecture des coefficients) ; descente de gradient et pas d'apprentissage ;
+        Ridge, Lasso, ElasticNet ; résidus, R², RMSE/MAE, multicolinéarité.
+        \textit{Objectif : choisir et diagnostiquer un modèle linéaire.}
+
+  \item \textbf{Classification linéaire et évaluation.} Régression logistique, sigmoïde,
+        entropie croisée ; \textbf{le seuil est un choix métier}, pas 0,5 par défaut ;
+        matrice de confusion, précision, rappel, F1, ROC/AUC ; classes déséquilibrées.
+        \textit{Objectif : justifier une métrique par le coût des erreurs.}
+
+  \item \textbf{Arbres, ensembles et interprétabilité.} CART, Gini et entropie, élagage ;
+        bagging, forêt aléatoire ; gradient boosting ; importance des variables,
+        dépendance partielle, SHAP. \textit{Objectif : expliquer une décision, pas seulement
+        la prédire.}
+
+  \item \textbf{SVM et noyaux.} Marge maximale, vecteurs de support, marge souple (C) ;
+        astuce du noyau, RBF et effet de $\gamma$ ; quand le SVM bat les arbres.
+        \textit{Objectif : reconnaître les situations où il est le bon outil.}
+
+  \item \textbf{Apprentissage non supervisé.} k-means (initialisation, coude, silhouette) ;
+        CAH et DBSCAN ; ACP, variance expliquée, t-SNE/UMAP ; détection d'anomalies
+        (Isolation Forest). \textit{Objectif : interpréter une structure sans étiquette.}
+
+  \item \textbf{Fiabilité, éthique et production.} Surapprentissage par recherche
+        d'hyperparamètres ; biais, équité, variables sensibles, protection des données ;
+        dérive des données, surveillance, versionnage ; arbitrage interprétable/performant.
+        \textit{Objectif : livrer un modèle dont on assume les limites.}
+\end{enumerate}
+\normalsize
+
+\section*{\color{bleu}4. Progression}
+
+\small
+\begin{center}
+\begin{tabular}{@{}c@{\hspace{6pt}}c@{\hspace{6pt}}c@{\hspace{6pt}}c@{\hspace{6pt}}c@{\hspace{6pt}}c@{\hspace{6pt}}c@{}}
+\textbf{Ch.1} & $\rightarrow$ & \textbf{Ch.2} & $\rightarrow$ & \textbf{Ch.3} & $\rightarrow$ & \textbf{Ch.4}\\[2pt]
+démarche & & données & & régression & & classification\\[10pt]
+\textbf{Ch.5} & $\rightarrow$ & \textbf{Ch.6} & $\rightarrow$ & \textbf{Ch.7} & $\rightarrow$ & \textbf{Ch.8}\\[2pt]
+arbres & & SVM & & non supervisé & & fiabilité\\[10pt]
+\multicolumn{7}{c}{\textbf{Projet intégrateur} --- 8 h, groupes de 3 à 4}\\
+\end{tabular}
+\end{center}
+\normalsize
+
+\vspace{2pt}
+{\footnotesize\color{gris}Chaque chapitre se termine par un quiz et un TP exécuté.
+Les TP sont livrés avec leurs sorties : l'étudiant rejoue, modifie, mesure.}
+
+\end{document}

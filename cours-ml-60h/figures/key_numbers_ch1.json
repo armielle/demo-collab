@@ -1,0 +1,160 @@
+{
+  "pipeline_etapes": [
+    "Données",
+    "Préparation",
+    "Modèle",
+    "Évaluation",
+    "Décision"
+  ],
+  "surapprentissage": {
+    "degre_optimal_test": 5,
+    "erreur_train_min": 0.042,
+    "erreur_test_min": 0.0524,
+    "erreur_test_deg14": 0.0563,
+    "ratio_train_test_deg14": 0.746155
+  },
+  "biais_variance": {
+    "1": {
+      "biais2": 0.1564,
+      "variance": 0.0162,
+      "erreur_totale": 0.1726
+    },
+    "3": {
+      "biais2": 0.0034,
+      "variance": 0.0072,
+      "erreur_totale": 0.0106
+    },
+    "9": {
+      "biais2": 0.001,
+      "variance": 0.1206,
+      "erreur_totale": 0.1216
+    },
+    "15": {
+      "biais2": 12.6871,
+      "variance": 1936.0392,
+      "erreur_totale": 1948.7263
+    }
+  },
+  "split": {
+    "train": 60,
+    "validation": 20,
+    "test": 20
+  },
+  "kfold": {
+    "K": 5
+  },
+  "fuite_selection": {
+    "n": 90,
+    "p": 2000,
+    "k": 12,
+    "score_avec_fuite": 0.8,
+    "score_propre": 0.478,
+    "ecart_points": 32.2
+  },
+  "baseline_cancer": {
+    "baseline": 0.626,
+    "foret": 0.971,
+    "gain_points": 34.5
+  },
+  "courbe_apprentissage": {
+    "tailles": [
+      20,
+      40,
+      60,
+      90,
+      120,
+      180,
+      250,
+      350
+    ],
+    "train": [
+      1.0,
+      0.997,
+      0.992,
+      0.988,
+      0.99,
+      0.99,
+      0.988,
+      0.99
+    ],
+    "test": [
+      0.92,
+      0.945,
+      0.955,
+      0.968,
+      0.968,
+      0.978,
+      0.976,
+      0.976
+    ],
+    "ecart_final": 0.014
+  },
+  "variabilite_estimation": {
+    "hold-out 70/30": {
+      "moyenne": 0.9758,
+      "ecart_type": 0.0105,
+      "min": 0.947,
+      "max": 1.0
+    },
+    "validation croisée 5": {
+      "moyenne": 0.9776,
+      "ecart_type": 0.0034,
+      "min": 0.967,
+      "max": 0.986
+    },
+    "validation croisée 10": {
+      "moyenne": 0.9787,
+      "ecart_type": 0.0024,
+      "min": 0.974,
+      "max": 0.986
+    },
+    "leave-one-out": {
+      "moyenne": 0.9789,
+      "ecart_type": 0.0,
+      "min": 0.979,
+      "max": 0.979
+    }
+  },
+  "desequilibre": {
+    "prevalence": 0.05,
+    "tout_majoritaire": {
+      "exactitude": 0.95,
+      "rappel": 0.0
+    },
+    "modele_utile": {
+      "exactitude": 0.9,
+      "rappel": 0.8
+    }
+  },
+  "descente_gradient": {
+    "0.02": [
+      -3.2,
+      -2.952,
+      -2.714,
+      -2.485,
+      -2.266
+    ],
+    "0.15": [
+      -3.2,
+      -1.34,
+      -0.038,
+      0.873,
+      1.511
+    ],
+    "1.05": [
+      -3.2,
+      9.82,
+      -4.502,
+      11.252,
+      -6.077
+    ]
+  },
+  "validation_groupee": {
+    "patients": 200,
+    "visites_par_patient": 2,
+    "lignes": 400,
+    "score_decoupage_aleatoire": 0.905,
+    "score_decoupage_groupe": 0.585,
+    "ecart_points": 32.0
+  }
+}
