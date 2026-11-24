@@ -1,0 +1,28 @@
+seance 3: 13 page(s) signalee(s) [3, 4, 6, 9, 11, 12, 13, 15, 17, 19, 21, 29, 30] | offset=1 (score 29/31)
+  p  3 -> git3_a.tex:50  Rappel séance 2 --- et ses limites
+  p  4 -> git3_a.tex:81  IsolationForest : isoler plutôt que modéliser
+  p  6 -> git3_a.tex:147  Ce que l'IsolationForest trouve \emph{vraiment
+  p  9 -> git3_b.tex:6  Le problème : 0,35 \% de positifs
+  p 11 -> git3_b.tex:64  La matrice de confusion : le seul regard honnête
+  p 12 -> git3_b.tex:100  Les 4 familles de modèles, en une slide chacune
+  p 13 -> git3_b.tex:138  Classe rare : \py{class\_weight='balanced'
+  p 15 -> git3_b.tex:188  Précision-rappel bat la courbe ROC ici
+  p 17 -> git3_c.tex:41  Validation croisée TEMPORELLE : jamais de KFold mélangé
+  p 19 -> git3_c.tex:103  Interprétabilité : les arbres parlent au métier
+  p 21 -> git3_d.tex:6  Le TP : objectif et règle du jeu
+  p 29 -> git3_e.tex:48  Réponse à la question de la séance 1
+  p 30 -> git3_e.tex:82  À retenir de la séance 3
+frames modifiees : 13
+    git3_a.tex:147
+    git3_a.tex:81
+    git3_a.tex:50
+    git3_b.tex:188
+    git3_b.tex:138
+    git3_b.tex:100
+    git3_b.tex:64
+    git3_b.tex:6
+    git3_c.tex:103
+    git3_c.tex:41
+    git3_d.tex:6
+    git3_e.tex:82
+    git3_e.tex:48

@@ -1,0 +1,20 @@
+seance 5: 9 page(s) signalee(s) [5, 7, 9, 11, 17, 19, 20, 23, 28] | offset=1 (score 30/31)
+  p  5 -> git5_a.tex:116  Règles vs modèles : ce que chacun voit
+  p  7 -> git5_b.tex:6  Étape 1 : transformer 100 000 lignes en sessions
+  p  9 -> git5_b.tex:66  L'entropie de Shannon des comptes testés
+  p 11 -> git5_b.tex:135  Résultat réel : toutes les sessions d'attaque au top 12
+  p 17 -> git5_c.tex:94  Choisir son détecteur : arbre de décision opérationnel
+  p 19 -> git5_d.tex:6  Fiabilité 1 : la dérive de modèle
+  p 20 -> git5_d.tex:44  Fiabilité 2 : la qualité des données en production
+  p 23 -> git5_d.tex:135  Limite 2 : la fatigue d'alerte --- Limite 3 : l'explicabilit
+  p 28 -> git5_e.tex:113  TP B3 --- IsolationForest et précision@30 (30 min)
+frames modifiees : 9
+    git5_a.tex:116
+    git5_b.tex:135
+    git5_b.tex:66
+    git5_b.tex:6
+    git5_c.tex:94
+    git5_d.tex:135
+    git5_d.tex:44
+    git5_d.tex:6
+    git5_e.tex:113

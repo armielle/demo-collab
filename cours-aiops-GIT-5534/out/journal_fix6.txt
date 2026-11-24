@@ -1,0 +1,8 @@
+seance 6: 3 page(s) signalee(s) [2, 18, 29] | offset=1 (score 28/29)
+  p  2 -> git6_a.tex:15  Plan de la séance (4 h)
+  p 18 -> git6_c.tex:69  Gouvernance 3 --- vie privée des logs et auditabilité
+  p 29 -> git6_e.tex:108  Et après ? --- merci, et la suite du parcours
+frames modifiees : 3
+    git6_a.tex:15
+    git6_c.tex:69
+    git6_e.tex:108

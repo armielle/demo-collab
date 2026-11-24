@@ -1,0 +1,149 @@
+% =====================================================================
+%  Seance 6 -- B. Cours 2 : perspectives (frames 11--17)
+% =====================================================================
+\section{Perspectives : ce qui vient après}
+
+\begin{frame}{Perspectives 1 --- autoencodeurs pour métriques multivariées}
+\small
+\begin{columns}[t]
+\begin{column}{0.52\textwidth}
+\begin{block}{Le principe}
+Un autoencodeur est un réseau de neurones entraîné à \textbf{reproduire ses
+entrées} après un passage par un état compressé. Sur des données normales,
+il reconstruit bien. Sur une anomalie, la reconstruction échoue : l'erreur
+de reconstruction \textbf{est} le score d'anomalie.
+\begin{itemize}
+\item Avantage : capte les corrélations \textbf{entre} variables (CPU haut
++ latence normale $=$ suspect même si chaque variable est plausible).
+\item Nos 14 variables de \file{nosys\_features.csv} deviennent un vecteur
+d'entrée unique.
+\end{itemize}
+\end{block}
+\end{column}
+\begin{column}{0.44\textwidth}
+\begin{wbox}[Pourquoi pas aujourd'hui]
+Sur NOSYS, la forêt atteint déjà \textbf{AUC 0,80} avec 14 variables et
+s'explique par importances. Un autoencodeur exige des milliers de fenêtres
+normales, se règle difficilement, et son score \textbf{ne s'explique pas}.
+Règle d'ingénieur : la complexité se gagne, elle ne s'emprunte pas.
+\end{wbox}
+\begin{ebox}[Quand il devient pertinent]
+Quand le nombre de variables explose (centaines de métriques par service)
+et que personne ne peut écrire les features à la main.
+\end{ebox}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Perspectives 2 --- les LLM au NOC (culture, pas TP)}
+\begin{center}\small
+\begin{tabular}{@{}p{4.2cm}p{8.0cm}@{}}
+\toprule
+\textbf{Usage} & \textbf{Ce que ça change}\\
+\midrule
+Résumer un incident & à partir des logs de la nuit du 5/10 (brute force sur
+\file{bdd-principal}, $\approx$ 125 échecs), produire en 10 secondes une
+note : serveurs touchés, chronologie, actions posées\\
+\addlinespace[1pt]
+Requête en langage naturel & « donne-moi le p99 de latence de srv-01 la
+semaine dernière » traduit en requête de métriques --- l'ingénieur ne
+connaît plus la syntaxe par cœur\\
+\addlinespace[1pt]
+Rédaction de runbooks & transformer un historique de tickets en procédure
+réutilisable\\
+\bottomrule
+\end{tabular}
+\end{center}
+\vspace{1mm}
+\begin{wbox}[Les deux garde-fous à retenir]
+\textbf{1.} Un LLM peut \textbf{se tromper avec assurance} : ses sorties sur
+un incident se vérifient toujours contre les données brutes. \textbf{2.} On
+n'envoie pas des logs contenant des noms d'utilisateurs ou d'adresses IP à
+un service externe sans les pseudonymiser (on y revient en gouvernance).
+\end{wbox}
+\end{frame}
+
+\begin{frame}{Perspectives 3 --- jumeaux numériques}
+\small
+\begin{columns}[t]
+\begin{column}{0.52\textwidth}
+\begin{block}{Le principe}
+Un \textbf{jumeau numérique} est une simulation du système d'information
+assez fidèle pour qu'on y teste des scénarios sans toucher la production :
+\begin{itemize}
+\item rejouer l'incident du 22/09 et vérifier que le modèle l'aurait
+détecté \textbf{plus tôt} ;
+\item tester un nouveau seuil ou un nouveau modèle sur \textbf{des mois
+d'incidents simulés} en quelques minutes ;
+\item entraîner l'équipe du NOC sur des pannes qui n'ont jamais eu lieu.
+\end{itemize}
+\end{block}
+\end{column}
+\begin{column}{0.44\textwidth}
+\begin{ebox}[Le lien avec nos données]
+Nos 30 jours de métriques NOSYS (graine 5534) sont déjà une
+\textbf{réplique simplifiée} : un générateur de charge + un injecteur de
+défauts. Un jumeau, c'est la même idée avec la topologie réseau en plus.
+\end{ebox}
+\begin{wbox}[La limite honnête]
+Un jumeau reproduit les pannes \textbf{qu'on sait décrire}. La panne
+véritablement nouvelle (le cygne noir) n'existe que dans la production ---
+d'où le monitoring de la séance précédente, qui reste irremplaçable.
+\end{wbox}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Perspectives 4 --- edge ML : détecter sur l'équipement}
+\small
+\begin{columns}[t]
+\begin{column}{0.52\textwidth}
+\begin{block}{Le déplacement du calcul}
+Aujourd'hui : les agents envoient les métriques à un serveur central qui
+score (notre pipeline). En \textbf{edge ML}, le modèle tourne
+\textbf{sur l'équipement} lui-même --- routeur, serveur, passerelle IoT.
+\begin{itemize}
+\item Détection locale en millisecondes, même si le réseau est coupé
+(exactement le scénario d'une vraie panne).
+\item Moins de données qui circulent : les métriques brutes restent locales,
+seules les alertes partent.
+\end{itemize}
+\end{block}
+\end{column}
+\begin{column}{0.44\textwidth}
+\begin{wbox}[Le contrainte : la latence, encore]
+Sur un équipement, pas de 200 arbres à 60 ms : il faut des modèles
+\textbf{compilés et quantifiés} (par ex. arbre unique, modèle linéaire,
+micro-réseaux). Le TP B2 prend son sens : mesurer la latence AVANT de
+décider où le modèle peut vivre.
+\end{wbox}
+\begin{kbox}[Fil conducteur]
+Toutes ces perspectives (autoencodeurs, edge, jumeaux) changent le
+\textbf{modèle ou son lieu d'exécution} --- jamais les fondations :
+données propres, split temporel, validation, monitoring.
+\end{kbox}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Quiz 2 --- perspectives (5 min)}
+\begin{qbox}[3 questions]
+\begin{enumerate}
+\item Le score d'anomalie d'un autoencodeur est :\\
+(a) la sortie du réseau \quad (b) l'erreur de reconstruction \quad (c) la
+distance entre deux points
+\item Pourquoi un autoencodeur est-il difficile à justifier devant un
+exploitant ?\\
+(a) il est trop rapide \quad (b) son score ne s'explique pas par des
+variables nommées \quad (c) il exige des étiquettes
+\item Le principal intérêt du edge ML pour la détection de panne :\\
+(a) plus de précision \quad (b) détecter même si le lien réseau est coupé
+\quad (c) un modèle plus gros
+\end{enumerate}
+\end{qbox}
+\vspace{1mm}
+\begin{solbox}[Réponses]
+\textbf{1 : b} \quad \textbf{2 : b} --- l'interprétabilité reste un critère
+de production \quad \textbf{3 : b}
+\end{solbox}
+\end{frame}

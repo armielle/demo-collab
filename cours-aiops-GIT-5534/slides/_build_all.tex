@@ -1,0 +1,75 @@
+% Document maitre -- support complet EPD-GIT-5534 (6 seances)
+\input{preamble.tex}
+\title[Support complet --- Apprentissage automatique appliqué aux infrastructures]{Apprentissage automatique appliqué aux infrastructures}
+\subtitle{EPD-GIT-5534 --- Support complet : 6 séances de 4 h --- 30 h (11 CM / 5 TD / 11 TP / 3 TPE)}
+\author{Enseignante : Dr. Noulapeu Ngaffo Armielle}
+\institute{Département Génie Informatique et Télécommunications}
+\date{Année universitaire 2026--2027}
+\begin{document}
+% ---------- page de titre du document maitre
+\begin{frame}[plain]
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[byDeep] (current page.north west) rectangle (current page.south east);
+  \fill[byBlue,opacity=.30] (current page.north east) ++(-3.2,-1.1) circle (5.4cm);
+  \fill[byCyan,opacity=.18] (current page.south west) ++(2.2,1.0) circle (4.2cm);
+\end{tikzpicture}
+\vspace{0.9cm}
+\begin{center}
+  \begin{tcolorbox}[colback=white,colframe=white,boxrule=0pt,arc=1.5mm,width=2.6cm]
+    \centering\includegraphics[width=2.2cm]{logo_enspd.png}
+  \end{tcolorbox}
+  {\usebeamerfont{title}\color{white}\LARGE\bfseries Apprentissage automatique\\appliqué aux infrastructures\par}
+  \vspace{.25cm}
+  {\large\color{byCyan} EPD-GIT-5534 --- Support complet de l'UE\par}
+  \vspace{.35cm}
+  {\color{white!85}\small 6 séances de 4 h (2 h cours + 2 h TP) --- 30 h : 11 CM / 5 TD / 11 TP / 3 TPE\par}
+  \vspace{.30cm}
+  {\color{byCyan}\bfseries Enseignante : Dr. Noulapeu Ngaffo Armielle\par}
+  \vspace{.06cm}
+  {\color{white!80}\footnotesize École Nationale Supérieure Polytechnique de Douala\par}
+  {\color{white!65}\footnotesize Université de Douala --- Département Génie Informatique et Télécommunications\par}
+\end{center}
+\end{frame}
+
+\begin{frame}{Sommaire de l'UE}
+\begin{center}
+\small
+\begin{tabular}{@{}llll@{}}
+\toprule
+\textbf{Séance} & \textbf{Partie du syllabus} & \textbf{Fil conducteur NOSYS} & \textbf{Slides}\\
+\midrule
+1 & Introduction au ML et aux infrastructures & Cartographier la plateforme & p. 3\\
+2 & Données d'infrastructures et préparation & Nettoyer et construire les signaux & p. 43\\
+3 & Modèles de ML appliqués aux infrastructures & Anomalies et classification & p. 71\\
+4 & Supervision, optimisation et prédiction & Prédire les pannes & p. 102\\
+5 & Sécurité et fiabilité assistées par l'IA & Détecter les intrusions & p. 130\\
+6 & Perspectives, évolutions et industrialisation & Pipeline MLOps + évaluation & p. 161\\
+\bottomrule
+\end{tabular}
+\end{center}
+\begin{ebox}[Le dossier NOSYS en une phrase]
+Un exploitant de datacenter et de réseau 4G/5G à Douala, un SLA à 99,9 \% tenu à
+99,80 \%, et six semaines pour transformer la supervision réactive en prédiction :
+données (S2) $\to$ modèles (S3) $\to$ prévision (S4) $\to$ sécurité (S5) $\to$
+production (S6).
+\end{ebox}
+\begin{center}\small
+Tous les chiffres du support proviennent de scripts exécutés
+(\file{src/fig\_git1.py} à \file{fig\_git6.py}, graine 5534) et sont tracés
+dans \file{figures/key\_numbers\_*.json}.
+\end{center}
+\end{frame}
+
+% ---------- Seance 1
+\input{parts/git1_a}\input{parts/git1_b}\input{parts/git1_c}\input{parts/git1_d}\input{parts/git1_e}
+% ---------- Seance 2
+\input{parts/git2_a}\input{parts/git2_b}\input{parts/git2_c}\input{parts/git2_d}
+% ---------- Seance 3
+\input{parts/git3_a}\input{parts/git3_b}\input{parts/git3_c}\input{parts/git3_d}\input{parts/git3_e}
+% ---------- Seance 4
+\input{parts/git4_a}\input{parts/git4_b}\input{parts/git4_c}\input{parts/git4_d}\input{parts/git4_e}
+% ---------- Seance 5
+\input{parts/git5_a}\input{parts/git5_b}\input{parts/git5_c}\input{parts/git5_d}\input{parts/git5_e}
+% ---------- Seance 6
+\input{parts/git6_a}\input{parts/git6_b}\input{parts/git6_c}\input{parts/git6_d}\input{parts/git6_e}
+\end{document}

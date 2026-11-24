@@ -1,0 +1,28 @@
+seance 1: 14 page(s) signalee(s) [1, 3, 5, 6, 7, 8, 9, 14, 21, 23, 26, 34, 37, 40] | offset=1 (score 39/40)
+  p  3 -> git1_a.tex:45  Pourquoi le ML change le métier d'exploitant
+  p  5 -> git1_a.tex:103  Les trois familles de l'apprentissage
+  p  6 -> git1_a.tex:143  Supervisé (1/2) : la régression
+  p  7 -> git1_a.tex:178  Supervisé (2/2) : la classification
+  p  8 -> git1_a.tex:215  Non supervisé : clustering et détection d'anomalies
+  p  9 -> git1_a.tex:253  Par renforcement : l'aperçu culturel
+  p 14 -> git1_b.tex:27  Métriques système : ce que mesurent les serveurs
+  p 21 -> git1_c.tex:6  AIOps : le problème que le seuil fixe ne résout pas
+  p 23 -> git1_c.tex:66  Zoom sur un incident : ce que le futur modèle verra
+  p 26 -> git1_c.tex:145  Quiz 3 --- AIOps (4 min)
+  p 34 -> git1_d.tex:217  TP B4 --- statistiques par serveur (40 min)
+  p 37 -> git1_e.tex:6  Quiz de synthèse --- 6 questions (10 min)
+  p 40 -> git1_e.tex:64  Prochaine séance \& travail à faire
+frames modifiees : 13
+    git1_a.tex:253
+    git1_a.tex:215
+    git1_a.tex:178
+    git1_a.tex:143
+    git1_a.tex:103
+    git1_a.tex:45
+    git1_b.tex:27
+    git1_c.tex:145
+    git1_c.tex:66
+    git1_c.tex:6
+    git1_d.tex:217
+    git1_e.tex:64
+    git1_e.tex:6

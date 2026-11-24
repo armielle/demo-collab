@@ -1,0 +1,170 @@
+% =====================================================================
+%  Seance 4 -- B. cours 2 : prediction de defaillance (frames 11--16)
+% =====================================================================
+\section{Cours 2 --- Prédiction de défaillance}
+
+\begin{frame}{Cours 2 --- Prédire la panne : horizon et étiquette}
+\begin{columns}[t]
+\begin{column}{0.52\textwidth}
+\begin{block}{L'horizon de prédiction, choisi AVANT le modèle}
+\begin{itemize}
+\item \textbf{« Panne dans $h$ heures »} : l'horizon $h$ n'est pas un
+détail technique, c'est une \textbf{décision métier}. Trop court : le
+sommaire n'a pas le temps d'agir. Trop long : la prédiction devient
+bruitée.
+\item Notre dossier : $h = 30$ min --- exactement l'étiquette
+\py{incident_30min} construite au TP2 à partir de la colonne
+\py{alarme} du \textbf{futur uniquement}.
+\end{itemize}
+\end{block}
+\end{column}
+\begin{column}{0.44\textwidth}
+\begin{ebox}[Le dataset prêt]
+\file{nosys\_features.csv} : 34 560 fenêtres de 10 min
+(8 serveurs $\times$ 30 jours), 120 positives (0,35 \%) ;
+split temporel : entraînement \textbf{avant} le 22/09 (24 192 lignes,
+56 positives), test \textbf{après} (10 368 lignes, 64 positives).
+\end{ebox}
+\begin{kbox}[Le point de bascule]
+La séance 3 détectait les \textbf{anomalies} (l'incident est en cours).
+Aujourd'hui on le \textbf{précède} --- et tout change, surtout la
+validation.
+\end{kbox}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Le piège n°1 : la fuite temporelle}
+\footnotesize%
+\begin{columns}[t]
+\setlength{\columnsep}{2pt}
+\begin{column}{0.50\textwidth}
+\begin{lstlisting}
+# FAUX : l'alarme courante dans les features
+features = ["cpu_moy", "ram_moy", ..., "alarme"]
+# or l'etiquette incident_30min CONTIENT
+# l'alarme de la fenetre courante :
+# label(t) = max(alarme t..t+30min)
+\end{lstlisting}
+\begin{wbox}[Ce que donne réellement cette fuite (mesuré sur le test)]
+\scriptsize
+\begin{tabular}{@{}lc@{}}
+\toprule
+ & P(incid. $\le$ 30 min)\\
+\midrule
+alarme courante (40 fen.) & \textbf{100 \%}\\
+pas d'alarme (10 328) & 0,23 \%\\
+\bottomrule
+\end{tabular}
+\end{wbox}
+\end{column}
+\begin{column}{0.44\textwidth}
+\begin{block}{Pourquoi c'est grave}
+\begin{itemize}
+\item La variable « prédit » l'étiquette à 100 \% parce qu'elle
+\textbf{est} un morceau de l'étiquette : on ne prédit plus, on
+\textbf{constate} le présent.
+\item En production, cette information arrive \textbf{avec} l'incident,
+pas avant : le modèle « magique » devient inutile.
+\item Et il reste \textbf{aveugle} aux 24 incidents sans alarme
+courante : rappel plafonné à 62,5 \%.
+\end{itemize}
+\end{block}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Validation : découpage temporel strict, JAMAIS de shuffle}
+\begin{columns}[t]
+\begin{column}{0.52\textwidth}
+\begin{block}{La règle du dossier}
+\begin{center}
+\footnotesize entraînement : \textbf{fenêtre $<$ 22/09 00:00} \quad
+$\Big|$ \quad test : \textbf{fenêtre $\ge$ 22/09}
+\end{center}
+\begin{itemize}
+\item Le futur ne sert \textbf{jamais} à entraîner : on simule la mise
+en production réelle, où l'on prédit \emph{à partir d'aujourd'hui}.
+\item La standardisation, les seuils, les encodages : tout se calcule
+\textbf{sur le train} puis s'applique au test.
+\end{itemize}
+\end{block}
+\end{column}
+\begin{column}{0.44\textwidth}
+\begin{ebox}[KFold aléatoire : mesuré sur le dossier]
+\small Rappel moyen en KFold aléatoire 5 plis : \textbf{0,60}
+$(0{,}54$ à $0{,}63)$ ; découpage temporel strict : \textbf{0,625}.
+\end{ebox}
+\begin{wbox}[KFold aléatoire : une structure fausse]
+\small
+Ici les chiffres sont proches --- et c'est le piège : le KFold entraîne
+\textbf{sur le futur} et teste sur le passé. La structure de validation
+est fausse ; dès que la série dérive (nouvelle charge, évolution du
+parc), le KFold promet des performances qui n'existeront pas.
+\end{wbox}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Le modèle du dossier : GradientBoostingClassifier}
+\footnotesize%
+\begin{columns}[t]
+\begin{column}{0.5\textwidth}
+\begin{block}{Réglage et protocole}
+\begin{itemize}
+\item 12 variables de signaux (niveaux, dispersion, latence p99,
+dynamique, contexte cyclique) --- \textbf{sans} l'alarme ;
+\item \py{GradientBoostingClassifier} (300 arbres, profondeur 4,
+graine 5534) ;
+\item split temporel strict au 22/09, seuil 0,5.
+\end{itemize}
+\end{block}
+\begin{solbox}[Matrice de confusion test (mesurée)]
+\footnotesize
+\begin{tabular}{@{}lcc@{}}
+\toprule
+ & prédit 0 & prédit 1\\
+\midrule
+réel 0 & 10 290 & 14\\
+réel 1 & 24 & \textbf{40}\\
+\bottomrule
+\end{tabular}\\[1mm]
+rappel \textbf{62,5 \%} \quad précision \textbf{74,1 \%}
+\end{solbox}
+\end{column}
+\begin{column}{0.46\textwidth}
+\begin{center}
+\includegraphics[width=\textwidth]{f27_rappel_alertes.png}
+\end{center}
+\begin{kbox}[Lecture]
+Avec 5 alertes par jour, on rattrape \textbf{62,5 \%} des pannes à 30
+min --- les 10 290 vrais négatifs évitent des alertes inutiles. La
+limite à 62,5 \% n'est pas un mauvais réglage : 24 incidents n'ont
+\textbf{aucun signal détectable} dans les métriques seules.
+\end{kbox}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Quiz 2 --- prédiction de défaillance (5 min)}
+\begin{qbox}[3 questions]
+\begin{enumerate}
+\item On ajoute l'alarme courante aux variables d'entrée. Sur le jeu de
+test, la précision paraît excellente. Le vrai problème :\\
+(a) le modèle est trop lent \quad (b) l'alarme \textbf{est} un morceau
+de l'étiquette : on constate au lieu de prédire \quad (c) il manque des
+données
+\item Le bon découpage pour ce dataset est :\\
+(a) 80/20 au hasard \quad (b) entraîner avant le 22/09, tester après
+\quad (c) KFold aléatoire 5 plis
+\item Avec 5 alertes par jour au point d'opération, le rappel mesuré est :\\
+(a) 25 \% \quad (b) 62,5 \% \quad (c) 100 \%
+\end{enumerate}
+\end{qbox}
+\vspace{1mm}
+\begin{solbox}[Réponses]
+\textbf{1 : b} --- fuite temporelle ; l'alarme sonne \emph{avec}
+l'incident, jamais avant. \quad \textbf{2 : b} --- le temps ne se
+mélange pas. \quad \textbf{3 : b} --- 40 pannes rattrapées sur 64.
+\end{solbox}
+\end{frame}

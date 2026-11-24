@@ -1,0 +1,204 @@
+% =====================================================================
+%  Seance 5 -- D. fiabilite du detecteur + limites (obligatoire)
+% =====================================================================
+\section{Fiabilité du détecteur et limites}
+
+\begin{frame}{Fiabilité 1 : la dérive de modèle}
+\begin{columns}[t]
+\begin{column}{0.52\textwidth}
+\begin{block}{Le trafic change, le modèle vieillit}
+\begin{itemize}
+\item Lundi : nouveau service batch qui se connecte toutes les nuits à 3 h.
+\item Un mois plus tard : rotation des mots de passe, politiques de comptes
+modifiées, croissance du parc.
+\item Le « normal » appris en octobre n'est plus le normal de décembre :
+les scores dérivent, les faux positifs s'accumulent \textbf{sans aucune
+erreur visible}.
+\end{itemize}
+\end{block}
+\begin{ebox}[Les garde-fous]
+\begin{itemize}
+\item Surveiller la \textbf{distribution des features} elles-mêmes
+(PSI, KS test) : alarme si le normal bouge.
+\item Réentraîner sur fenêtre glissante (30-90 j) --- et garder une
+référence figée pour comparer.
+\item Chaque incident confirmé $=$ étiquette neuve (boucle du cours 2).
+\end{itemize}
+\end{ebox}
+\end{column}
+\begin{column}{0.44\textwidth}
+\begin{kbox}[Lien avec les séances précédentes]
+C'est la \textbf{même dérive} que le capteur de srv-06 (séance 2), mais sur
+les features de sécurité au lieu de la température. La leçon est la même :
+\textbf{un modèle non surveillé est un capteur qui ment paisiblement}.
+\end{kbox}
+\begin{wbox}[Le piège du réentraînement]
+Si l'attaquant revient toutes les semaines, le réentraînement glissant
+\textbf{apprend l'attaque comme normal}. Fixer la fenêtre, surveiller les
+scores, garder l'humain dans la boucle.
+\end{wbox}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Fiabilité 2 : la qualité des données en production}
+\begin{columns}[t]
+\begin{column}{0.5\textwidth}
+\begin{block}{Ce qui casse un détecteur de sécurité sans prévenir}
+\begin{itemize}
+\item \textbf{Horloges} : un serveur en retard déplace ses événements de
+fenêtre --- fausse rafale, vrai faux positif.
+\item \textbf{Collecte perdue} : agent tombé $=$ fenêtres vides $=$
+aveugle pendant l'attaque. Surveiller le \emph{volume} de logs par machine !
+\item \textbf{Champ trompeur} : dans nos logs, des lignes « Rotation des
+logs » ou « Sauvegarde » portent aussi \py{auth\_reussie = False}.
+Compter bêtement les \py{False} donne 4\,828 échecs dont beaucoup ne sont
+pas des authentifications : \textbf{filtrer d'abord, compter ensuite}.
+\end{itemize}
+\end{block}
+\end{column}
+\begin{column}{0.46\textwidth}
+\begin{block}{Les réflexes de la séance 2, rejoués en sécurité}
+\begin{itemize}
+\item Compte de lignes par machine et par jour (trous de collecte).
+\item Validation de schéma (types, niveaux attendus).
+\item Vérification croisée : le volume d'échecs d'une machine ne peut pas
+être 10$\times$ la médiane sans que \emph{quelque chose} se passe ---
+mais est-ce une attaque ou un défaut d'agent ?
+\end{itemize}
+\end{block}
+\begin{kbox}[Règle]
+\textbf{Un détecteur est aussi fiable que sa pipeline de données.}
+Le ML ne corrige pas un capteur menteur.
+\end{kbox}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Fiabilité 3 : la redondance des détecteurs}
+\begin{center}
+\footnotesize
+\begin{tabular}{@{}p{3.6cm}p{3.4cm}p{3.4cm}@{}}
+\toprule
+ & \textbf{Règle (seuil 5 échecs/10 min)} & \textbf{Modèle (7 features)}\\
+\midrule
+Attaque grossière (notre brute force) & \ok{} détecte (12/12) & \ok{} détecte (12/12)\\
+\addlinespace[1pt]
+Attaque lente (4 échecs/10 min) & \nok{} invisible & \ok{} visible (entropie, comptes, nuit)\\
+\addlinespace[1pt]
+Bruit opérationnel (défauts de service) & \nok{} faux positifs possibles & \ok{} absorbé par le contexte\\
+\addlinespace[1pt]
+Explication à donner & \ok{} triviale & $\approx$ SHAP (slide suivante)\\
+\addlinespace[1pt]
+Coût de maintenance & règle à réviser à chaque changement & réentraînement, surveillance de dérive\\
+\bottomrule
+\end{tabular}
+\end{center}
+\vspace{1mm}
+\begin{kbox}[Défense en profondeur, version ML]
+Règles et modèle fonctionnent \textbf{en parallèle}, jamais l'un à la place
+de l'autre : la règle couvre le cas trivial et sert de référence explicite ;
+le modèle couvre l'espace que la règle ne sait pas formuler. Une alerte
+confirmée par les deux canaux monte en priorité.
+\end{kbox}
+\end{frame}
+
+\begin{frame}{Limite 1 : l'attaque adversariale}
+\begin{columns}[t]
+\begin{column}{0.52\textwidth}
+\begin{block}{L'attaquant connaît (ou teste) votre détecteur}
+S'il sait que le top du classement regarde échecs, rafales et comptes
+sensibles, il s'adapte :
+\begin{itemize}
+\item ralentir : 2 échecs / 10 min, attaque étalée sur 20 h ;
+\item doper l'entropie : tester beaucoup de comptes plausibles, même faux ;
+\item passer par des comptes ordinaires (\py{dev1}) au lieu de \py{root}.
+\end{itemize}
+Chaque contremesure dégrade \emph{les mêmes features} que le modèle utilise.
+\end{block}
+\end{column}
+\begin{column}{0.44\textwidth}
+\begin{ebox}[Ce que ça coûte à l'attaquant]
+Ralentir à 2 échecs/10 min multiplie la durée de l'attaque par 5
+(2 h $\rightarrow$ 10 h pour 125 essais) : plus de temps de détection
+par d'autres canaux, plus de chances qu'un gardien remarque les connexions
+de nuit. \textbf{Le ML ne stoppe pas l'attaquant, il le coûteux.}
+\end{ebox}
+\begin{kbox}[La parade]
+Horloge d'émission, cadence inter-essais, source réseau, corrélations entre
+machines. Varier et \textbf{ne pas documenter} toutes les dimensions de détection.
+\end{kbox}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Limite 2 : la fatigue d'alerte --- Limite 3 : l'explicabilité}
+\begin{columns}[t]
+\begin{column}{0.5\textwidth}
+\begin{block}{Fatigue d'alerte}
+Trop de faux positifs $\Rightarrow$ les analystes \textbf{clichent sans
+regarder} $\Rightarrow$ la vraie attaque passe au milieu. C'est ce qui s'est
+passé à Target (2013) : les alarmes existaient, personne ne les lisait plus.
+\begin{itemize}
+\item Mesure : \textbf{taux de traitement} des alertes, précision@N
+\emph{en conditions réelles}.
+\item Remède : classer (précision@N), regrouper (clustering), seuil haut +
+revue périodique du rang 30-100.
+\end{itemize}
+\end{block}
+\end{column}
+\begin{column}{0.46\textwidth}
+\begin{block}{Explicabilité : SHAP en un aperçu}
+SHAP attribue à \textbf{chaque feature sa part} dans la décision d'une
+session donnée. Pour notre session n°1 (15 échecs, tous sur comptes
+sensibles) : l'attribution pointe d'abord les échecs sur comptes sensibles,
+puis la rafale et le taux d'échec --- cohérent avec les importances
+mesurées à la slide précédente.
+L'analyste reçoit non pas « anormal » mais \emph{pourquoi}. Un modèle
+explicable est un modèle qu'on ose couper en incident.
+\end{block}
+\end{column}
+\end{columns}
+\vspace{1mm}
+\begin{wbox}[Le cercle vicieux à éviter]
+Alertes non traitées $\rightarrow$ étiquettes jamais produites $\rightarrow$
+détecteur supervisé impossible à améliorer $\rightarrow$ encore plus de faux
+positifs. Traiter les alertes, c'est \textbf{alimenter} le système.
+\end{wbox}
+\end{frame}
+
+\begin{frame}{Limite 4 : la vie privée des logs}
+\begin{columns}[t]
+\begin{column}{0.5\textwidth}
+\begin{block}{Un log d'authentification est une donnée personnelle}
+Il dit \emph{qui} était où, quand, sur quelle machine. Nos colonnes :
+\py{utilisateur}, \py{machine}, \py{horodatage} --- la combinaison reconstitue
+des habitudes de travail (horaires, localisation, usages).
+\end{block}
+\begin{itemize}
+\item \textbf{Pseudonymisation} : remplacer \py{dev1} par un identifiant
+op$\;$\#417 (table de correspondance hors zone d'analyse, accès restreint).
+\item Les features calculées (échecs, entropie, compte \emph{nombre} de
+comptes) survivent à la pseudonymisation : le ML n'a pas besoin des noms.
+\item Durée de conservation minimale, accès journalisés, minimisation des
+colonnes.
+\end{itemize}
+\end{column}
+\begin{column}{0.46\textwidth}
+\begin{ebox}[Notre TP, version conforme]
+\begin{itemize}
+\item Entraîner le détecteur sur les \textbf{features}, pas sur les noms.
+\item Ne révéler les identités que dans la \textbf{note d'incident}, après
+corrélation autorisée --- c'est le livrable B5.
+\item Les comptes \py{inconnu-1}, \py{inconnu-2} du jeu sont déjà l'exemple
+idéal : des pseudos, et l'attaque reste parfaitement détectable.
+\end{itemize}
+\end{ebox}
+\begin{kbox}[Éthique et efficacité vont ensemble]
+Un détecteur pseudonymisé est \emph{moins} exposé aux abus internes ---
+et fonctionne aussi bien. Penser privacy by design n'est pas une contrainte
+de plus : c'est une architecture.
+\end{kbox}
+\end{column}
+\end{columns}
+\end{frame}

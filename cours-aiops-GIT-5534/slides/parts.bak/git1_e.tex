@@ -1,0 +1,92 @@
+% =====================================================================
+%  Seance 1 -- E. Synthese, quiz final, cloture (frames 47--50)
+% =====================================================================
+\section{Synthèse de la séance 1}
+
+\begin{frame}{Quiz de synthèse --- 6 questions (10 min)}
+\begin{qbox}[Répondez seul(e), puis correction collective]
+\begin{enumerate}
+\item Prévoir la consommation de la salle la semaine prochaine est :\\
+(a) classification \quad (b) régression supervisée \quad (c) non supervisé
+\item La disponibilité de NOSYS (16 incidents, durées 35/50 min, 8 serveurs, 30 j) :\\
+(a) 99,99 \% \quad (b) 99,80 \% \quad (c) 99,50 \%
+\item Un modèle classifieur donne 99,98 \% d'exactitude sur les incidents.\\
+(a) c'est un excellent modèle \quad (b) la métrique est trompeuse : il
+prédit peut-être jamais d'incident \quad (c) le modèle est parfait
+\item Le p99 de latence du parc est 16,3 ms. Combien de requêtes sur
+10 000 dépassent 16,3 ms ?\\
+(a) 1 \quad (b) 100 \quad (c) 9 900
+\item Un seuil fixe a tout détecté ce mois-ci. Le principal risque résiduel est :\\
+(a) il consomme trop de CPU \quad (b) dérive lente et changement de trafic
+le contournent \quad (c) les alarmes arrivent trop vite
+\item La corrélation latence--CPU passe de 0,80 (hors incidents) à 0,51 (tout le mois).
+Cela s'explique par :\\
+(a) un bug \quad (b) les points d'incident, extrêmes, écrasent la relation normale
+\quad (c) la corrélation n'existe pas
+\end{enumerate}
+\end{qbox}
+\end{frame}
+
+\begin{frame}{Corrigé du quiz de synthèse}
+\begin{solbox}[Réponses justifiées]
+\begin{enumerate}
+\item \textbf{b} --- cible continue $\Rightarrow$ régression (séries temporelles, séance 4).
+\item \textbf{b} --- indisponibilité $= 8 \times (0{,}58+0{,}83) = 11{,}3$ h ;
+$1 - 11{,}3 / 5\,760 = 99{,}80$ \% (8 serveurs $\times$ 720 h).
+\item \textbf{b} --- incidents $=$ 0,2 \% des fenêtres : « toujours non » atteint
+99,8 \% sans aucun intérêt. Matrice de confusion obligatoire.
+\item \textbf{b} --- 1 \% de 10 000 $=$ 100 requêtes lentes ; sur 10 M/jour,
+100 000 requêtes concernées.
+\item \textbf{b} --- démontré en cours : dérive lente $<$ 90 \% invisible,
+et le « 0 faux positif » de ce mois tient au plafond de trafic à 55 \%.
+\item \textbf{b} --- effet classique des valeurs extrêmes ; on apprendra à
+robustifier (séance 2) et à modéliser \emph{hors} incidents d'abord.
+\end{enumerate}
+\end{solbox}
+\end{frame}
+
+\begin{frame}{Les 5 messages à emporter}
+\begin{kbox}[Si vous ne retenez que ceci]
+\begin{enumerate}
+\item Le ML \textbf{apprend} le normal au lieu de le coder : c'est ce qui
+détecte ce qu'aucun seuil écrit à la main ne peut couvrir.
+\item Supervisez des \textbf{distributions} (p99), jamais des moyennes seules.
+\item \textbf{SLI $\to$ SLO $\to$ SLA} : la chaîne mesure $\to$ objectif $\to$ contrat.
+NOSYS est à 99,80 \% contre un SLA de 99,9 \% --- la mission est lancée.
+\item Le \textbf{contexte temporel} fait partie du signal : 30 \% à 14 h $\ne$
+30 \% à 3 h (facteur jour/nuit mesuré : 3).
+\item Un constat d'analyse vaut par ses \textbf{chiffres et ses références} ---
+c'est la règle de notation du TP.
+\end{enumerate}
+\end{kbox}
+\end{frame}
+
+\begin{frame}{Prochaine séance \& travail à faire}
+\begin{columns}[t]
+\begin{column}{0.52\textwidth}
+\begin{ebox}[Séance 2 --- Données d'infrastructures et préparation]
+\begin{itemize}
+\item Où vivent les données : métriques (Prometheus, SNMP), journaux (syslog, ELK),
+traces, events --- et leurs pièges (horloges, trous, granularités).
+\item Préparation : rééchantillonnage, imputation, standardisation, encodage.
+\item \textbf{Ingénierie de signaux} : fenêtres glissantes, p99 par fenêtre,
+dérivées, encodage cyclique de l'heure --- le jour où « 3 h du matin »
+devient une feature exploitable.
+\end{itemize}
+\end{ebox}
+\end{column}
+\begin{column}{0.44\textwidth}
+\begin{abox}[Avant la séance 2]
+\begin{enumerate}
+\item Rendre le notebook du TP (fiche « état des lieux »).
+\item (Facultatif) installer \py{great\_expectations} --- on le mentionnera.
+\item Relire le calcul de disponibilité : la question « 70 \% des incidents
+évités $\Rightarrow$ ? » attendue en séance 4 sera notée en TD.
+\end{enumerate}
+\end{abox}
+\begin{center}\small
+\textbf{Déroulé réalisé aujourd'hui :} 14h00 cours (A1--A4) · 16h15 TP (B1--B5) · 18h15 fin.
+\end{center}
+\end{column}
+\end{columns}
+\end{frame}

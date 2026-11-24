@@ -1,0 +1,253 @@
+{
+ "n_lignes": 69120,
+ "n_serveurs": 8,
+ "serveurs": [
+  "srv-01",
+  "srv-02",
+  "srv-03",
+  "srv-04",
+  "srv-05",
+  "srv-06",
+  "srv-07",
+  "srv-08"
+ ],
+ "debut": "2026-09-01 00:00:00",
+ "fin": "2026-09-30 23:55:00",
+ "n_jours": 29.99652777777778,
+ "pas_minutes": [
+  -43195,
+  5
+ ],
+ "n_alarme": 136,
+ "alarme_par_serveur": {
+  "srv-01": 17,
+  "srv-02": 17,
+  "srv-03": 17,
+  "srv-04": 17,
+  "srv-05": 17,
+  "srv-06": 17,
+  "srv-07": 17,
+  "srv-08": 17
+ },
+ "cpu_moyen": {
+  "srv-01": 24.33,
+  "srv-02": 14.37,
+  "srv-03": 17.97,
+  "srv-04": 18.91,
+  "srv-05": 24.56,
+  "srv-06": 24.06,
+  "srv-07": 19.64,
+  "srv-08": 20.11
+ },
+ "cpu_max": {
+  "srv-01": 96.0,
+  "srv-02": 95.9,
+  "srv-03": 95.9,
+  "srv-04": 95.9,
+  "srv-05": 95.6,
+  "srv-06": 96.0,
+  "srv-07": 95.9,
+  "srv-08": 95.9
+ },
+ "ram_moyen": {
+  "srv-01": 46.3,
+  "srv-02": 48.8,
+  "srv-03": 44.3,
+  "srv-04": 41.7,
+  "srv-05": 52.3,
+  "srv-06": 60.7,
+  "srv-07": 52.9,
+  "srv-08": 50.9
+ },
+ "lat_p99": {
+  "srv-01": 16.2,
+  "srv-02": 16.3,
+  "srv-03": 16.4,
+  "srv-04": 16.3,
+  "srv-05": 16.4,
+  "srv-06": 16.3,
+  "srv-07": 16.2,
+  "srv-08": 16.3
+ },
+ "lat_p99_parc": 16.31,
+ "lat_moy_parc": 12.219353587962962,
+ "lat_max": 156.08,
+ "temp_max": 42.65,
+ "temp_moy": 32.48251302083334,
+ "paquet_p99": 0.17,
+ "capacite": {
+  "srv-01": 0.8296814768720085,
+  "srv-02": 0.920012398570719,
+  "srv-03": 0.8213038943327553,
+  "srv-04": 0.8708863666152973,
+  "srv-05": 0.7048884478191852,
+  "srv-06": 0.921665694665586,
+  "srv-07": 0.7643439499247324,
+  "srv-08": 0.985416211711686
+ },
+ "manquants_par_col": {
+  "horodatage": 0,
+  "serveur": 0,
+  "cpu_pct": 0,
+  "ram_pct": 0,
+  "latence_ms": 0,
+  "paquets_perdus_pct": 0,
+  "temperature_c": 0,
+  "conso_kwh": 0,
+  "capacite_cpu": 0,
+  "alarme": 0
+ },
+ "conso_totale_kwh": 11614.2,
+ "conso_par_serveur": {
+  "srv-01": 1577.2,
+  "srv-02": 1252.3,
+  "srv-03": 1368.2,
+  "srv-04": 1402.0,
+  "srv-05": 1584.5,
+  "srv-06": 1567.3,
+  "srv-07": 1424.1,
+  "srv-08": 1438.5
+ },
+ "n_au_dessus_90": 136,
+ "n_au_dessus_90_hors_alarme": 0,
+ "n_alarmes_cpu_le_90": 0,
+ "n_incidents": 16,
+ "incidents": [
+  {
+   "serveur": "srv-01",
+   "debut": "2026-09-09 14:00:00",
+   "n_fenetres": 7,
+   "cpu_max": 95.69,
+   "lat_max": 156.08
+  },
+  {
+   "serveur": "srv-01",
+   "debut": "2026-09-22 03:00:00",
+   "n_fenetres": 10,
+   "cpu_max": 95.99,
+   "lat_max": 107.23
+  },
+  {
+   "serveur": "srv-02",
+   "debut": "2026-09-09 14:00:00",
+   "n_fenetres": 7,
+   "cpu_max": 94.34,
+   "lat_max": 100.13
+  },
+  {
+   "serveur": "srv-02",
+   "debut": "2026-09-22 03:00:00",
+   "n_fenetres": 10,
+   "cpu_max": 95.94,
+   "lat_max": 90.82
+  },
+  {
+   "serveur": "srv-03",
+   "debut": "2026-09-09 14:00:00",
+   "n_fenetres": 7,
+   "cpu_max": 94.84,
+   "lat_max": 131.08
+  },
+  {
+   "serveur": "srv-03",
+   "debut": "2026-09-22 03:00:00",
+   "n_fenetres": 10,
+   "cpu_max": 95.9,
+   "lat_max": 151.72
+  },
+  {
+   "serveur": "srv-04",
+   "debut": "2026-09-09 14:00:00",
+   "n_fenetres": 7,
+   "cpu_max": 95.69,
+   "lat_max": 133.39
+  },
+  {
+   "serveur": "srv-04",
+   "debut": "2026-09-22 03:00:00",
+   "n_fenetres": 10,
+   "cpu_max": 95.87,
+   "lat_max": 81.54
+  },
+  {
+   "serveur": "srv-05",
+   "debut": "2026-09-09 14:00:00",
+   "n_fenetres": 7,
+   "cpu_max": 95.5,
+   "lat_max": 126.5
+  },
+  {
+   "serveur": "srv-05",
+   "debut": "2026-09-22 03:00:00",
+   "n_fenetres": 10,
+   "cpu_max": 95.57,
+   "lat_max": 104.24
+  },
+  {
+   "serveur": "srv-06",
+   "debut": "2026-09-09 14:00:00",
+   "n_fenetres": 7,
+   "cpu_max": 95.73,
+   "lat_max": 147.86
+  },
+  {
+   "serveur": "srv-06",
+   "debut": "2026-09-22 03:00:00",
+   "n_fenetres": 10,
+   "cpu_max": 95.95,
+   "lat_max": 140.56
+  },
+  {
+   "serveur": "srv-07",
+   "debut": "2026-09-09 14:00:00",
+   "n_fenetres": 7,
+   "cpu_max": 95.87,
+   "lat_max": 118.97
+  },
+  {
+   "serveur": "srv-07",
+   "debut": "2026-09-22 03:00:00",
+   "n_fenetres": 10,
+   "cpu_max": 95.57,
+   "lat_max": 122.88
+  },
+  {
+   "serveur": "srv-08",
+   "debut": "2026-09-09 14:00:00",
+   "n_fenetres": 7,
+   "cpu_max": 94.78,
+   "lat_max": 148.43
+  },
+  {
+   "serveur": "srv-08",
+   "debut": "2026-09-22 03:00:00",
+   "n_fenetres": 10,
+   "cpu_max": 95.92,
+   "lat_max": 80.32
+  }
+ ],
+ "duree_incidents_h": [
+  0.58,
+  0.83,
+  0.58,
+  0.83,
+  0.58,
+  0.83,
+  0.58,
+  0.83,
+  0.58,
+  0.83,
+  0.58,
+  0.83,
+  0.58,
+  0.83,
+  0.58,
+  0.83
+ ],
+ "corr_lat_cpu_global": 0.509,
+ "corr_lat_cpu_hors_alarme": 0.799,
+ "corr_paquet_cpu": 0.232,
+ "cpu_moyen_parc": 20.5,
+ "cpu_moyen_jour": 30.2,
+ "cpu_moyen_nuit": 10.0
+}

@@ -1,0 +1,138 @@
+% Examen final -- EPD-GIT-5534 (6 exercices, 1 h 30)
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=1.8cm]{geometry}
+\usepackage[french]{babel}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage[hidelinks]{hyperref}
+\newcommand{\py}[1]{\texttt{\small #1}}
+\newcommand{\file}[1]{\texttt{\small #1}}
+\definecolor{bleuenspd}{HTML}{1F4E79}
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small EPD-GIT-5534 --- Apprentissage automatique appliqué aux infrastructures}
+\fancyhead[R]{\small\thepage/\pageref{LastPage}}
+\fancyfoot[C]{\small Durée : 1 h 30 --- documents non autorisés --- calculatrice autorisée}
+
+\newtcolorbox{donnees}{colback=gray!6, colframe=gray!55, boxrule=0.5pt, arc=1.5mm,
+  left=2mm, right=2mm, top=1.5mm, bottom=1.5mm, title={Rappels et données},
+  fonttitle=\bfseries\small, coltitle=white, colbacktitle=gray!70}
+
+\setlist{nosep, leftmargin=*}
+
+\begin{document}
+
+\begin{center}
+\includegraphics[width=2.4cm]{../assets/logo_enspd.png}\\[1mm]
+{\large\color{bleuenspd}\textbf{École Nationale Supérieure Polytechnique de Douala}}\\
+Université de Douala --- Département Génie Informatique et Télécommunications\\[2mm]
+{\Large\color{bleuenspd}\textbf{Examen final --- Apprentissage automatique appliqué aux infrastructures}}\\[1mm]
+EPD-GIT-5534 --- Master Professionnel ASIC --- Durée : \textbf{1 h 30} --- \textbf{20 points}\\
+Enseignante : Dr. Noulapeu Ngaffo Armielle --- Session : Normale
+\end{center}
+
+\begin{donnees}
+Le dossier NOSYS tout au long de l'épreuve : 8 serveurs (\py{srv-01} à \py{srv-08}),
+30 jours de métriques à pas de 5 min (69 120 fenêtres), SLO « latence p99 $<$ 100 ms »,
+SLA de disponibilité 99,9 \%. Chiffres mesurés sur le mois :
+\begin{itemize}
+\item CPU moyen du parc 20,5 \% (heures ouvrées 30,2 \%, nuit 10,0 \%) ; CPU max incident 96 \% ;
+\item latence : moyenne 12,2 ms, p99 16,3 ms ; température max 42,7 °C ; consommation 11 614 kWh ;
+\item 16 incidents (2 par serveur : 35 min le 09/09 à 14 h, 50 min le 22/09 à 3 h),
+soit 11,3 h d'indisponibilité cumulée sur $8 \times 720$ h ;
+\item dataset supervisé : 34 560 fenêtres de 10 min, 120 positives (0,35 \%) ;
+train (21 j) = 24 192 lignes dont 56 positives ; test (9 j) = 10 368 lignes dont 64 positives ;
+\item logs : 100 000 lignes d'authentification sur 7 jours, 4 828 échecs,
+dont une attaque brute force le 05/10 de 2 h à 4 h (125 échecs sur \py{bdd-principal}).
+\end{itemize}
+Formules : $z = (x-\bar{x})/\sigma$ ; IQR $= Q_3 - Q_1$ ; précision $= VP/(VP+FP)$ ;
+rappel $= VP/(VP+FN)$ ; $F_1 = 2\,\text{précision}\cdot\text{rappel}/(\text{précision}+\text{rappel})$ ;
+disponibilité $= 1 - \text{indispo}/\text{temps total}$.
+\end{donnees}
+
+\section*{Exercice 1 --- Cadre et indicateurs (3 pts)}
+a) (0,5) Donner la différence entre SLI, SLO et SLA, avec un exemple de chacun pour NOSYS.\\
+b) (0,5) Calculer la disponibilité du mois de NOSYS à partir des 11,3 h d'indisponibilité
+(8 serveurs $\times$ 720 h). Conclure par rapport au SLA.\\
+c) (1) Le p99 de latence est de 16,3 ms. Expliquer pourquoi on supervise le p99 plutôt
+que la moyenne, en quantifiant l'impact sur 10 millions de requêtes/jour.\\
+d) (1) Classer ces 4 problèmes dans la bonne famille de ML (supervisé régression /
+supervisé classification / non supervisé / renforcement) :
+(i) prévoir le trafic à 24 h ; (ii) détecter des sessions d'auth anormales sans
+étiquettes ; (iii) prédire un incident dans les 30 min ; (iv) piloter le refroidissement
+par essai-récompense.
+
+\section*{Exercice 2 --- Préparation des données (3 pts)}
+Le fichier d'acquisition brut contient : 200 lignes dupliquées, 5 508 valeurs manquantes
+réparties uniformément (1,73 \%), une température de 1 575 °C, un CPU à 350 \%,
+6 trous de 15 à 40 min, et un serveur qui relève toutes les 15 min.
+a) (0,75) Classer le mécanisme des manquants (MCAR/MAR/MNAR) et justifier en une phrase.\\
+b) (0,75) CPU à 350 \% : erreur de mesure ou incident ? Même question pour un CPU à 96 \%
+pendant une alarme. Quelle règle de traitement en déduire ?\\
+c) (0,75) Pourquoi trier par (serveur, horodatage) avant toute moyenne mobile ?\\
+d) (0,75) Donner deux raisons d'encoder l'heure avec (sin, cos) plutôt qu'une colonne 0--23.
+
+\section*{Exercice 3 --- Détection d'anomalies et classe rare (3,5 pts)}
+Le dataset supervisé compte 34 560 fenêtres dont 120 positives (0,35 \%).
+Un modèle prédit « incident » sur 60 fenêtres du test ; parmi elles, 40 sont de vrais
+incidents ; il manque 24 vrais incidents.
+a) (1) Compléter la matrice de confusion (VP, FP, FN, VN avec VN $= 10\,368 - 60$)
+et calculer précision, rappel et F1.\\
+b) (0,75) Un modèle « toujours 0 » atteindrait quelle exactitude sur le test ? Pourquoi
+cette métrique est-elle trompeuse ici ?\\
+c) (1) Pourquoi la courbe précision-rappel est-elle préférée à la ROC sur ce problème ?
+Que signifie un point d'opération à (précision 1,0 ; rappel 0,625) pour le NOC ?\\
+d) (0,75) Citer deux raisons pour lesquelles un seuil fixe « CPU $>$ 90 \% » est
+fragile, même s'il a détecté 136/136 fenêtres ce mois-ci.
+
+\section*{Exercice 4 --- Série temporelle et prédiction (3,5 pts)}
+On agrège la charge horaire (720 points). Le test ADF donne $p = 0{,}075$ sur la série
+brute et $p = 3{,}4\cdot10^{-7}$ après différenciation d'ordre 24.
+Un SARIMA $(2,0,1)\times(1,0,1)_{24}$ donne une MAE de 3,01 points de CPU sur 7 jours,
+contre 5,06 pour la persistance et 5,23 pour « la même semaine la semaine dernière ».
+a) (1) Interpréter les deux valeurs de l'ADF. Quel rôle joue la différenciation d'ordre 24 ?\\
+b) (0,75) Calculer le gain du SARIMA par rapport à la persistance en \%.\\
+c) (1) Expliquer pourquoi une validation croisée KFold mélangée est invalide ici, et
+décrire le protocole correct (train/test par dates).\\
+d) (0,75) La fuite de données : un étudiant ajoute la colonne \py{alarme} courante aux
+variables. Mesurée : P(incident $\mid$ alarme = 1) = 100 \%. Expliquer le résultat obtenu
+en validation et pourquoi il s'effondre en production.
+
+\section*{Exercice 5 --- Sécurité (3,5 pts)}
+Sur 7 jours de logs (100 000 lignes), on agrège par (machine, fenêtre de 10 min) :
+10 000 sessions, dont 12 sessions d'attaque (brute force du 05/10, 2 h--4 h,
+125 échecs, 0 succès, uniquement comptes \py{root}/\py{admin}/\py{inconnu-*}).
+Une IsolationForest classe les sessions par score d'anomalie ; les 12 sessions
+d'attaque occupent les rangs 1 à 12.
+a) (1) Calculer la précision@10 et la précision@30 de l'isolation forest (les sessions
+d'attaque occupent les rangs 1--12). Que vaut la précision attendue au hasard à rang 10 ?\\
+b) (1) Proposer 4 variables (features) d'authentification utiles pour détecter cette
+attaque, en justifiant chacune en une ligne.\\
+c) (0,75) L'entropie des comptes testés vaut 1,73 bits pendant l'attaque contre 2,22 bits
+en normal. Interpréter.\\
+d) (0,75) Citer deux limites d'un détecteur ML face à un attaquant adaptatif, et une parade.
+
+\section*{Exercice 6 --- Décision, capacité et industrialisation (3,5 pts)}
+a) (1,5) Un modèle prédictif permet d'éviter 70 \% des incidents (détectés 30 min avant).
+Recalculer la disponibilité du mois (indisponibilité initiale 11,3 h) et conclure par
+rapport au SLA de 99,9 \%.\\
+b) (1) Le stockage est à 60 \% ; la consommation de données croît de 1,333 \%/jour.
+Calculer la date de saturation (seuil d'alerte 90 \%), en indiquant la formule.\\
+c) (1) Le modèle de production score une fenêtre en 59 ms en moyenne (p99 : 105 ms).
+Combien de fenêtres peut scorer un seul cœur par minute ? Quel monitoring mettre en place
+(3 métriques minimales) pour détecter une dérive du modèle en production ?
+
+\vspace{2mm}
+\begin{center}\small
+\textbf{Barème :} Ex. 1 : 3 pts --- Ex. 2 : 3 pts --- Ex. 3 : 3,5 pts --- Ex. 4 : 3,5 pts ---
+Ex. 5 : 3,5 pts --- Ex. 6 : 3,5 pts. \quad Total : 20 pts.\\
+Tous les chiffres nécessaires figurent dans l'encadré « Rappels et données » ou l'énoncé ;
+tout calcul doit être posé.
+\end{center}
+
+\end{document}

@@ -1,0 +1,73 @@
+% =====================================================================
+%  Seance 4 -- E. synthese, corriges, preview (frames 28--30)
+% =====================================================================
+\section{Synthèse}
+
+\begin{frame}{Quiz de synthèse --- 5 questions (10 min)}
+\begin{qbox}[Répondez seul(e), puis correction]
+\begin{enumerate}
+\item L'ACF montre des pics toutes les 24 h. Le paramètre concerné est :\\
+(a) $p$ \quad (b) le terme \textbf{saisonnier} $P,Q$ avec $s=24$ \quad
+(c) $d$
+\item Sur la série brute, l'ADF renvoie $p = 0{,}075$. Conclusion :\\
+(a) série stationnaire \quad (b) on différencie puis on reteste \quad
+(c) le modèle SARIMA est inutile
+\item Le MAE du SARIMA du dossier (3,01) est mesurée :\\
+(a) sur le train \quad (b) sur les 144 heures de test après la
+frontière du 22/09 \quad (c) par KFold aléatoire
+\item L'alarme courante en variable d'entrée donne un modèle :\\
+(a) meilleur, il faut l'ajouter \quad (b) en fuite : elle est un
+morceau de l'étiquette \quad (c) équivalent
+\item 70 \% des incidents évités 30 min à l'avance donnent une
+disponibilité de :\\
+(a) 99,80 \% \quad (b) 99,9 \% \quad (c) \textbf{99,941 \%}
+\end{enumerate}
+\end{qbox}
+\end{frame}
+
+\begin{frame}{Corrigé du quiz de synthèse}
+\begin{solbox}[Réponses justifiées]
+\begin{enumerate}
+\item \textbf{b} --- la saison journalière se modélise par les termes
+$(P,D,Q)_{s}$ ; ici $s = 24$ sur l'agrégat horaire.
+\item \textbf{b} --- $p > 0{,}05$ : on ne rejette pas la racine
+unitaire ; après différenciation $p \approx 0$ (mesuré :
+$3\times10^{-7}$ pour $s = 24$).
+\item \textbf{b} --- une MAE mesurée sur le train ou par KFold ne vaut
+rien ; seule compte la prévision sur une période \emph{postérieure}
+jamais vue.
+\item \textbf{b} --- mesuré : alarme sonne $\Rightarrow$ 100 \% des
+étiquettes à 1 ; c'est de la circularité, pas de la prédiction.
+\item \textbf{c} --- $1 - 3{,}39/5\,760 = 99{,}941\ \% >$ SLA 99,9 \% :
+l'argument économique du cours tient sur les chiffres réels du dossier.
+\end{enumerate}
+\end{solbox}
+\end{frame}
+
+\begin{frame}{À retenir et prochaine séance}
+\begin{columns}[t]
+\begin{column}{0.52\textwidth}
+\begin{kbox}[Les 4 idées de la séance]
+\begin{enumerate}
+\item Stationnarité d'abord : ADF + ACF/PACF dictent $(p,d,q)$ et
+$(P,D,Q)_s$ --- et l'agrégat horaire ($s=24$) garde le modèle léger.
+\item Un SARIMA se juge sur sa \textbf{MAE hors échantillon} et son
+intervalle --- jamais sur son train.
+\item Prédire la panne = horloge stricte : étiquette future, features
+passées, \textbf{split temporel}, zéro fuite.
+\item La prévision devient \textbf{décision} : marge, autoscaling,
+saturation --- et disponibilité chiffrée (99,941 \%).
+\end{enumerate}
+\end{kbox}
+\end{column}
+\begin{column}{0.44\textwidth}
+\begin{ebox}[Preview séance 5]
+\textbf{Sécurité, journaux et intrusion} : les 24 incidents sans
+signal métrique ont peut-être une trace dans \file{nosys\_logs.csv} ---
+analyse de logs, détection d'intrusion, corrélation métriques/événements.
+Apportez votre livrable B5 : il contient les incidents que les
+métriques n'expliquent pas.
+\end{ebox}
+\end{column}
+\end{columns}
+\end{frame}

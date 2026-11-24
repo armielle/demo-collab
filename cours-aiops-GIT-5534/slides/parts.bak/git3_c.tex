@@ -1,0 +1,152 @@
+% =====================================================================
+%  Seance 3 -- C. cours 3 : choisir le modele (frames 19--23)
+% =====================================================================
+\section{Choisir le modèle : validation temporelle et interprétabilité}
+
+\begin{frame}{Le protocole d'évaluation, récapitulé}
+\begin{columns}[t]
+\begin{column}{0.5\textwidth}
+\begin{block}{Les 5 règles non négociables}
+\begin{enumerate}
+\item \textbf{Split temporel} : train $<$ 22/09, test $\ge$ 22/09.
+Le test contient l'incident du 22/09 3 h.
+\item \textbf{Tout statistique appris} (scaler, seuil, quantile)
+se calcule sur le train seul.
+\item \textbf{Validation croisée temporelle} sur le train ;
+jamais de KFold mélangé.
+\item \textbf{Métriques de classe rare} : précision, rappel,
+$F_1$, courbe PR --- pas l'exactitude, pas la ROC.
+\item \textbf{Seuil choisi sur contrainte métier} (budget NOC),
+pas sur un réflexe 0,50.
+\end{enumerate}
+\end{block}
+\end{column}
+\begin{column}{0.46\textwidth}
+\begin{kbox}[Ce protocole vaut pour toute l'industrie]
+Les mêmes 5 règles s'appliquent à la détection de fraude,
+de churn, de défaut de paiement : classe rare + données
+ordonnées dans le temps $=$ le cas d'usage le plus fréquent
+du ML applicatif. Ce que vous validez ce soir se retrouve
+dans chaque projet de production.
+\end{kbox}
+\begin{wbox}[Le test du test]
+Avant de croire vos chiffres, demandez : « mon modèle aurait-il
+pu voir ces données à l'entraînement ? » Si la réponse n'est pas
+un \textbf{non} franc, votre évaluation est optimiste.
+\end{wbox}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Validation croisée TEMPORELLE : jamais de KFold mélangé}
+\begin{codebox}[TimeSeriesSplit : le futur reste hors d'atteinte]
+\begin{lstlisting}
+from sklearn.model_selection import TimeSeriesSplit
+tsc = TimeSeriesSplit(n_splits=5)      # plis CHRONOLOGIQUES
+for tr_i, va_i in tsc.split(Xtr):      # va_i est APRES tr_i
+    modele.fit(Xtr[tr_i], ytr[tr_i])
+    pred = modele.predict_proba(Xtr[va_i])[:, 1]
+\end{lstlisting}
+\end{codebox}
+\begin{columns}[t]
+\begin{column}{0.48\textwidth}
+\begin{wbox}[Pourquoi KFold mélangé est une triche]
+Séance 2 : les fenêtres sont \textbf{autocorrélées} (moyennes
+mobiles, tendance). Un pli mélangé contient le \textbf{voisin
+direct} d'une fenêtre du train : le modèle « devine » par
+continuité et paraît excellent --- jusqu'à la production.
+\end{wbox}
+\end{column}
+\begin{column}{0.48\textwidth}
+\begin{ebox}[Mesuré (5 plis temporels, F1 moyen ± écart-type)]
+\begin{center}\small
+\begin{tabular}{@{}l l@{}}
+\toprule
+Gradient boosting & \textbf{0,715 ± 0,024}\\
+Forêt (balanced) & 0,343 ± 0,299\\
+Reg. logistique & 0,247 ± 0,213\\
+\bottomrule
+\end{tabular}
+\end{center}
+Le fort écart-type de la forêt signale un modèle
+\textbf{instable selon la période} --- information que la moyenne
+seule cacherait.
+\end{ebox}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Le match final, chiffres réels sur le test}
+\begin{center}
+\includegraphics[width=0.60\textwidth]{f21_comparaison_modeles.png}
+\end{center}
+\vspace{0.5mm}
+\begin{center}\footnotesize
+\begin{tabular}{@{}l c c c c@{}}
+\toprule
+Modèle (test, seuil 0,50) & Précision & Rappel & $F_1$ & AP (courbe PR)\\
+\midrule
+Gradient boosting & \textbf{1,00} & \textbf{0,625} & \textbf{0,769} & \textbf{0,63}\\
+Reg. logistique & 0,07 & 0,39 & 0,12 & 0,32\\
+Forêt (balanced) & 0,00 & 0,00 & 0,00 & 0,19\\
+\bottomrule
+\end{tabular}
+\end{center}
+\vspace{0.5mm}
+\begin{wbox}[Leçon du piège balanced]
+À 0,50, la forêt balanced prédit 7 positifs... tous faux : avec des
+poids rééquilibrés, \textbf{le seuil par défaut perd son sens} ---
+re-choisir le seuil sur la courbe PR (TP B4).
+\end{wbox}
+\end{frame}
+
+\begin{frame}{Interprétabilité : les arbres parlent au métier}
+\begin{columns}[t]
+\begin{column}{0.5\textwidth}
+\begin{center}
+\includegraphics[width=\textwidth]{f23_interpretabilite_cv.png}
+\end{center}
+\end{column}
+\begin{column}{0.46\textwidth}
+\begin{block}{Ce que la forêt expose}
+Les importances désignent les variables qui décident (f23a) ---
+de quoi écrire des \textbf{règles métier} auditables par
+l'exploitant : « si latence p99 haut \textbf{et} perte non nulle
+\textbf{alors} fenêtre à risque ».
+\end{block}
+\begin{kbox}[Compromis à assumer]
+\begin{itemize}
+\item \textbf{Logistique} : la plus lisible, la moins juste.
+\item \textbf{Arbre} : règles lisibles, fragile seul.
+\item \textbf{Forêt/boosting} : les plus justes, boîte grise ---
+explication partielle via les importances.
+\end{itemize}
+\end{kbox}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Quiz 3 --- choisir et valider (5 min)}
+\begin{qbox}[3 questions]
+\begin{enumerate}
+\item Pour valider un modèle sur nos 30 jours de métriques, on utilise :\\
+(a) KFold mélangé, plus précis \quad (b) \py{TimeSeriesSplit}, plis
+chronologiques \quad (c) un seul split au hasard
+\item Le gradient boosting gagne en AP (0,63 vs 0,19). Que lit-on
+dans une courbe PR que la ROC cache ?\\
+(a) la vitesse \quad (b) le couple concret précision/rappel à chaque
+seuil --- l'ASP ne s'effondre pas avec les 10 000 négatifs \quad
+(c) la mémoire utilisée
+\item Pourquoi garder la régression logistique malgré son $F_1$ de 0,12 ?\\
+(a) elle est jolie \quad (b) baseline interprétable : chaque poids
+explique l'effet d'une variable, référence pour juger les autres \quad
+(c) elle n'a pas besoin de seuil
+\end{enumerate}
+\end{qbox}
+\vspace{1mm}
+\begin{solbox}[Réponses]
+\textbf{1 : b} --- l'autocorrélation temporelle tricherait sinon.
+\quad \textbf{2 : b} \quad \textbf{3 : b} --- toujours une baseline
+lisible en concurrence.
+\end{solbox}
+\end{frame}

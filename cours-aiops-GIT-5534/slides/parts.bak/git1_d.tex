@@ -1,0 +1,322 @@
+% =====================================================================
+%  Seance 1 -- D. Le dossier NOSYS + TP (frames 34--46)
+% =====================================================================
+\section{Le dossier NOSYS et les travaux pratiques}
+
+\begin{frame}{Le dossier NOSYS : les données de la mission}
+\begin{columns}[t]
+\begin{column}{0.52\textwidth}
+\begin{block}{\file{nosys\_metriques.csv} --- 69 120 lignes}
+\begin{itemize}
+\item \textbf{8 serveurs} (srv-01 \ldots srv-08) $\times$ \textbf{30 jours}
+(01/09 -- 30/09/2026) $\times$ pas de \textbf{5 min}.
+\item Colonnes : \py{horodatage}, \py{serveur}, \py{cpu\_pct}, \py{ram\_pct},
+\py{latence\_ms}, \py{paquets\_perdus\_pct}, \py{temperature\_c}, \py{conso\_kwh},
+\py{capacite\_cpu}, \py{alarme}.
+\item \py{alarme} = 1 sur les fenêtres d'incident (déclarées a posteriori) :
+\textbf{136 fenêtres} = 16 blocs de 35--50 min.
+\end{itemize}
+\end{block}
+\begin{ebox}[Ce que le CSV ne contient PAS (volontairement)]
+Aucune colonne « cause de l'incident » : en production, on découvre la cause
+\emph{après}. Le TP demande de la retrouver \textbf{par l'analyse}.
+\end{ebox}
+\end{column}
+\begin{column}{0.44\textwidth}
+\begin{block}{\file{nosys\_logs.csv} --- 100 000 lignes}
+Journaux d'authentification sur 7 jours : horodatage, machine, niveau,
+utilisateur, message, \py{auth\_reussie}.
+\begin{center}\small
+\begin{tabular}{@{}lr@{}}
+\toprule
+Niveau & lignes\\
+\midrule
+INFO & 71 946\\
+WARNING & 12 990\\
+ERROR & 11 055\\
+CRITICAL & 4 009\\
+\bottomrule
+\end{tabular}
+\end{center}
+\begin{center}\small
+(séance 5 uniquement --- ne pas ouvrir aujourd'hui)
+\end{center}
+\end{block}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Vue d'ensemble : 8 serveurs, un mois, 2 incidents chacun}
+\begin{center}
+\includegraphics[width=0.95\textwidth]{f03_classement.png}
+\end{center}
+\begin{columns}[t]
+\begin{column}{0.48\textwidth}
+\begin{ebox}[Lecture à voix haute]
+srv-01 et srv-05 portent les charges moyennes les plus élevées
+(24,3 \% et 24,6 \%) ; tous les p99 restent sous le SLO de 100 ms
+hors incidents (max 16,4 ms).
+\end{ebox}
+\end{column}
+\begin{column}{0.48\textwidth}
+\begin{kbox}[Le réflexe analyste]
+Toujours commencer par \textbf{classement} + \textbf{comparaison à une
+référence} (ici la moyenne du parc, 20,5 \%) avant tout modèle.
+\end{kbox}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Quand les incidents arrivent-ils ?}
+\begin{center}
+\includegraphics[width=0.95\textwidth]{f04_alarmes.png}
+\end{center}
+\begin{columns}[t]
+\begin{column}{0.48\textwidth}
+\begin{ebox}[Pattern remarquable]
+Les 16 incidents se concentrent sur \textbf{2 créneaux} :
+\textbf{9/09 à 14 h 00} (7 fenêtres, 35 min) et \textbf{22/09 à 3 h 00}
+(10 fenêtres, 50 min) --- identiques sur les 8 serveurs.
+\end{ebox}
+\end{column}
+\begin{column}{0.48\textwidth}
+\begin{qbox}[Question d'ingénieur]
+Une panne qui frappe \textbf{tous les serveurs en même temps} --- que suspecte-t-on
+en priorité ?\\
+(a) 8 disques défaillants simultanément \quad (b) une cause \textbf{partagée} :
+batch de sauvegarde, mise à jour déployée, réseau \quad (c) le hasard
+\end{qbox}
+\vspace{1mm}
+\begin{center}\small
+Corrigé : (b) --- et c'est la première vraie question d'analyse que
+vous poserez au TP (fenêtre commune = cause commune).
+\end{center}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Premiers constats chiffrés (le niveau attendu du livrable)}
+\begin{columns}[t]
+\begin{column}{0.52\textwidth}
+\begin{solbox}[Exemple de constats \textbf{correctement} rédigés]
+\begin{enumerate}
+\item Le parc est globalement sain : CPU moyen 20,5 \%,
+p99 de latence \textbf{16,3 ms} pour un SLO à 100 ms
+(marge $\times$ 6).
+\item Mais la disponibilité calculée est \textbf{99,80 \%} $<$ SLA 99,9 \% :
+11,3 h d'indisponibilité cumulée sur le mois.
+\item Les 16 incidents suivent \textbf{2 créneaux communs} à tous les serveurs
+(9/09 14 h, 22/09 3 h) : cause partagée probable (batch/déploiement),
+pas 16 pannes matérielles indépendantes.
+\item Corrélation latence--CPU \textbf{0,80} hors incidents : la charge
+\emph{explique} la latence normale --- utile pour la prévision de la séance 4.
+\item Consommation totale : \textbf{11 614 kWh}/mois ; srv-05 et srv-01
+en tête (1 585 et 1 577 kWh).
+\end{enumerate}
+\end{solbox}
+\end{column}
+\begin{column}{0.44\textwidth}
+\begin{wbox}[Le niveau \textbf{non} acceptable]
+« Le CPU varie », « il y a des incidents », « les serveurs sont différents ».
+Un constat sans \textbf{chiffre ni comparaison} ne valide rien.
+\end{wbox}
+\begin{kbox}[La règle du kit]
+Un constat = un chiffre + une référence (moyenne, SLO, autre serveur)
++ une phrase d'interprétation.
+\end{kbox}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{TP B1 --- charger et vérifier (30 min)}
+\begin{codebox}[B1. Chargement et contrôles de base]
+\begin{lstlisting}
+import pandas as pd, numpy as np
+import matplotlib.pyplot as plt
+
+m = pd.read_csv("data/nosys_metriques.csv", parse_dates=["horodatage"])
+print(m.shape)              # (69120, 10)
+print(m["serveur"].unique())  # 8 serveurs
+print(m["horodatage"].min(), "->", m["horodatage"].max())
+
+# le pas d'echantillonnage est-il constant ?
+print(m["horodatage"].diff().value_counts().head())
+# -> attendu : 300s (5 min) partout, sauf le premier point (NaT)
+
+# valeurs manquantes ?
+print(m.isna().sum())
+\end{lstlisting}
+\end{codebox}
+\begin{wbox}[Deux pièges classiques dès la première cellule]
+\begin{enumerate}
+\item Oublier \py{parse\_dates} : l'horodatage devient du texte,
+et \py{.dt.hour} échoue plus loin.
+\item Travailler dans un mauvais répertoire : donne le chemin complet
+ou lance Jupyter depuis le dossier des données.
+\end{enumerate}
+\end{wbox}
+\end{frame}
+
+\begin{frame}{TP B2 --- inventaire de qualité (20 min)}
+\begin{columns}[t]
+\begin{column}{0.5\textwidth}
+\begin{abox}[À produire]
+\begin{enumerate}
+\item Tableau : par colonne --- type, plages (min/max), nb de valeurs manquantes.
+\item Vérifier que chaque serveur a bien \textbf{8 640 fenêtres} (30 j $\times$ 288/j).
+\item Vérifier la cohérence : \py{0 <= cpu\_pct <= 100},
+\py{ram\_pct} dans [0, 100], températures plausibles pour une salle
+($>$ 20 °C ?).
+\end{enumerate}
+\end{abox}
+\end{column}
+\begin{column}{0.46\textwidth}
+\begin{kbox}[Pourquoi ce rituel d'abord]
+\begin{itemize}
+\item Un \textbf{outlier de saisie} (CPU = 900) ruine moyenne, écart-type,
+et tout modèle entraîné dessus.
+\item Le nombre de fenêtres par serveur valide la \textbf{complétude} :
+une fenêtre manquante est un trou invisible dans un graphe journalier mais
+fatal à un rééchantillonnage.
+\end{itemize}
+\end{kbox}
+\begin{ebox}[Réponse attendue sur NOSYS]
+0 valeur manquante partout ; CPU max 96,0 \% ;
+température max 42,7 °C : tout est plausible ---
+vous pourrez le dire \textbf{avec la preuve}.
+\end{ebox}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{TP B3 --- visualiser srv-01 sur 30 jours (30 min)}
+\begin{codebox}[B3. Vue journalière + repérage des incidents]
+\begin{lstlisting}
+s1 = m[m["serveur"] == "srv-01"]
+jour = (s1.set_index("horodatage")
+          .drop(columns=["serveur"])
+          .resample("D").mean())     # 30 lignes, une par jour
+
+fig, ax = plt.subplots(3, 1, figsize=(11, 6), sharex=True)
+ax[0].plot(jour.index, jour["cpu_pct"]);  ax[0].set_ylabel("CPU %")
+ax[1].plot(jour.index, jour["latence_ms"]); ax[1].set_ylabel("latence ms")
+ax[2].bar(jour.index, jour["alarme"]*4, width=0.7)  # fenetres x4 visible
+ax[2].set_ylabel("alarmes (x4)")
+plt.show()
+\end{lstlisting}
+\end{codebox}
+\begin{abox}[Questions à répondre par le graphe]
+\begin{enumerate}
+\item Où sont les 2 incidents de srv-01 ? Quels jours, quelles heures ?
+\item Le seuil fixe « alerte si CPU $>$ 90 \% » les aurait-il détectés ?
+\item La latence monte-t-elle \textbf{en même temps} que le CPU ?
+\end{enumerate}
+\end{abox}
+\end{frame}
+
+\begin{frame}[fragile]{TP B4 --- statistiques par serveur (40 min)}
+\begin{codebox}[B4. Le tableau de classement + les exercices]
+\begin{lstlisting}
+par_srv = (m.groupby("serveur")
+             .agg(cpu_moy=("cpu_pct", "mean"),
+                  cpu_max=("cpu_pct", "max"),
+                  lat_p99=("latence_ms", lambda s: s.quantile(0.99)),
+                  temp_max=("temperature_c", "max"),
+                  alarmes=("alarme", "sum"),
+                  conso_kwh_tot=("conso_kwh", lambda s: s.sum()*5/60),
+                  capacite=("capacite_cpu", "first")))
+par_srv.sort_values("cpu_moy", ascending=False)
+\end{lstlisting}
+\end{codebox}
+\begin{columns}[t]
+\begin{column}{0.48\textwidth}
+\begin{abox}[Exercices]
+\begin{enumerate}
+\item Classer par CPU moyen ; surligner srv-01.
+\item Ratio d'utilisation effective :
+\py{cpu\_moy / (capacite*100)} --- quel serveur est le plus
+« tassé » relativement à sa capacité ?
+\item Consommation totale du parc sur le mois (kWh).
+\end{enumerate}
+\end{abox}
+\end{column}
+\begin{column}{0.48\textwidth}
+\begin{ebox}[Réponses de contrôle]
+CPU moyen : srv-05 24,6 \%, srv-01 24,3 \%, srv-02 14,4 \%.
+Consommation totale : \textbf{11 614 kWh}.
+Ratio le plus élevé : srv-01 (capacité 0,83 ---
+le plus sollicité \emph{relativement} à ses moyens).
+\end{ebox}
+\begin{wbox}[Piège du lambda]
+\py{lambda s: s.sum()*5/60} : ne pas oublier le pas de 5 min ---
+sans lui, la consommation est divisée par 12.
+\end{wbox}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{TP B5 --- livrable : la fiche « état des lieux » (20 min + finition)}
+\begin{columns}[t]
+\begin{column}{0.52\textwidth}
+\begin{abox}[Ce que vous rendez (1 page)]
+\begin{enumerate}
+\item \textbf{5 constats chiffrés} --- chacun : un chiffre, une référence,
+une phrase d'interprétation (modèle : slide « premiers constats »).
+\item \textbf{3 risques pour le SLA}, reliés aux données
+(ex. : incidents synchrones entre serveurs ; CPU $\times$ 3,2 pendant
+les incidents ; la corrélation latence--CPU 0,80 hors incidents
+$\Rightarrow$ un pic de charge prévisible $\Rightarrow$ latence prévisible).
+\item \textbf{1 recommandation} d'automatisation : quel problème des
+séances à venir traiterait quel risque.
+\end{enumerate}
+\end{abox}
+\end{column}
+\begin{column}{0.44\textwidth}
+\begin{kbox}[Barème indicatif (20 pts)]
+\begin{itemize}
+\item Constats chiffrés et corrects --- 10 pts
+\item Risques reliés aux données --- 5 pts
+\item Notebook exécutable, commenté, reproductible --- 5 pts
+\end{itemize}
+\end{kbox}
+\begin{wbox}[Rappel reproductibilité]
+Fixez la graine si vous simulez, citez le fichier de données,
+et gardez les cellules \textbf{exécutables de haut en bas}
+--- le correcteur relance votre notebook.
+\end{wbox}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Les pièges du TP, récapitulés}
+\begin{columns}[t]
+\begin{column}{0.48\textwidth}
+\begin{wbox}[Erreurs Python fréquentes]
+\begin{itemize}
+\item \py{read\_csv} sans \py{parse\_dates} $\Rightarrow$ pas de \py{.dt.hour}.
+\item \py{resample("D").mean()} sur un DataFrame qui contient encore
+la colonne \py{serveur} (texte) $\Rightarrow$ \py{TypeError}. Solution :
+\py{.drop(columns=["serveur"])} avant.
+\item Moyenner des percentiles : \py{p99 des moyennes} $\ne$ \py{p99}.
+\item Boucle \py{for} sur 69 120 lignes : toujours \textbf{vectoriser}.
+\end{itemize}
+\end{wbox}
+\end{column}
+\begin{column}{0.48\textwidth}
+\begin{wbox}[Erreurs d'analyse fréquentes]
+\begin{itemize}
+\item Conclure « pas d'anomalie » parce que le CPU moyen est bas :
+les incidents sont \textbf{rares} (0,2 \% des fenêtres).
+\item Confondre corrélation et causalité (CPU $\uparrow$ et latence $\uparrow$
+peuvent partager une cause).
+\item Rédiger des constats sans référence de comparaison.
+\end{itemize}
+\end{wbox}
+\begin{ebox}[Si vous terminez en avance]
+Représentez le \textbf{CPU par heure de la journée} pour srv-01
+(\py{groupby(m["horodatage"].dt.hour)}) et vérifiez le facteur
+jour/nuit $\times$ 3 annoncé en cours.
+\end{ebox}
+\end{column}
+\end{columns}
+\end{frame}

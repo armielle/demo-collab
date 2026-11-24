@@ -1,0 +1,146 @@
+% =====================================================================
+%  Seance 5 -- C. supervise : quand on a des etiquettes historiques
+% =====================================================================
+\section{Quand on a des étiquettes : le détecteur supervisé}
+
+\begin{frame}[fragile]{Le scénario supervisé : les incidents passés sont des étiquettes}
+\begin{columns}[t]
+\begin{column}{0.5\textwidth}
+\begin{block}{Etiqueter les sessions}
+Ici, « vérité terrain » : les sessions de la fenêtre d'attaque réelle
+(bdd-principal, 02 h -- 04 h le 05/10) $=$ \textbf{1}, les 9\,988 autres
+$=$ \textbf{0}. En production, ces étiquettes viennent des tickets
+d'incident, des rapports du SOC, des post-mortems.
+\end{block}
+\begin{itemize}
+\item Problème : \textbf{12 positives sur 10\,000} --- déséquilibre extrême
+(0,12 \%), comme les 120 fenêtres incident de la séance 2.
+\item Réponses : \py{class\_weight="balanced"}, forêt robuste, évaluation
+stratifiée.
+\item Split : 50 \% train / 50 \% test \textbf{stratifié}, graine 5534 ---
+6 positives en test.
+\end{itemize}
+\end{column}
+\begin{column}{0.46\textwidth}
+\begin{codebox}[Le cœur de B4]
+\begin{lstlisting}
+rf = RandomForestClassifier(
+    n_estimators=300,
+    class_weight="balanced",
+    random_state=5534, n_jobs=2)
+rf.fit(X_train, y_train)
+pred = rf.predict(X_test)
+precision_score(y_test, pred)
+recall_score(y_test, pred)
+\end{lstlisting}
+\end{codebox}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Resultat réel : non-supervisé vs supervisé}
+\begin{columns}[t]
+\begin{column}{0.5\textwidth}
+\begin{center}
+\includegraphics[width=\textwidth]{f32_supervise_vs_non.png}
+\end{center}
+\end{column}
+\begin{column}{0.46\textwidth}
+\begin{ebox}[Ce que disent les chiffres]
+\begin{itemize}
+\item Supervisé : précision \textbf{1,00} et rappel \textbf{1,00} sur le
+test (6 positives) --- sur ce jeu, le signal est si net que la forêt sépare
+parfaitement.
+\item Non supervisé : rappel 1,00 aussi, mais précision@30 $= 0{,}40$ ---
+\emph{sans aucune étiquette}.
+\end{itemize}
+\end{ebox}
+\begin{wbox}[Méfiez-vous du 100 \%]
+6 positives en test : l'intervalle de confiance est énorme. Un modèle
+parfait sur un jeu petit et propre échoue en production (attaque
+\emph{différente}, données bruitées). Le 100 \% mesure le jeu, pas la
+sécurité du parc.
+\end{wbox}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Ce que la forêt a appris : importance des features}
+\begin{center}
+\footnotesize
+\begin{tabular}{@{}lcc@{}}
+\toprule
+\textbf{Feature} & \textbf{Importance mesurée} & \textbf{Lecture}\\
+\midrule
+\py{comptes\_sensibles} & 0,259 & viser \py{root}/\py{admin}/\py{inconnu-*} : signal fort\\
+\py{echecs} & 0,226 & le volume d'échecs, attendu\\
+\py{echecs\_consecutifs} & 0,219 & la rafale ininterrompue\\
+\py{taux\_echec} & 0,213 & zéro succès pendant l'attaque\\
+\py{utilisateurs} & 0,051 & contribution secondaire\\
+\py{entropie} & 0,030 & redondante avec les échecs ici\\
+\py{nuit} & 0,002 & presque inutile sur ce jeu\\
+\bottomrule
+\end{tabular}
+\end{center}
+\vspace{1mm}
+\begin{kbox}[Les quatre features de tête racontent la même histoire]
+Comptes sensibles + échecs + rafale + zéro succès $=$ la \emph{définition}
+d'un brute force. La forêt n'a rien inventé : elle a redécouvert la
+signature --- et \textbf{quantifié} la contribution de chaque dimension,
+ce qu'une règle écrite à la main ne fait pas.
+\end{kbox}
+\end{frame}
+
+\begin{frame}{Choisir son détecteur : arbre de décision opérationnel}
+\begin{columns}[t]
+\begin{column}{0.52\textwidth}
+\begin{block}{Vous n'avez AUCUNE étiquette historique}
+$\Rightarrow$ non supervisé (IsolationForest, LOF) + validation par
+échantillonnage manuel du top-N. C'est le point d'entrée de \emph{tout}
+SOC qui démarre.
+\end{block}
+\begin{block}{Vous avez des incidents étiquetés, rares}
+$\Rightarrow$ supervisé à \py{class\_weight} équilibré ; métriques :
+\textbf{rappel d'abord} (rater une intrusion coûte cher), précision ensuite.
+\end{block}
+\end{column}
+\begin{column}{0.44\textwidth}
+\begin{block}{Vous avez les deux}
+$\Rightarrow$ les deux en production (séance 5 d : redondance des
+détecteurs) + le supervisé réentraîné à chaque incident confirmé : la
+boucle d'amélioration.
+\end{block}
+\begin{qbox}[Question]
+Vos 10\,000 sessions n'ont \emph{aucune} étiquette fiable. Pourquoi ne pas
+étiquetter « session à $>$ 5 échecs $=$ attaque » et entraîner là-dessus ?\\
+(a) c'est trop lent \quad (b) c'est circulaire : le modèle apprendrait votre
+règle, jamais mieux qu'elle \quad (c) les forêts n'aiment pas les étiquettes
+\end{qbox}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Quiz 3 --- supervisé et évaluation (5 min)}
+\begin{qbox}[3 questions]
+\begin{enumerate}
+\item Avec 12 positives sur 10\,000 sessions, la métrique à surveiller en
+priorité est :\\
+(a) l'exactitude globale \quad (b) le rappel et la précision sur la classe
+rare \quad (c) le score R²
+\item Précision@30 $= 0{,}40$ signifie :\\
+(a) 40 \% de l'attaque est bloquée \quad (b) parmi les 30 sessions les plus
+anormales, 12 sont de vraies attaques \quad (c) le modèle se trompe 40 \% du temps
+\item Le meilleur usage des incidents confirmés par les analystes est :\\
+(a) les archiver \quad (b) en faire des étiquettes pour réentraîner le
+détecteur supervisé \quad (c) baisser le seuil d'alerte
+\end{enumerate}
+\end{qbox}
+\vspace{1mm}
+\begin{solbox}[Réponses]
+\textbf{1 : b} --- l'exactitude est piégeuse (99,88 \% en prédisant « rien »).
+\quad
+\textbf{2 : b} --- précision@N juge le \emph{classement}, l'outil de l'analyste.
+\quad
+\textbf{3 : b} --- c'est la boucle non supervisé $\rightarrow$ supervisé.
+\end{solbox}
+\end{frame}

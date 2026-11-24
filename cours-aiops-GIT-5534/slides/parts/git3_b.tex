@@ -1,0 +1,220 @@
+% =====================================================================
+%  Seance 3 -- B. cours 2 : classification sur classe rare (frames 10--18)
+% =====================================================================
+\section{Classification supervisée sur classe rare}
+
+\begin{frame}{Le problème : 0,35 \% de positifs}
+\footnotesize%
+\begin{columns}[t]
+\begin{column}{0.5\textwidth}
+\begin{center}
+\includegraphics[width=\textwidth]{f18_desequilibre.png}
+\end{center}
+\end{column}
+\begin{column}{0.46\textwidth}
+\begin{block}{Le split temporel, seul valable}
+\begin{center}\small
+\begin{tabular}{@{}lll@{}}
+\toprule
+ & fenêtres & positifs\\
+\midrule
+train $<$ 22/09 & 24 192 & 56\\
+test $\ge$ 22/09 & 10 368 & 64\\
+\bottomrule
+\end{tabular}
+\end{center}
+Le test contient l'incident du 22/09 à 3 h : le modèle est jugé sur
+un \textbf{futur jamais vu}.
+\end{block}
+\begin{wbox}[L'exactitude est trompeuse]
+Un modèle « toujours 0 » atteint \textbf{99,65 \%} d'exactitude
+(34 440 / 34 560) --- et ne détecte \textbf{rien}. À cette rareté,
+l'exactitude ne mesure plus rien : il faut la matrice de confusion.
+\end{wbox}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Les 4 modèles, entraînés pour de vrai}
+\begin{codebox}[Le même protocole pour les quatre --- split temporel strict]
+\begin{lstlisting}
+from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import (RandomForestClassifier,
+                              GradientBoostingClassifier)
+from sklearn.preprocessing import StandardScaler
+
+Xtr, ytr = X[train], f.loc[train, "incident_30min"]
+Xte, yte = X[~train], f.loc[~train, "incident_30min"]
+
+rf = RandomForestClassifier(300, class_weight="balanced",
+                            random_state=5534, n_jobs=2)
+gb = GradientBoostingClassifier(random_state=5534)
+sc = StandardScaler().fit(Xtr)          # statistiques du TRAIN
+lr = LogisticRegression(class_weight="balanced",
+                        max_iter=3000).fit(sc.transform(Xtr), ytr)
+\end{lstlisting}
+\end{codebox}
+\begin{wbox}[Où la fuite se cache quand on standardise]
+\py{StandardScaler().fit(X)} sur train+test mélangés importe la
+moyenne \emph{du futur} dans le passé. Toujours \textbf{fit sur
+le train}, \py{transform} sur les deux. Même règle pour tout
+statistique appris (seuil, quantile, moyenne mobile).
+\end{wbox}
+\end{frame}
+
+\begin{frame}{La matrice de confusion : le seul regard honnête}
+\footnotesize%
+\begin{columns}[t]
+\begin{column}{0.42\textwidth}
+\begin{center}\small
+\begin{tabular}{@{}lp{2.0cm}p{2.0cm}@{}}
+\toprule
+ & prédit 0 & prédit 1\\
+\midrule
+réel 0 & \textbf{TN} juste & \textbf{FP} fausse alarme\\
+réel 1 & \textbf{FN} manqué & \textbf{TP} détecté\\
+\bottomrule
+\end{tabular}
+\end{center}
+\vspace{1mm}
+\begin{block}{Les deux métriques qui comptent}
+\begin{itemize}
+\item \textbf{Précision} $= TP/(TP{+}FP)$ : quand ça alerte, à quel
+point c'est vrai ? $\rightarrow$ fatigue du NOC.
+\item \textbf{Rappel} $= TP/(TP{+}FN)$ : quelle part des incidents
+est vue ? $\rightarrow$ SLA.
+\item $F_1 = 2\,\dfrac{p \times r}{p + r}$ : compromis unique.
+\end{itemize}
+\end{block}
+\end{column}
+\begin{column}{0.54\textwidth}
+\begin{center}
+\includegraphics[width=\textwidth]{f19_matrice_confusion.png}
+\end{center}
+\begin{kbox}[Mesuré sur le test]
+Gradient boosting, seuil 0,50 : \textbf{40 TP, 0 FP, 24 FN} ---
+précision 1,00, rappel 0,625, $F_1$ 0,769 (chiffres réels du JSON).
+\end{kbox}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Les 4 familles de modèles, en une slide chacune}
+\footnotesize%
+\begin{columns}[t]
+\begin{column}{0.48\textwidth}
+\begin{block}{Régression logistique}
+\begin{itemize}
+\item $p(\text{incident}) = \sigma(w \cdot x)$ : linéaire, calibrée,
+\textbf{interprétable} (chaque poids = effet d'une variable).
+\item Rapide, stable, mais rate les frontières non linéaires.
+\end{itemize}
+\end{block}
+\begin{block}{Arbre de décision}
+\begin{itemize}
+\item Règles \emph{ lisibles} : « si \py{lat\_p99} $>$ 20 et
+\py{perte\_moy} $>$ 0,5 alors alerte ».
+\item Seul, il sur-apprend : profond = bruit mémorisé.
+\end{itemize}
+\end{block}
+\end{column}
+\begin{column}{0.48\textwidth}
+\begin{block}{Forêt aléatoire}
+\begin{itemize}
+\item Moyenne de 300 arbres sur échantillons/variables aléatoires :
+\textbf{robuste}, peu de réglage, donne des \textbf{importances}.
+\item \py{class\_weight='balanced'} : les 56 exemples du train
+pèsent comme $\approx$ 12 000 négatifs.
+\end{itemize}
+\end{block}
+\begin{block}{Gradient boosting}
+\begin{itemize}
+\item Arbres \emph{successifs} qui corrigent chacun les erreurs des
+précédents : souvent le \textbf{meilleur} sur tabulaire.
+\item Plus sensible au réglage, moins parallélisable.
+\end{itemize}
+\end{block}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Classe rare : \py{class\_weight='balanced'} vs SMOTE}
+\footnotesize%
+\begin{columns}[t]
+\begin{column}{0.5\textwidth}
+\begin{block}{class\_weight='balanced' (retenu)}
+\begin{itemize}
+\item Pèse la fonction de coût : une erreur sur la classe rare
+compte $\approx \dfrac{N}{2 \times N_{min}}$ fois plus.
+\item Aucune donnée synthétique : \textbf{pas de risque de fuite}
+ni d'artefacts.
+\item Effet mesuré ici : le seuil de décision effectif se déplace
+--- à 0,50 la forêt balanced est \emph{trop} agressive
+(précision 0,00 sur le test).
+\end{itemize}
+\end{block}
+\end{column}
+\begin{column}{0.46\textwidth}
+\begin{block}{SMOTE (mention)}
+\begin{itemize}
+\item Crée des exemples minoritaires \textbf{synthétiques} par
+interpolation entre voisins rares.
+\item DANGER en séries temporelles : interpoler entre deux
+fenêtres de \emph{serveurs différents} ou de \emph{jours différents}
+fabrique des points qui ne peuvent pas exister.
+\item Retenu : \py{class\_weight}, plus simple et sûr ici.
+\end{itemize}
+\end{block}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Quiz 2 --- classe rare (5 min)}
+\begin{qbox}[3 questions]
+\begin{enumerate}
+\item Un modèle « toujours 0 » sur notre dataset a une exactitude de :\\
+(a) 50 \% \quad (b) 99,65 \% \quad (c) 0,35 \%
+\item Précision 1,0 et rappel 0,1 signifie :\\
+(a) le modèle est parfait \quad (b) chaque alerte est vraie, mais
+9 incidents sur 10 sont manqués \quad (c) il n'alerte jamais
+\item En série temporelle, SMOTE est risqué car :\\
+(a) il est lent \quad (b) il fabrique des fenêtres synthétiques
+sans réalité physique ni cohérence temporelle \quad (c) il exige
+des étiquettes
+\end{enumerate}
+\end{qbox}
+\vspace{1mm}
+\begin{solbox}[Réponses]
+\textbf{1 : b} (34 440 / 34 560) \quad \textbf{2 : b} \quad \textbf{3 : b}
+\end{solbox}
+\end{frame}
+
+\begin{frame}{Précision-rappel bat la courbe ROC ici}
+\footnotesize%
+\begin{columns}[t]
+\begin{column}{0.48\textwidth}
+\begin{center}
+\includegraphics[width=\textwidth]{f20_courbes_pr.png}
+\end{center}
+\end{column}
+\begin{column}{0.48\textwidth}
+\begin{block}{Pourquoi pas la ROC / AUC ?}
+La ROC utilise \textbf{FPR} $= FP/(FP{+}TN)$ : avec 10 304 négatifs,
+même 300 fausses alarmes donnent un FPR minuscule $\Rightarrow$
+la ROC \textbf{flatte} les modèles sur classes très rares.
+\end{block}
+\begin{kbox}[La courbe PR, elle, parle métier]
+Chaque point $=$ un couple (fatigue NOC, SLA). La ligne pointillée
+est le \textbf{hasard} (0,35 \%). Mesuré : gradient boosting
+\textbf{AP = 0,63}, forêt 0,19, logistique 0,32 --- l'écart se lit
+directement en « alertes utiles par jour ».
+\end{kbox}
+\begin{wbox}[Coût asymétrique]
+\textbf{FP} : opérationnel dérangé pour rien --- fatigue,
+désensibilisation. \textbf{FN} : SLA cassé (99,80 \% mesuré).
+Ici le FN coûte plus cher, mais un flux de FP détruit la
+confiance en l'outil.
+\end{wbox}
+\end{column}
+\end{columns}
+\end{frame}

@@ -1,0 +1,56 @@
+{
+ "n_train": 24184,
+ "pos_train": 56,
+ "n_test": 10368,
+ "pos_test": 64,
+ "n_features": 14,
+ "temps_entrainement_s": 1.83,
+ "taille_joblib_ko": 1154.5,
+ "auc_test": 0.7995,
+ "auc_train": 1.0,
+ "latence_moyenne_ms": 59.229,
+ "latence_p99_ms": 105.489,
+ "fenetres_par_minute_1coeur": 1013,
+ "latence_lot100_ms": 63.641,
+ "fenetres_par_minute_lot100": 94279,
+ "derive_tranches": [
+  "22/09",
+  "24/09",
+  "26/09",
+  "28/09",
+  "30/09"
+ ],
+ "derive_auc": [
+  0.7876,
+  null,
+  null,
+  null,
+  null
+ ],
+ "derive_auc_mesurable": [
+  0.7876
+ ],
+ "taux_alertes_par_tranche": [
+  0.003,
+  0.0,
+  0.0,
+  0.0,
+  0.0043
+ ],
+ "proba_moyenne_par_tranche": [
+  0.0058,
+  0.0001,
+  0.0002,
+  0.0001,
+  0.0112
+ ],
+ "tailles_tranches": [
+  2304,
+  2304,
+  2304,
+  2304,
+  1152
+ ],
+ "auc_min_tranche": 0.7876,
+ "auc_max_tranche": 0.7876
+}

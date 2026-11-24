@@ -1,0 +1,231 @@
+% =====================================================================
+%  Seance 3 -- A. cours 1 : detection d'anomalies non supervisee (frames 1--9)
+% =====================================================================
+\section{Séance 3 --- Modèles d'apprentissage automatique appliqués aux infrastructures}
+\chapterslide{Séance 3}{Modèles d'apprentissage automatique appliqués aux infrastructures}
+{4 h --- 2 h cours / 2 h TP --- Partie 3 du syllabus EPD-GIT-5534}
+{\textbf{Objectifs :} détecter des anomalies \textbf{sans étiquette}
+(IsolationForest, LOF) et choisir un seuil $\bullet$ comprendre pourquoi
+l'\textbf{exactitude est trompeuse} à 0,35 \% de positifs $\bullet$ entraîner
+et comparer 4 modèles supervisés (régression logistique, arbre, forêt,
+gradient boosting) sur \file{nosys\_features.csv} $\bullet$ lire une matrice
+de confusion, une courbe précision-rappel, et choisir un seuil \textbf{métier}
+$\bullet$ valider un modèle par validation croisée \textbf{temporelle}.}
+
+\begin{frame}{Plan de la séance (4 h)}
+\begin{columns}[t]
+\begin{column}{0.48\textwidth}
+\begin{kbox}[Cours magistral --- 2 h]
+\begin{enumerate}
+\item \textbf{Anomalies sans étiquette} (40 min) : z-score/IQR (rappel),
+IsolationForest, LOF --- scores et seuils.
+\item \textbf{Classification sur classe rare} (45 min) : 4 familles de
+modèles, précision/rappel/F1, courbe précision-rappel, coût asymétrique.
+\item \textbf{Choisir le modèle} (35 min) : validation croisée
+temporelle, compromis interprétabilité/performance.
+\end{enumerate}
+\end{kbox}
+\end{column}
+\begin{column}{0.48\textwidth}
+\begin{ebox}[Travaux pratiques --- 2 h]
+\textbf{« Détecter les incidents avant la panne »} sur
+\file{nosys\_features.csv} :
+\begin{enumerate}
+\item B1 --- IsolationForest sans étiquette (25 min)
+\item B2 --- recouvrement détections / alarmes réelles (20 min)
+\item B3 --- forêt balanced + matrice de confusion (30 min)
+\item B4 --- courbe PR et seuil métier $\le$ 5 alertes/jour/serveur (30 min)
+\item B5 --- livrable : tableau comparatif + recommandation (15 min)
+\end{enumerate}
+\end{ebox}
+\end{column}
+\end{columns}
+\vspace{1mm}
+\begin{center}\small
+Matière première : \textbf{votre} \file{nosys\_features.csv} du TP2 ---
+34 560 fenêtres, dont \textbf{120 incidents} (0,35 \%).
+\end{center}
+\end{frame}
+
+\begin{frame}{Rappel séance 2 --- et ses limites}
+\begin{columns}[t]
+\begin{column}{0.5\textwidth}
+\begin{block}{Les seuils statistiques de la séance 2}
+\begin{itemize}
+\item \textbf{z-score} : flag si $|x - \mu| > 3\sigma$ (par variable).
+\item \textbf{IQR} : flag si hors $[Q_1 - 1{,}5 \times \text{IQR}\,;$
+$Q_3 + 1{,}5 \times \text{IQR}]$.
+\item Appliqués ici à \py{lat\_p99} sur le vrai dataset :
+\textbf{72} dépassements z-score, \textbf{82} dépassements IQR
+(chiffres mesurés, f16).
+\end{itemize}
+\end{block}
+\begin{wbox}[Trois limites fatales en production]
+\begin{enumerate}
+\item \textbf{Une variable à la fois} : un incident = une
+\emph{combinaison} (CPU normal + latence haute + perte).
+\item \textbf{Seuil fixé à la main} : 3$\sigma$, pourquoi pas 2,5 ?
+\item \textbf{Aucune notion de rareté jointe} : le 99\% percentile
+devient une alerte permanente.
+\end{enumerate}
+\end{wbox}
+\end{column}
+\begin{column}{0.46\textwidth}
+\begin{center}
+\includegraphics[width=\textwidth]{f16_seuils_statistiques.png}
+\end{center}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{IsolationForest : isoler plutôt que modéliser}
+\begin{columns}[t]
+\begin{column}{0.5\textwidth}
+\begin{block}{Le principe en une phrase}
+Une observation \textbf{rare} est isolée par \textbf{peu de coupes
+aléatoires} ; une observation normale demande beaucoup de coupes.
+\begin{itemize}
+\item 300 arbres coupent l'espace au hasard ; la \textbf{profondeur
+moyenne} d'isolement donne le \textbf{score d'anormalité}.
+\item Aucune étiquette requise : apprentissage \textbf{non supervisé}.
+\item \py{IsolationForest(contamination=0.01)} : contamination $=$
+fraction d'anomalies \emph{attendue} --- elle fixe le seuil de décision.
+\end{itemize}
+\end{block}
+\begin{kbox}[Pourquoi ça marche pour l'infra]
+Le volume $(cpu, ram, latence, perte, temp)$ d'une fenêtre pré-incident
+est \textbf{loin de tout le nuage} de fonctionnement normal : isolable
+en peu de coupes, sans jamais avoir vu d'incident étiqueté.
+\end{kbox}
+\end{column}
+\begin{column}{0.46\textwidth}
+\begin{center}
+\includegraphics[width=\textwidth]{f17_isolation_forest.png}
+\end{center}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{IsolationForest en 8 lignes}
+\begin{codebox}[Le squelette à retenir]
+\begin{lstlisting}
+from sklearn.ensemble import IsolationForest
+
+iso = IsolationForest(n_estimators=300,   # arbres
+                      contamination=0.01, # seuil implicite
+                      random_state=5534, n_jobs=2)
+iso.fit(X_train_sans_etiquette)
+
+score = -iso.score_samples(X)   # grand = anormal
+anomalies = X[score > score[train].quantile(0.99)]
+\end{lstlisting}
+\end{codebox}
+\begin{columns}[t]
+\begin{column}{0.48\textwidth}
+\begin{block}{Les 3 réglages qui comptent}
+\begin{itemize}
+\item \py{n\_estimators} : 300 suffit, au-delà score stable.
+\item \py{contamination} : votre hypothèse de rareté --- à
+justifier par le métier (ici $\approx$ 1 \%).
+\item \py{random\_state=5534} : reproductibilité, comme partout.
+\end{itemize}
+\end{block}
+\end{column}
+\begin{column}{0.48\textwidth}
+\begin{wbox}[Deux erreurs de débutant]
+\begin{enumerate}
+\item Entraîner sur \textbf{train+test} : le score du test est
+alors contaminé par sa propre distribution.
+\item Oublier \py{fillna} : \py{cpu\_delta} de la première fenêtre
+est NaN --- sklearn refuse les NaN.
+\end{enumerate}
+\end{wbox}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Ce que l'IsolationForest trouve \emph{vraiment} (mesuré)}
+\begin{columns}[t]
+\begin{column}{0.52\textwidth}
+\begin{ebox}[Résultats réels sur nosys\_features.csv]
+Entraîné sur le train (24 192 fenêtres, \textbf{sans} la colonne
+\py{incident\_30min}) :
+\begin{itemize}
+\item les \textbf{20 fenêtres les plus anormales} sont
+\textbf{20/20} des pré-incidents (f17a) ;
+\item mais au seuil « 1 \% du train », le test contient
+\textbf{174 anomalies} dont seulement \textbf{40 incidents}
+--- \textbf{134 fausses alarmes} (f17b).
+\end{itemize}
+\end{ebox}
+\begin{wbox}[Piège n°1 : anomalie $\ne$ incident]
+Une \textbf{anomalie} est un point statistiquement rare. Un
+\textbf{incident} est une anomalie \emph{qui casse le service}.
+Backup de nuit, pic de batch, déploiement : anormaux, bénins.
+L'IsolationForest \textbf{name} le soupçon, il ne \textbf{classe} pas
+la panne. C'est le travail du supervisé (cours 2).
+\end{wbox}
+\end{column}
+\begin{column}{0.44\textwidth}
+\begin{block}{LOF : la densité locale (complément)}
+Le LOF (Local Outlier Factor) compare la densité \textbf{autour} d'un
+point à celle de ses voisins : utile quand les clusters normaux ont des
+\textbf{densités très différentes} (nuit vs pic de journée).
+\begin{itemize}
+\item LOF $\approx 1$ : densité normale ; LOF $\gg 1$ : hors densité.
+\item Sur nosys, IsolationForest et LOF pointent essentiellement les
+mêmes fenêtres --- on retient IsolationForest, scalable et parallèle
+(\py{n\_jobs=2}).
+\end{itemize}
+\end{block}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Scores, seuils : qui décide de « alerte » ?}
+\begin{columns}[t]
+\begin{column}{0.48\textwidth}
+\begin{block}{La chaîne complète}
+score brut $s(x)$ $\Rightarrow$ seuil $t$ $\Rightarrow$ décision
+$s(x) \ge t$.
+\begin{itemize}
+\item \textbf{z-score / IQR} : seuil implicite (3$\sigma$, 1,5 IQR).
+\item \textbf{IsolationForest} : seuil $=$ quantile du score sur le
+train (1 \% ici) ou paramètre \py{contamination}.
+\item \textbf{Supervisé} : seuil sur la probabilité prédite ---
+cours 2 et TP B4.
+\end{itemize}
+\end{block}
+\end{column}
+\begin{column}{0.48\textwidth}
+\begin{kbox}[Le seuil est un choix MÉTIER, pas statistique]
+Descendre le seuil $=$ plus de rappel, plus de fatigue NOC.
+Le monter $=$ moins de bruit, incidents manqués.
+Il n'existe \textbf{pas} de seuil optimal universel : il y a un seuil
+par \textbf{budget d'opérateurs}. Le TP B4 le chiffre : 5 alertes
+/jour/serveur maximum.
+\end{kbox}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Quiz 1 --- anomalies non supervisées (5 min)}
+\begin{qbox}[3 questions]
+\begin{enumerate}
+\item Une fenêtre anormale selon IsolationForest est :\\
+(a) forcément un incident \quad (b) statistiquement rare --- à vérifier
+contre les alarmes réelles \quad (c) une panne confirmée
+\item Le paramètre \py{contamination} sert à :\\
+(a) initialiser les arbres \quad (b) fixer la fraction d'anomalies
+attendue, donc le seuil \quad (c) paralléliser
+\item Pourquoi le z-score suffit-il rarement seul ?\\
+(a) trop lent \quad (b) une variable à la fois, seuil arbitraire,
+ignore les combinaisons \quad (c) il exige des étiquettes
+\end{enumerate}
+\end{qbox}
+\vspace{1mm}
+\begin{solbox}[Réponses]
+\textbf{1 : b} \quad \textbf{2 : b} \quad \textbf{3 : b} --- d'où le
+passage au modèle joint et supervisé.
+\end{solbox}
+\end{frame}

@@ -1,0 +1,127 @@
+% =====================================================================
+%  Seance 6 -- C. Cours 3 : gouvernance + synthese de la mission (18--22)
+% =====================================================================
+\section{Gouvernance et clôture de la mission NOSYS}
+
+\begin{frame}{Gouvernance 1 --- la responsabilité d'une alerte}
+\small
+\begin{columns}[t]
+\begin{column}{0.5\textwidth}
+\footnotesize\begin{block}{Deux scénarios qui arrivent tous les mois}
+\begin{itemize}
+\item \textbf{Alerte fausse traitée comme vraie} : 3 h perdues. Coût : fatigue, perte de confiance --- la « fatigue d'alertes ».
+\item \textbf{Alerte vraie négligée} : l'incident du 22/09 se produit sans
+intervention. Coût : indisponibilité, SLA violé.
+\end{itemize}
+\end{block}
+\begin{wbox}[Le principe à retenir]
+Le modèle \textbf{propose}, l'humain \textbf{dispose}. La responsabilité
+d'une action (couper un service, appeler l'astreinte) reste
+\textbf{humaine} --- et le seuil choisi (séance 3) est une décision
+d'organisation, pas un réglage technique neutre.
+\end{wbox}
+\end{column}
+\begin{column}{0.46\textwidth}
+\begin{ebox}[Ce qu'une bonne organisation documente]
+\begin{itemize}
+\item Qui a fixé le seuil, quand, sur quelles métriques de validation.
+\item Que faire d'une alerte : procédure écrite (runbook), délai cible.
+\item Le suivi des faux positifs : chaque alerte fausse est
+\textbf{étiquetée} et nourrit le prochain retraining.
+\end{itemize}
+\end{ebox}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Gouvernance 2 --- la model card : le modèle a une notice}
+\begin{center}\footnotesize
+\begin{tabular}{@{}p{3.2cm}p{9.2cm}@{}}
+\toprule
+\textbf{Rubrique} & \textbf{Contenu pour le modèle NOSYS}\\
+\midrule
+Objet & prédire une incident sur les 30 min suivantes, par fenêtre de 10 min
+et par serveur\\
+\addlinespace[1pt]
+Données & \file{nosys\_features.csv}, 34 560 fenêtres, 8 serveurs, 30 jours
+(split temporel au 22/09)\\
+\addlinespace[1pt]
+Performances & AUC test \textbf{0,80} ; AUC train 1,00 --- signe de marge de
+manoeuvre à surveiller\\
+\addlinespace[1pt]
+Limites & incidents rares (0,35 \%) ; calibré sur un seul mois ; les
+fenêtres sans incident ne permettent pas de mesurer l'AUC\\
+\addlinespace[1pt]
+Usage prévu & appuyer la décision du NOC --- jamais remplacer la décision
+humaine\\
+\bottomrule
+\end{tabular}
+\end{center}
+\vspace{1mm}
+\begin{kbox}[Une page, versionnée, à côté du modèle]
+La model card (Mitchell et al., 2019) est le complément obligatoire du
+fichier \file{.joblib} dans le registre. Si vous ne pouvez pas remplir la
+rubrique « limites », vous ne connaissez pas assez votre modèle pour le
+déployer.
+\end{kbox}
+\end{frame}
+
+\begin{frame}{Gouvernance 3 --- vie privée des logs et auditabilité}
+\begin{columns}[t]
+\begin{column}{0.5\textwidth}
+\begin{block}{Les logs parlent des personnes}
+Les logs d'authentification contiennent des identifiants, des adresses IP,
+des postes. Avant tout partage (LLM externe, prestataire, archive longue) :
+\begin{itemize}
+\item \textbf{pseudonymisation} : remplacer l'identifiant par une référence
+réversible gardée à part ;
+\item \textbf{minimisation} : ne garder que les champs utiles à l'analyse
+(l'heure et le résultat d'une tentative, pas le contenu de la session) ;
+\item durée de conservation définie et appliquée.
+\end{itemize}
+\end{block}
+\end{column}
+\begin{column}{0.46\textwidth}
+\begin{block}{Auditabilité}
+Pouvoir \textbf{remonter} : quelle version du modèle, sur quelles données,
+a produit telle alerte à telle heure. Nos trois clés :
+\begin{itemize}
+\item registre de modèles (version + hash),
+\item graine fixée (\textbf{5534}) $\Rightarrow$ données régénérables,
+\item journal des prédictions conservé.
+\end{itemize}
+\end{block}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Synthèse de la mission NOSYS --- les 6 livrables de l'UE}
+\begin{center}\footnotesize
+\begin{tabular}{@{}p{0.7cm}p{4.0cm}p{4.4cm}p{3.2cm}@{}}
+\toprule
+\textbf{\#} & \textbf{Livrable} & \textbf{Résultat clé} & \textbf{Statut}\\
+\midrule
+1 & profil et saisonnalité des serveurs & cycle jour/nuit, incident du 09/09 & prêts\\
+\addlinespace[1pt]
+2 & \file{nosys\_features.csv} supervisé & 34 560 fenêtres, 120 positives
+(0,35 \%), 0 fuite & prêts\\
+\addlinespace[1pt]
+3 & anomalies + classification & forêt : AUC test \textbf{0,80}, seuil calibré & prêts\\
+\addlinespace[1pt]
+4 & SARIMA + prédiction de panne & rappel 99,94 \% si 70 \% des incidents
+évités & prêts\\
+\addlinespace[1pt]
+5 & analyse des logs, intrusion du 5/10 & brute force \file{bdd-principal}, 125 échecs & prêts\\
+\addlinespace[1pt]
+6 & industrialisation (cette séance) & pipeline joblib, latence, fiche MLOps & en TP\\
+\bottomrule
+\end{tabular}
+\end{center}
+\vspace{1mm}
+\small\begin{kbox}[Ce qui est prêt pour la production]
+La chaîne \textbf{features $\to$ forêt $\to$ scoring} est
+reproductible de bout en bout (graine fixée, split temporel, modèle
+sauvegardé). Ce qui manque avant production réelle : un mois supplémentaire
+de recul, la supervision du service, et la procédure de rollback du B3.
+\end{kbox}
+\end{frame}

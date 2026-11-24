@@ -1,0 +1,129 @@
+{
+  "lignes_brutes": 63521,
+  "doublons_exactes": 200,
+  "nan_total": 5508,
+  "nan_pct": 1.734,
+  "serveurs": [
+    "srv-01",
+    "srv-02",
+    "srv-03",
+    "srv-04",
+    "srv-05",
+    "srv-06",
+    "srv-07",
+    "srv-08"
+  ],
+  "srv07_points_15min": 2880,
+  "trous": [
+    {
+      "serveur": "srv-01",
+      "debut": "2026-09-16 19:25:00",
+      "fin": "2026-09-16 20:00:00",
+      "points_supprimes": 8
+    },
+    {
+      "serveur": "srv-02",
+      "debut": "2026-09-12 13:20:00",
+      "fin": "2026-09-12 13:45:00",
+      "points_supprimes": 6
+    },
+    {
+      "serveur": "srv-04",
+      "debut": "2026-09-19 19:35:00",
+      "fin": "2026-09-19 19:50:00",
+      "points_supprimes": 4
+    },
+    {
+      "serveur": "srv-05",
+      "debut": "2026-09-14 17:30:00",
+      "fin": "2026-09-14 17:50:00",
+      "points_supprimes": 5
+    },
+    {
+      "serveur": "srv-08",
+      "debut": "2026-09-16 17:05:00",
+      "fin": "2026-09-16 17:40:00",
+      "points_supprimes": 8
+    },
+    {
+      "serveur": "srv-06",
+      "debut": "2026-09-19 01:15:00",
+      "fin": "2026-09-19 01:50:00",
+      "points_supprimes": 8
+    }
+  ],
+  "points_tous": 69120,
+  "points_apres_trous": 63321,
+  "nan_ajoutes": 5494,
+  "nan_par_colonne": {
+    "cpu_pct": 1117,
+    "ram_pct": 1121,
+    "latence_ms": 1072,
+    "paquets_perdus_pct": 1112,
+    "temperature_c": 1072
+  },
+  "pics": [
+    {
+      "ligne_absolue": 7991,
+      "colonne": "cpu_pct",
+      "valeur": 424.80004400244144
+    },
+    {
+      "ligne_absolue": 21232,
+      "colonne": "cpu_pct",
+      "valeur": 421.69863534229694
+    },
+    {
+      "ligne_absolue": 1189,
+      "colonne": "temperature_c",
+      "valeur": 1554.8000000000002
+    },
+    {
+      "ligne_absolue": 22571,
+      "colonne": "latence_ms",
+      "valeur": 5534.4
+    },
+    {
+      "ligne_absolue": 8582,
+      "colonne": "temperature_c",
+      "valeur": NaN
+    },
+    {
+      "ligne_absolue": 14035,
+      "colonne": "cpu_pct",
+      "valeur": 399.3467604873872
+    },
+    {
+      "ligne_absolue": 8728,
+      "colonne": "cpu_pct",
+      "valeur": 425.94481093684664
+    },
+    {
+      "ligne_absolue": 21384,
+      "colonne": "temperature_c",
+      "valeur": 1575.0
+    },
+    {
+      "ligne_absolue": 21591,
+      "colonne": "latence_ms",
+      "valeur": 5392.4
+    },
+    {
+      "ligne_absolue": 23192,
+      "colonne": "temperature_c",
+      "valeur": 1556.0
+    },
+    {
+      "ligne_absolue": 61443,
+      "colonne": "cpu_pct",
+      "valeur": 363.0151605845553
+    },
+    {
+      "ligne_absolue": 20558,
+      "colonne": "temperature_c",
+      "valeur": 1569.0
+    }
+  ],
+  "doublons_ajoutes": 200,
+  "derive_srv06": "temperature +0.01 C/heure (capteur vieillissant)"
+}

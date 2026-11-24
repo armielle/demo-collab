@@ -1,0 +1,179 @@
+======================================================================
+TITRE : Le dossier NOSYS : les données de la mission
+0.52
+nosys\_metriques.csv --- 69 120 lignes
+ 8 serveurs (srv-01 srv-08) 30 jours
+(01/09 -- 30/09/2026) pas de 5 min.
+ Colonnes : horodatage, serveur, cpu\_pct, ram\_pct,
+latence\_ms, paquets\_perdus\_pct, temperature\_c, conso\_kwh,
+capacite\_cpu, alarme.
+ alarme = 1 sur les fenêtres d'incident (déclarées a posteriori) :
+136 fenêtres = 16 blocs de 35--50 min.
+Aucune colonne « cause de l'incident » : en production, on découvre la cause
+après. Le TP demande de la retrouver par l'analyse.
+0.44
+nosys\_logs.csv --- 100 000 lignes
+Journaux d'authentification sur 7 jours : horodatage, machine, niveau,
+utilisateur, message, auth\_reussie.
+@lr@
+Niveau & lignes\\
+INFO & 71 946\\
+WARNING & 12 990\\
+ERROR & 11 055\\
+CRITICAL & 4 009\\
+(séance 5 uniquement --- ne pas ouvrir aujourd'hui)
+======================================================================
+TITRE : Vue d'ensemble : 8 serveurs, un mois, 2 incidents chacun
+f03_classement.png
+0.48
+srv-01 et srv-05 portent les charges moyennes les plus élevées
+(24,3 \% et 24,6 \%) ; tous les p99 restent sous le SLO de 100 ms
+hors incidents (max 16,4 ms).
+0.48
+Toujours commencer par classement + comparaison à une
+référence (ici la moyenne du parc, 20,5 \%) avant tout modèle.
+======================================================================
+TITRE : Quand les incidents arrivent-ils ?
+f04_alarmes.png
+0.48
+Les 16 incidents se concentrent sur 2 créneaux :
+9/09 à 14 h 00 (7 fenêtres, 35 min) et 22/09 à 3 h 00
+(10 fenêtres, 50 min) --- identiques sur les 8 serveurs.
+0.48
+Une panne qui frappe tous les serveurs en même temps --- que suspecte-t-on
+en priorité ?\\
+(a) 8 disques défaillants simultanément (b) une cause partagée :
+batch de sauvegarde, mise à jour déployée, réseau (c) le hasard
+1mm
+Corrigé : (b) --- et c'est la première vraie question d'analyse que
+vous poserez au TP (fenêtre commune = cause commune).
+======================================================================
+TITRE : Premiers constats chiffrés (le niveau attendu du livrable)
+0.52
+ Le parc est globalement sain : CPU moyen 20,5 \%,
+p99 de latence 16,3 ms pour un SLO à 100 ms
+(marge 6).
+ Mais la disponibilité calculée est 99,80 \% < SLA 99,9 \% :
+11,3 h d'indisponibilité cumulée sur le mois.
+ Les 16 incidents suivent 2 créneaux communs à tous les serveurs
+(9/09 14 h, 22/09 3 h) : cause partagée probable (batch/déploiement),
+pas 16 pannes matérielles indépendantes.
+ Corrélation latence--CPU 0,80 hors incidents : la charge
+explique la latence normale --- utile pour la prévision de la séance 4.
+ Consommation totale : 11 614 kWh/mois ; srv-05 et srv-01
+en tête (1 585 et 1 577 kWh).
+0.44
+« Le CPU varie », « il y a des incidents », « les serveurs sont différents ».
+Un constat sans chiffre ni comparaison ne valide rien.
+Un constat = un chiffre + une référence (moyenne, SLO, autre serveur)
++ une phrase d'interprétation.
+======================================================================
+TITRE : TP B1 --- charger et vérifier (30 min)
+import pandas as pd, numpy as np
+import matplotlib.pyplot as plt
+m = pd.read_csv("data/nosys_metriques.csv", parse_dates=["horodatage"])
+print(m.shape) # (69120, 10)
+print(m["serveur"].unique()) # 8 serveurs
+print(m["horodatage"].min(), "->", m["horodatage"].max())
+# le pas d'echantillonnage est-il constant ?
+print(m["horodatage"].diff().value_counts().head())
+# -> attendu : 300s (5 min) partout, sauf le premier point (NaT)
+# valeurs manquantes ?
+print(m.isna().sum())
+ Oublier parse\_dates : l'horodatage devient du texte,
+et .dt.hour échoue plus loin.
+ Travailler dans un mauvais répertoire : donne le chemin complet
+ou lance Jupyter depuis le dossier des données.
+======================================================================
+TITRE : TP B2 --- inventaire de qualité (20 min)
+0.5
+ Tableau : par colonne --- type, plages (min/max), nb de valeurs manquantes.
+ Vérifier que chaque serveur a bien 8 640 fenêtres (30 j 288/j).
+ Vérifier la cohérence : 0 <= cpu\_pct <= 100,
+ram\_pct dans [0, 100], températures plausibles pour une salle
+(> 20 °C ?).
+0.46
+ Un outlier de saisie (CPU = 900) ruine moyenne, écart-type,
+et tout modèle entraîné dessus.
+ Le nombre de fenêtres par serveur valide la complétude :
+une fenêtre manquante est un trou invisible dans un graphe journalier mais
+fatal à un rééchantillonnage.
+0 valeur manquante partout ; CPU max 96,0 \% ;
+température max 42,7 °C : tout est plausible ---
+vous pourrez le dire avec la preuve.
+======================================================================
+TITRE : TP B3 --- visualiser srv-01 sur 30 jours (30 min)
+s1 = m[m["serveur"] == "srv-01"]
+jour = (s1.set_index("horodatage")
+ .drop(columns=["serveur"])
+ .resample("D").mean()) # 30 lignes, une par jour
+fig, ax = plt.subplots(3, 1, figsize=(11, 6), sharex=True)
+ax[0].plot(jour.index, jour["cpu_pct"]); ax[0].set_ylabel("CPU %")
+ax[1].plot(jour.index, jour["latence_ms"]); ax[1].set_ylabel("latence ms")
+ax[2].bar(jour.index, jour["alarme"]*4, width=0.7) # fenetres x4 visible
+ax[2].set_ylabel("alarmes (x4)")
+plt.show()
+ Où sont les 2 incidents de srv-01 ? Quels jours, quelles heures ?
+ Le seuil fixe « alerte si CPU > 90 \% » les aurait-il détectés ?
+ La latence monte-t-elle en même temps que le CPU ?
+======================================================================
+TITRE : TP B4 --- statistiques par serveur (40 min)
+%
+par_srv = (m.groupby("serveur")
+ .agg(cpu_moy=("cpu_pct", "mean"),
+ cpu_max=("cpu_pct", "max"),
+ lat_p99=("latence_ms", lambda s: s.quantile(0.99)),
+ temp_max=("temperature_c", "max"),
+ alarmes=("alarme", "sum"),
+ conso_kwh_tot=("conso_kwh", lambda s: s.sum()*5/60),
+ capacite=("capacite_cpu", "first")))
+par_srv.sort_values("cpu_moy", ascending=False)
+0.48
+ Classer par CPU moyen ; surligner srv-01.
+ Ratio d'utilisation effective :
+cpu\_moy / (capacite*100) --- quel serveur est le plus
+« tassé » relativement à sa capacité ?
+ Consommation totale du parc sur le mois (kWh).
+0.48
+CPU moyen : srv-05 24,6 \%, srv-01 24,3 \%, srv-02 14,4 \%.
+Consommation totale : 11 614 kWh.
+Ratio le plus élevé : srv-01 (capacité 0,83 ---
+le plus sollicité relativement à ses moyens).
+lambda s: s.sum()*5/60 : ne pas oublier le pas de 5 min ---
+sans lui, la consommation est divisée par 12.
+======================================================================
+TITRE : TP B5 --- livrable : la fiche « état des lieux » (20 min + finition)
+0.52
+ 5 constats chiffrés --- chacun : un chiffre, une référence,
+une phrase d'interprétation (modèle : slide « premiers constats »).
+ 3 risques pour le SLA, reliés aux données
+(ex. : incidents synchrones entre serveurs ; CPU 3,2 pendant
+les incidents ; la corrélation latence--CPU 0,80 hors incidents
+ un pic de charge prévisible latence prévisible).
+ 1 recommandation d'automatisation : quel problème des
+séances à venir traiterait quel risque.
+0.44
+ Constats chiffrés et corrects --- 10 pts
+ Risques reliés aux données --- 5 pts
+ Notebook exécutable, commenté, reproductible --- 5 pts
+Fixez la graine si vous simulez, citez le fichier de données,
+et gardez les cellules exécutables de haut en bas
+--- le correcteur relance votre notebook.
+======================================================================
+TITRE : Les pièges du TP, récapitulés
+0.48
+ read\_csv sans parse\_dates pas de .dt.hour.
+ resample("D").mean() sur un DataFrame qui contient encore
+la colonne serveur (texte) TypeError. Solution :
+.drop(columns=["serveur"]) avant.
+ Moyenner des percentiles : p99 des moyennes p99.
+ Boucle for sur 69 120 lignes : toujours vectoriser.
+0.48
+ Conclure « pas d'anomalie » parce que le CPU moyen est bas :
+les incidents sont rares (0,2 \% des fenêtres).
+ Confondre corrélation et causalité (CPU et latence 
+peuvent partager une cause).
+ Rédiger des constats sans référence de comparaison.
+Représentez le CPU par heure de la journée pour srv-01
+(groupby(m["horodatage"].dt.hour)) et vérifiez le facteur
+jour/nuit 3 annoncé en cours.

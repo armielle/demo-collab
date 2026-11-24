@@ -1,0 +1,215 @@
+% =====================================================================
+%  Seance 5 -- B. detecter par ML : sessions, features, IsolationForest
+% =====================================================================
+\section{Détecter par apprentissage automatique}
+
+\begin{frame}{Étape 1 : transformer 100 000 lignes en sessions}
+\footnotesize%
+\begin{columns}[t]
+\begin{column}{0.52\textwidth}
+\begin{kbox}[Session = (machine, fenêtre de 10 min)]
+\begin{itemize}
+\item \py{fenetre = horodatage.dt.floor("10min")} puis
+\py{groupby(["machine","fenetre"])}.
+\item 100\,000 lignes $\rightarrow$ \textbf{10\,000 sessions}
+(10 machines $\times$ 1\,008 fenêtres sur 7 j).
+\item Une session est la bonne granularité : ni l'événement (trop bruité),
+ni le serveur-jour (trop grossier).
+\end{itemize}
+\end{kbox}
+\begin{ebox}[Chiffres mesurés sur nos logs]
+\begin{itemize}
+\item 4\,828 échecs sur 7 j, soit $\approx$ \textbf{690 / jour} --- la mesure
+corrige le « $\sim$30 / jour » de la séance 1.
+\item \textbf{12 sessions d'attaque} (bdd-principal, 02 h--04 h le 05/10)
+sur 10\,000 : \textbf{0,12 \%} --- l'aiguille du SOC.
+\end{itemize}
+\end{ebox}
+\end{column}
+\begin{column}{0.44\textwidth}
+\begin{center}
+\includegraphics[width=0.90\textwidth]{f29_echecs_7j.png}
+\end{center}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Étape 2 : les features d'attaque par session}
+\begin{center}
+\footnotesize
+\begin{tabular}{@{}p{4.1cm}p{5.4cm}p{2.6cm}@{}}
+\toprule
+\textbf{Feature} & \textbf{Intuition de détection} & \textbf{Attaque mesurée}\\
+\midrule
+\py{echecs} & un brute force empile les échecs & moyenne \textbf{10,4}, max 15\\
+\py{taux\_echec} & échecs / événements de la session & $= 1{,}0$ (zéro succès)\\
+\py{echecs\_consecutifs} & rafale ininterrompue $=$ signature forte & jusqu'à 15\\
+\py{utilisateurs} & le robot teste des comptes en série & 3,7 en moyenne\\
+\py{entropie} & diversité des comptes testés (bits) & 1,73 vs 2,22 en normal\\
+\py{comptes\_sensibles} & échecs sur \py{root}, \py{admin}, \py{inconnu-*} & \textbf{100 \%} des échecs\\
+\py{nuit} & fenêtre 22 h -- 06 h & toutes les sessions\\
+\bottomrule
+\end{tabular}
+\end{center}
+\vspace{1mm}
+\begin{kbox}[Aucune feature ne suffit seule]
+Le maximum de la baseline est \textbf{4 échecs / session} --- un seuil sur
+\py{echecs} marcherait ici. Mais une session normale de nuit à 3 échecs sur
+des comptes variés a une \textbf{entropie haute} (2,2 bits) alors que
+l'attaque teste une \emph{petite liste} de comptes (1,73 bit). Combiner
+$\ge 2$ features faibles $=$ l'idée centrale du ML de sécurité.
+\end{kbox}
+\end{frame}
+
+\begin{frame}{L'entropie de Shannon des comptes testés}
+\footnotesize%
+\begin{columns}[t]
+\begin{column}{0.5\textwidth}
+\begin{block}{La formule (en bits)}
+$H = -\sum_i p_i \log_2 p_i$, où $p_i$ est la part des essais portant sur
+le compte $i$.
+\begin{itemize}
+\item Tous les essais sur \emph{un seul} compte : $H = 0$.
+\item Essais uniformément répartis sur $k$ comptes : $H = \log_2 k$.
+\item Un brute force humain outillé teste une \textbf{petite liste ordonnée}
+(\py{root}, \py{admin}, comptes par défaut) : entropie \emph{basse} à
+l'échelle de la session.
+\end{itemize}
+\end{block}
+\begin{ebox}[En pratique avec scipy]
+\py{scipy.stats.entropy(comptage, base=2)} --- ou à la main :
+\py{-sum(p*log2(p) for p in frequences)}. C'est la tâche B2 du TP.
+\end{ebox}
+\end{column}
+\begin{column}{0.46\textwidth}
+\begin{center}
+\includegraphics[width=\textwidth]{f30_entropie_echecs.png}
+\end{center}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{IsolationForest : isoler l'anormal, pas décrire le normal}
+\begin{columns}[t]
+\begin{column}{0.52\textwidth}
+\begin{block}{Le principe en trois phrases}
+Une forêt d'arbres coupe l'espace des features au hasard. Une session
+\textbf{isolée} (loin des autres, dans une région clairsemée) tombe dans une
+feuille après \textbf{peu de coupes} ; une session du flot normal demande
+beaucoup de coupes. Le score d'anomalie mesure cette facilité d'isolement.
+\end{block}
+\begin{itemize}
+\item Non supervisé : \textbf{aucune étiquette} d'attaque nécessaire.
+\item \py{contamination} : la fraction d'anomalies attendue (ici 0,005)
+--- c'est \emph{notre a priori}, pas une vérité mesurée.
+\item Alternatives : \py{LocalOutlierFactor} (densité locale),
+autoencodeurs (reconstruction).
+\end{itemize}
+\end{column}
+\begin{column}{0.44\textwidth}
+\begin{codebox}[Le cœur de B3]
+\begin{lstlisting}
+iso = IsolationForest(
+    n_estimators=200,
+    contamination=0.005,
+    random_state=5534, n_jobs=2)
+iso.fit(X)                    # X = sessions x 7 features
+score = -iso.decision_function(X)
+top = S.assign(score=score)\
+       .sort_values("score",
+                    ascending=False)
+top30 = top.head(30)          # l'analyste
+                              # ne lit que ca
+\end{lstlisting}
+\end{codebox}
+\end{column}
+\end{columns}
+\vspace{1mm}
+\begin{center}\small
+Seuil de décision $\ne$ vérité : on juge le détecteur par son
+\textbf{classement} (précision@N), pas par une étiquette binaire.
+\end{center}
+\end{frame}
+
+\begin{frame}{Résultat réel : toutes les sessions d'attaque au top 12}
+\footnotesize%
+\begin{columns}[t]
+\begin{column}{0.5\textwidth}
+\begin{center}
+\includegraphics[width=\textwidth]{f31_precision_at_n.png}
+\end{center}
+\end{column}
+\begin{column}{0.46\textwidth}
+\begin{ebox}[Chiffres mesurés (graine 5534)]
+\begin{itemize}
+\item Rangs 1 à 12 : \textbf{exactement les 12 sessions d'attaque}.
+\item \textbf{précision@10 $= 1{,}00$}, précision@30 $= 0{,}40$,
+précision@50 $= 0{,}24$.
+\item Rappel (top 30) $= 1{,}00$ : rien n'est manqué.
+\item Par hasard, précision@30 serait $\approx$ 0,0012 :
+\textbf{$\times$ 333 mieux que le hasard}.
+\end{itemize}
+\end{ebox}
+\begin{wbox}[Lire la décroissance]
+Au-delà du rang 12, précision@N décroît : les sessions « anormales mais
+normales » (4 échecs de service, 7 utilisateurs) remontent. \textbf{Le
+classement est un curseur} : l'analyste descend jusqu'à ce que le coût de
+lecture dépasse la valeur des alertes.
+\end{wbox}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Regrouper les alertes : le clustering rattache l'attaque}
+\begin{columns}[t]
+\begin{column}{0.5\textwidth}
+\begin{block}{Pourquoi regrouper ?}
+12 sessions d'attaque $=$ 12 alertes séparées... ou \textbf{1 incident} sur
+2 heures. Sans regroupement, l'analyste croit à 12 problèmes distincts ;
+avec, il voit \emph{une} campagne coordonnée sur \py{bdd-principal}.
+\end{block}
+\begin{itemize}
+\item \py{DBSCAN} sur (machine encodée, heure, features) : les sessions
+d'attaque partagent machine et fenêtres adjacentes $\Rightarrow$ un seul
+cluster dense, le bruit reste \py{-1}.
+\item Plus simple et robuste : \textbf{fusionner} les sessions anormales de
+la même machine séparées de $\le$ 2 fenêtres.
+\end{itemize}
+\end{column}
+\begin{column}{0.46\textwidth}
+\begin{kbox}[De session à incident]
+La sortie du détecteur n'est pas « 12 alertes » mais :
+\begin{center}
+\emph{« Campagne de brute force,\\ bdd-principal, 05/10 02 h -- 04 h,\\
+125 échecs, comptes root/admin/inconnu-* »}
+\end{center}
+C'est la granularité que l'exploitant sait traiter --- et la base du
+\textbf{livrable B5} du TP.
+\end{kbox}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Quiz 2 --- sessions et détection non supervisée (5 min)}
+\begin{qbox}[3 questions]
+\begin{enumerate}
+\item Pourquoi agréger en sessions de 10 min plutôt qu'analyser ligne par ligne ?\\
+(a) c'est plus rapide \quad (b) une ligne ne dit rien : l'anomalie est dans la
+\emph{densité} et la \emph{combinaison} d'événements \quad (c) parce que les
+logs sont trop gros
+\item Une session teste 8 comptes parfaitement équilibrés. Entropie :\\
+(a) 0 bit \quad (b) 3 bits \quad (c) 8 bits
+\item \py{contamination=0.005} dans IsolationForest signifie :\\
+(a) 0,5 \% des données sont infectées \quad (b) un a priori sur la fraction
+d'anomalies, qui calibre le seuil de décision \quad (c) le taux de faux positifs
+\end{enumerate}
+\end{qbox}
+\vspace{1mm}
+\begin{solbox}[Réponses]
+\textbf{1 : b} --- l'agrégation fabrique les features qui portent la signature.
+\quad
+\textbf{2 : b} --- $\log_2 8 = 3$ bits, distribution uniforme.
+\quad
+\textbf{3 : b} --- c'est un paramètre d'a priori, à ajuster selon le contexte.
+\end{solbox}
+\end{frame}

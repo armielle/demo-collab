@@ -1,0 +1,32 @@
+{
+ "lignes": 34560,
+ "positifs": 120,
+ "taux_positifs_pct": 0.347,
+ "colonnes": [
+  "serveur",
+  "fenetre",
+  "cpu_moy",
+  "cpu_max",
+  "ram_moy",
+  "lat_moy",
+  "lat_p99",
+  "perte_moy",
+  "temp_moy",
+  "conso_moy",
+  "capacite",
+  "cpu_delta",
+  "cpu_amplitude",
+  "h_sin",
+  "h_cos",
+  "js_sin",
+  "js_cos",
+  "incident_30min"
+ ],
+ "serveurs": 8,
+ "split_train_jours": "21 premiers jours (jusqu'au 21/09 inclus)",
+ "split_test_jours": "9 derniers jours (22-30/09, contient l'incident du 22)",
+ "train_lignes": 24192,
+ "test_lignes": 10368,
+ "train_positifs": 56,
+ "test_positifs": 64
+}

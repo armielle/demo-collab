@@ -1,0 +1,473 @@
+% EPD-GIT-5534 -- Enonces des TP 1 a 6 (version etudiante, sans corriges)
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=1.9cm]{geometry}
+\usepackage[french]{babel}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage[most]{tcolorbox}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{hyperref}
+\definecolor{bleuenspd}{HTML}{1F4E79}
+\definecolor{grisdoux}{HTML}{5B6470}
+\emergencystretch=1.5em
+\setlist{nosep,leftmargin=*}
+\setlist[enumerate]{leftmargin=*,itemsep=1pt}
+\newcommand{\py}[1]{\texttt{\small #1}}
+\newcommand{\file}[1]{\texttt{\small #1}}
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small\color{grisdoux}EPD-GIT-5534 --- Énoncés des TP (1 à 6)}
+\fancyhead[R]{\small\color{grisdoux}\thepage/\pageref{LastPage}}
+\fancyfoot[C]{\small\color{grisdoux}Dr. Noulapeu Ngaffo Armielle --- ENSPD, Université de Douala}
+
+\newtcolorbox{obj}[1]{colback=bleuenspd!5,colframe=bleuenspd,boxrule=0.7pt,arc=1.2mm,
+  left=2mm,right=2mm,top=1.2mm,bottom=1.2mm,title={#1},fonttitle=\bfseries\color{white},
+  colbacktitle=bleuenspd}
+\newtcolorbox{rendre}{colback=orange!5,colframe=orange!80!black,boxrule=0.7pt,arc=1.2mm,
+  left=2mm,right=2mm,top=1.2mm,bottom=1.2mm,title={À rendre},fonttitle=\bfseries\color{white},
+  colbacktitle=orange!80!black}
+\newtcolorbox{garde}{colback=gray!5,colframe=gray!60,boxrule=0.6pt,arc=1.2mm,
+  left=2mm,right=2mm,top=1.2mm,bottom=1.2mm,title={Règles communes},fonttitle=\bfseries\color{white},
+  colbacktitle=gray!65}
+
+\begin{document}
+
+% ====================== PAGE DE GARDE ======================
+\begin{titlepage}
+\centering
+\includegraphics[width=3.0cm]{../assets/logo_enspd.png}\\[6mm]
+{\large\bfseries École Nationale Supérieure Polytechnique de Douala}\\
+Université de Douala --- Département Génie Informatique et Télécommunications\\[10mm]
+{\color{bleuenspd}\rule{\textwidth}{1.2pt}}\\[4mm]
+{\LARGE\bfseries\color{bleuenspd} EPD-GIT-5534}\\[2mm]
+{\LARGE Apprentissage automatique appliqué\\ aux infrastructures}\\[4mm]
+{\Large\bfseries Énoncés des travaux pratiques}\\[2mm]
+{\large TP 1 à TP 6 --- version étudiante}\\[4mm]
+{\color{bleuenspd}\rule{\textwidth}{1.2pt}}\\[12mm]
+{\large Enseignante : Dr. Noulapeu Ngaffo Armielle}\\[2mm]
+{\large Année universitaire 2026--2027}\\[14mm]
+\begin{minipage}{0.86\textwidth}
+\begin{garde}
+Six TP de 2 h, un par séance. Chaque TP se rend sous la forme d'\textbf{un seul
+notebook Jupyter exécuté de bout en bout}, nommé
+\file{TPn\_NomPrenom.ipynb}, accompagné des figures produites.
+Barème : 20 points par TP, évaluation continue (30 \% de la note de l'UE).
+\end{garde}
+\end{minipage}
+\vfill
+{\small\color{grisdoux}Document étudiant --- ne contient aucun corrigé.}
+\end{titlepage}
+
+% ====================== TP 1 ======================
+\section*{TP 1 --- Cartographier la plateforme NOSYS}
+{\small\color{grisdoux}Séance 1 --- 2 h --- données : \file{nosys\_metriques.csv}}
+
+\begin{obj}{Objectif}
+Produire une \textbf{fiche « état des lieux » chiffrée} du parc NOSYS : décrire
+les données, en vérifier la qualité, visualiser un serveur sur un mois,
+comparer les 8 serveurs et dégager cinq constats chiffrés.
+\end{obj}
+
+\subsection*{B1 --- Charger et vérifier (30 min)}
+\begin{enumerate}
+\item Charger \file{data/nosys\_metriques.csv} avec \py{pandas}, en convertissant
+\file{horodatage} en date (\py{parse\_dates}).
+\item Afficher la forme du tableau, la liste des serveurs, les bornes
+temporelles.
+\item Vérifier que le pas d'échantillonnage est constant : calculer la
+distribution des écarts entre horodatages consécutifs. Le résultat est-il
+unique ? Sinon, pour quel serveur et pourquoi ?
+\item Compter les valeurs manquantes par colonne.
+\end{enumerate}
+
+\subsection*{B2 --- Inventaire de qualité (20 min)}
+Construire un tableau d'inventaire : pour chaque colonne, le type, le minimum,
+le maximum, le nombre de manquants, et une phrase de commentaire.
+\textbf{Signaler explicitement} toute valeur physiquement impossible
+(température, pourcentage) et toute rupture de granularité.
+
+\subsection*{B3 --- Visualiser un serveur sur 30 jours (30 min)}
+Tracer pour \file{srv-01} : CPU (\%), latence (ms) et température (°C) en
+fonction du temps, sur les 30 jours, avec la colonne \file{alarme} mise en
+évidence (par exemple en fond coloré). \textbf{Annoter} les périodes où
+l'alarme est active : combien de périodes distinctes voyez-vous, et à quelles
+dates ?
+
+\subsection*{B4 --- Statistiques par serveur (40 min)}
+\begin{enumerate}
+\item Pour chacun des 8 serveurs : CPU moyen, CPU maximum, latence moyenne,
+latence p99, consommation totale (kWh), ratio \py{conso / capacite}.
+\item Classer les serveurs par CPU moyen. Comparer au CPU moyen du parc.
+\item Calculer la \textbf{corrélation} entre latence et CPU, d'une part sur
+l'ensemble des mesures, d'autre part en excluant les fenêtres d'alarme.
+Commenter l'écart.
+\item Calculer la \textbf{disponibilité} du parc sur le mois :
+$A = 1 - \dfrac{\text{nombre de fenêtres en alarme} \times 5\ \text{min}}
+{8 \times 30 \times 24 \times 60\ \text{min}}$.
+Comparer au SLA de 99,9 \%.
+\end{enumerate}
+
+\subsection*{B5 --- Livrable : la fiche « état des lieux » (20 min)}
+\begin{rendre}
+Un notebook exécuté contenant : (a) le tableau d'inventaire de qualité ;
+(b) le graphique annoté de \file{srv-01} ; (c) le tableau comparatif des
+8 serveurs ; (d) \textbf{cinq constats chiffrés}, chacun formulé comme
+\emph{un chiffre + une référence + une interprétation} ; (e) une liste de
+risques que ces données font peser sur l'exploitation.
+\end{rendre}
+
+\subsection*{Barème (20 pts)}
+\begin{center}\small
+\begin{tabular}{@{}p{11.2cm}c@{}}
+\toprule
+Constats chiffrés et corrects & 10 pts\\
+Risques reliés aux données & 5 pts\\
+Notebook exécutable, commenté, reproductible & 5 pts\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+% ====================== TP 2 ======================
+\newpage
+\section*{TP 2 --- Construire le dataset supervisé}
+{\small\color{grisdoux}Séance 2 --- 2 h --- données : \file{nosys\_metriques\_brutes.csv}}
+
+\begin{obj}{Objectif}
+Partir d'une collecte \textbf{volontairement défectueuse} (doublons, valeurs
+manquantes, mesures aberrantes, trous, granularités différentes), la nettoyer,
+construire les signaux par fenêtre de 10 minutes et l'étiquette
+\file{incident\_30min} \textbf{sans fuite temporelle}.
+\end{obj}
+
+\subsection*{B1 --- Audit des défauts (30 min)}
+Charger \file{data/nosys\_metriques\_brutes.csv}. Rechercher et
+\textbf{quantifier} : lignes dupliquées, valeurs manquantes (par colonne),
+valeurs physiquement impossibles, trous temporels, et serveurs dont la
+granularité diffère. Présenter le tout dans un tableau
+\emph{défaut / nombre / traitement prévu}.
+
+\subsection*{B2 --- Nettoyage (30 min)}
+Dans cet ordre, en justifiant chaque choix :
+\begin{enumerate}
+\item trier par serveur et horodatage ; supprimer les doublons exacts ;
+\item appliquer des \textbf{bornes physiques} (température, CPU, RAM, pertes) ;
+\item remettre les 8 serveurs sur une \textbf{grille commune de 5 minutes} ;
+\item interpoler les trous \textbf{courts uniquement} : au-delà de 2 pas,
+marquer le trou plutôt que d'inventer des valeurs.
+\end{enumerate}
+
+\subsection*{B3 --- Signaux par fenêtre de 10 minutes (30 min)}
+Agréger par (serveur, fenêtre de 10 min) : \py{cpu\_moy}, \py{cpu\_max},
+\py{ram\_moy}, \py{lat\_moy}, \py{lat\_p99}, \py{perte\_moy}, \py{temp\_moy},
+\py{conso\_moy}, \py{capacite}, puis ajouter :
+\begin{itemize}
+\item \py{cpu\_delta} (variation par rapport à la fenêtre précédente) et
+\py{cpu\_amplitude} ;
+\item l'encodage \textbf{cyclique} de l'heure et du jour de semaine
+(deux colonnes sinus/cosinus chacun, avec la période correcte).
+\end{itemize}
+Justifier en une phrase pourquoi un encodage cyclique est préférable à
+l'heure brute.
+
+\subsection*{B4 --- Étiquette \file{incident\_30min} sans fuite (40 min)}
+Construire l'étiquette : vaut 1 si la fenêtre courante \textbf{ou l'une des
+trois suivantes} est en alarme.
+\begin{enumerate}
+\item Expliquer en quoi consiste une \textbf{fuite temporelle} et citer
+\textbf{deux} colonnes qu'il serait interdit de garder comme variables
+explicatives.
+\item Vérifier que les signaux sont calculés \textbf{uniquement sur le passé}
+de la fenêtre et l'étiquette \textbf{uniquement sur le futur}.
+\item Découper : \py{train} = fenêtres strictement avant le 2026-09-22,
+\py{test} = à partir du 2026-09-22. Donner les effectifs et le nombre de
+positifs de chaque partie.
+\item Produire \file{nosys\_features.csv} et le comparer au fichier officiel
+fourni : mêmes colonnes, mêmes effectifs ? Expliquer tout écart.
+\end{enumerate}
+
+\subsection*{B5 --- Livrable (20 min)}
+\begin{rendre}
+\file{nosys\_features.csv}, un \textbf{dictionnaire des variables}
+(une ligne par colonne : nom, sens, unité, mode de calcul), et une
+\textbf{note de 5 lignes} justifiant : la méthode d'imputation retenue,
+les bornes appliquées, et la définition exacte de l'étiquette.
+\end{rendre}
+
+\subsection*{Barème (20 pts)}
+\begin{center}\small
+\begin{tabular}{@{}p{11.2cm}c@{}}
+\toprule
+Audit des défauts complet et expliqué & 4 pts\\
+Nettoyage correct (ordre, bornes physiques) & 5 pts\\
+Signaux corrects (fenêtres, p99, cyclique) & 4 pts\\
+Étiquette \textbf{sans fuite} & 5 pts\\
+Dictionnaire et reproductibilité & 2 pts\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+% ====================== TP 3 ======================
+\newpage
+\section*{TP 3 --- Anomalies et classification sur classe rare}
+{\small\color{grisdoux}Séance 3 --- 2 h --- données : \file{nosys\_features.csv}}
+
+\begin{obj}{Objectif}
+Détecter des anomalies \textbf{sans étiquette}, puis entraîner des modèles
+supervisés sur une classe rare (0,35 \% de positifs) en choisissant un seuil
+d'alerte \textbf{compatible avec le budget du NOC}.
+\end{obj}
+
+\subsection*{B1 --- IsolationForest sans fuite (30 min)}
+Entraîner un \py{IsolationForest} sur les variables de signal
+\textbf{uniquement} (sans \file{incident\_30min}, sans \file{alarme}).
+Lister les 20 fenêtres les plus anormales : à quels moments correspondent-elles ?
+Sont-elles proches des incidents réels ?
+
+\subsection*{B2 --- Recouvrement avec les alarmes (30 min)}
+Comparer les anomalies détectées aux fenêtres réellement en incident.
+Calculer le nombre d'anomalies qui sont de vrais incidents, de fausses
+alarmes, et d'incidents manqués. Commenter \textbf{honnêtement} : un score
+d'anomalie n'est pas une prédiction de panne.
+
+\subsection*{B3 --- Forêt et gradient boosting, split temporel strict (30 min)}
+Entraîner (a) une forêt avec \py{class\_weight='balanced'} et (b) un gradient
+boosting, sur \py{train} uniquement (fenêtres $<$ 2026-09-22), puis évaluer sur
+\py{test}. Produire la \textbf{matrice de confusion} des deux modèles et
+calculer précision, rappel, $F_1$. Expliquer pourquoi l'\textbf{exactitude}
+est un indicateur trompeur ici : quel score obtient un modèle qui prédit
+toujours « pas d'incident » ?
+
+\subsection*{B4 --- Courbe précision-rappel et seuil métier (30 min)}
+\begin{enumerate}
+\item Tracer la courbe précision-rappel du meilleur modèle ; comparer à la
+courbe ROC et expliquer pourquoi la PR est préférable sur classe rare.
+\item Le NOC accepte au plus \textbf{5 alertes par jour et par serveur}.
+Calculer le nombre total d'alertes autorisées sur la période de test
+(8 serveurs, 9 jours).
+\item Choisir un seuil respectant ce budget et donner, à ce seuil, le rappel
+obtenu. Justifier le compromis : que coûte une fausse alerte ? un incident
+manqué ?
+\end{enumerate}
+
+\subsection*{B5 --- Livrable (20 min)}
+\begin{rendre}
+Un \textbf{tableau comparatif} des modèles (au moins : IsolationForest, forêt
+équilibrée, régression logistique, gradient boosting) avec précision, rappel,
+$F_1$ et nombre d'alertes/jour ; le \textbf{seuil recommandé} avec sa
+justification métier ; un \textbf{paragraphe de 5 à 8 lignes} expliquant le
+modèle retenu pour la production.
+\end{rendre}
+
+\subsection*{Barème (20 pts)}
+\begin{center}\small
+\begin{tabular}{@{}p{11.2cm}c@{}}
+\toprule
+B1 IsolationForest sans fuite & 3 pts\\
+B2 recouvrement + commentaire honnête & 3 pts\\
+B3 forêt équilibrée + matrice juste & 5 pts\\
+B4 courbe PR + seuil sous budget & 5 pts\\
+B5 comparatif + argumentation métier & 4 pts\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+% ====================== TP 4 ======================
+\newpage
+\section*{TP 4 --- Supervision, prévision et décision}
+{\small\color{grisdoux}Séance 4 --- 2 h --- données : \file{nosys\_metriques.csv} et \file{nosys\_features.csv}}
+
+\begin{obj}{Objectif}
+Modéliser une série temporelle (SARIMA), prédire la panne avec une validation
+temporelle stricte, puis transformer une prévision en \textbf{décision
+d'exploitation} (seuil d'alerte, date de saturation).
+\end{obj}
+
+\subsection*{B1 --- Série, décomposition, stationnarité (30 min)}
+\begin{enumerate}
+\item Agréger le CPU (ou la consommation) du parc par heure : vérifier que la
+série obtenue est complète.
+\item Tracer la série, sa moyenne glissante et sa composante saisonnière
+journalière.
+\item Tracer l'\textbf{ACF} et la \textbf{PACF} : que lit-on sur les premiers
+retards ? Quelle saisonnalité est visible ?
+\item Appliquer le test ADF sur la série brute puis sur la série
+différenciée ; conclure sur la stationnarité et sur l'ordre $d$ à retenir.
+\end{enumerate}
+
+\subsection*{B2 --- SARIMA : ajuster, prévoir, mesurer (40 min)}
+\begin{enumerate}
+\item Ajuster un SARIMA sur les \textbf{21 premiers jours} seulement
+(saisonnalité 24 h), en justifiant l'ordre $(p,d,q)$ retenu.
+\item Prévoir les \textbf{7 derniers jours} et tracer prévision et réalisé,
+avec l'intervalle de prévision.
+\item Calculer la \textbf{MAE} sur la période de test, et la comparer à deux
+naïfs : « valeur de la même heure la veille » et « valeur de la même heure la
+semaine précédente ». Le modèle apporte-t-il quelque chose ?
+\item Vérifier les résidus (allure, autocorrélation) et commenter.
+\end{enumerate}
+
+\subsection*{B3 --- Modèle de panne, sans fuite (30 min)}
+Entraîner un \py{GradientBoostingClassifier} sur \file{nosys\_features.csv}
+avec un découpage temporel strict ($<$ 2026-09-22 pour l'entraînement).
+\begin{enumerate}
+\item Donner la matrice de confusion sur le test, le rappel et la précision.
+\item \textbf{Démontrer la fuite} : ajouter la colonne \py{alarme} aux
+variables, réentraîner, et comparer les scores. Expliquer pourquoi ce modèle
+serait inutilisable en production.
+\item Justifier en trois lignes pourquoi un $K$-Fold mélangé serait invalide
+sur ces données.
+\end{enumerate}
+
+\subsection*{B4 --- Du score à l'alerte (20 min)}
+Tracer la courbe « rappel obtenu » en fonction du « nombre d'alertes par
+jour ». Choisir un point d'opération compatible avec 5 alertes/jour/serveur
+et indiquer le rappel correspondant.
+
+\subsection*{B5 --- Livrable et décision (20 min)}
+\begin{rendre}
+Le graphique prévision/réalisé avec intervalle ; le tableau
+rappel/alertes par jour avec le point retenu ; la \textbf{date de saturation}
+du stockage avec les hypothèses explicites de croissance ; un paragraphe
+« que décide l'exploitant lundi matin ? » reliant les trois résultats.
+\end{rendre}
+
+\subsection*{Barème (20 pts)}
+\begin{center}\small
+\begin{tabular}{@{}p{11.2cm}c@{}}
+\toprule
+B1 série, décomposition, ADF & 4 pts\\
+B2 SARIMA ajusté + MAE honnête & 5 pts\\
+B3 modèle sans fuite + split strict & 5 pts\\
+B4 courbe et choix du point d'opération & 3 pts\\
+B5 livrable et décision argumentée & 3 pts\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+% ====================== TP 5 ======================
+\newpage
+\section*{TP 5 --- Détecter une intrusion dans les journaux}
+{\small\color{grisdoux}Séance 5 --- 2 h --- données : \file{nosys\_logs.csv}}
+
+\begin{obj}{Objectif}
+Passer de 100 000 lignes de journaux bruts à une \textbf{liste de sessions
+suspectes} classées par anomalie, puis rédiger une \textbf{note d'incident}
+argumentée par les chiffres.
+\end{obj}
+
+\subsection*{B1 --- Parser et agréger (30 min)}
+Charger \file{nosys\_logs.csv}, vérifier les types et les plages, puis agréger
+par (\textbf{machine}, \textbf{fenêtre de 10 minutes}) en calculant au minimum :
+nombre de tentatives, nombre d'échecs, nombre de succès, nombre d'utilisateurs
+distincts. Combien de sessions obtenez-vous ? Quelle est la part de sessions
+en échec ?
+
+\subsection*{B2 --- Features d'attaque et entropie (30 min)}
+Ajouter, par session :
+\begin{itemize}
+\item le nombre maximal d'échecs \textbf{consécutifs} ;
+\item le taux d'échec ;
+\item le nombre de comptes \textbf{sensibles} testés (\py{root}, \py{admin},
+comptes inexistants) ;
+\item l'\textbf{entropie de Shannon} des comptes testés :
+$H = -\sum_i p_i \log_2 p_i$ (en bits).
+\end{itemize}
+Comparer la distribution de ces features entre sessions normales et sessions
+suspectes ; expliquer ce que mesure l'entropie dans ce contexte.
+
+\subsection*{B3 --- IsolationForest et précision@30 (30 min)}
+Entraîner un \py{IsolationForest} sur les features de session (sans utiliser
+d'étiquette), classer les sessions par score décroissant et calculer :
+précision@10, précision@30, et le rappel des sessions réellement malveillantes
+dans le top 30. Commenter la différence entre précision@10 et précision@30.
+
+\subsection*{B4 --- Supervisé et comparaison (20 min)}
+Avec les sessions historiques étiquetées, entraîner une forêt
+(\py{class\_weight='balanced'}) sur un découpage stratifié, puis comparer
+précision et rappel à ceux de l'approche non supervisée. Quelle approche
+choisir quand on \textbf{n'a pas} d'étiquettes ?
+
+\subsection*{B5 --- Livrable : note d'incident (20 min + finition)}
+\begin{rendre}
+La liste des sessions suspectes (machine, fenêtre, score, comptes testés) et
+une \textbf{note d'incident d'une page} : ce qui s'est passé, la \textbf{preuve
+chiffrée} (volumes, horaires, comptes), l'impact estimé, et les actions
+recommandées (blocage, rotation des secrets, surveillance).
+\end{rendre}
+
+\subsection*{Barème (20 pts)}
+\begin{center}\small
+\begin{tabular}{@{}p{11.2cm}c@{}}
+\toprule
+B1 parsing + agrégation & 4 pts\\
+B2 features + entropie & 4 pts\\
+B3 IsolationForest + précision@30 & 5 pts\\
+B4 forêt supervisée + métriques & 4 pts\\
+B5 livrable + note d'incident & 3 pts\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+% ====================== TP 6 ======================
+\newpage
+\section*{TP 6 --- Du modèle au service}
+{\small\color{grisdoux}Séance 6 --- 2 h --- données : \file{nosys\_features.csv}}
+
+\begin{obj}{Objectif}
+Transformer un modèle de TP en \textbf{service exploitable} : pipeline
+sauvegardé, latence mesurée, fiche MLOps, et évaluation blanche de fin d'UE.
+\end{obj}
+
+\subsection*{B1 --- Sauvegarder le pipeline (30 min)}
+Construire un pipeline complet (standardisation \textbf{+} forêt) entraîné sur
+les fenêtres $<$ 2026-09-22, l'enregistrer avec \py{joblib}, puis le
+\textbf{recharger} et vérifier que les prédictions sont identiques à
+l'original (écart maximal).
+Écrire un court script de scoring qui charge le pipeline et score un fichier
+de métriques fourni en argument.
+
+\subsection*{B2 --- Mesurer la latence de scoring (30 min)}
+Mesurer, avec \py{time.perf\_counter}, la latence de prédiction sur
+\textbf{1 000 fenêtres réelles} : moyenne, médiane, p99.
+\begin{enumerate}
+\item Combien de fenêtres par minute un seul cœur peut-il scorer ?
+\item Le parc produit 8 fenêtres de 10 minutes toutes les 10 minutes :
+le temps réel est-il tenu, avec quelle marge ?
+\item Que change le scoring par lots (\py{predict} sur 100 lignes) ?
+\end{enumerate}
+
+\subsection*{B3 --- Fiche MLOps d'une page (30 min)}
+Rédiger une fiche contenant : le plan de \textbf{retraining} (fréquence et
+\textbf{déclencheurs chiffrés}), les \textbf{métriques surveillées} en
+production (avec leur seuil d'alerte), la procédure de \textbf{rollback}
+(qui, quoi, en combien de temps) et la description du modèle.
+
+\subsection*{B4 --- Évaluation blanche (30 min)}
+Répondre aux 20 questions couvrant les 6 séances (fournies en séance), sans
+document. Le corrigé est distribué à la fin.
+
+\subsection*{Barème (20 pts)}
+\begin{center}\small
+\begin{tabular}{@{}p{11.2cm}c@{}}
+\toprule
+B1 pipeline complet sauvegardé et rechargé & 6 pts\\
+B2 latence mesurée + raisonnement de capacité & 4 pts\\
+B3 fiche MLOps (déclencheurs chiffrés, métriques, rollback) & 7 pts\\
+B4 évaluation blanche & 3 pts\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{6mm}
+\begin{garde}
+\textbf{Rappel des règles communes.} Graine \textbf{5534} pour tout tirage
+aléatoire ; \textbf{2 threads} maximum ; notebook \textbf{exécuté de bout en
+bout} (aucune cellule en erreur) ; chemins de données relatifs
+(\file{data/...}) ; chaque figure doit être lisible sans le code
+(titre, axes, unités, légende).
+\end{garde}
+
+\end{document}

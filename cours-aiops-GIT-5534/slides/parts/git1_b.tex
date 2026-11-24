@@ -1,0 +1,220 @@
+% =====================================================================
+%  Seance 1 -- B. Anatomie d'une infrastructure (frames 14--24)
+% =====================================================================
+\section{Anatomie d'une infrastructure et ses indicateurs}
+
+\begin{frame}{Les couches d'une infrastructure moderne}
+\begin{center}
+\begin{tikzpicture}[node distance=2.5mm,
+  layer/.style={rectangle,rounded corners=1.5mm,draw,align=center,
+    font=\scriptsize,minimum height=7.5mm,text width=13.2cm}]
+\node[layer,draw=byBlue,fill=byBlue!8]   (app)  {\textbf{Applications \& services} : API, bases de données, orchestrateurs --- ce que l'utilisateur consomme};
+\node[layer,draw=byCyan,fill=byCyan!8,above=of app]  (cont) {\textbf{Conteneurs} : exécution isolée, limites CPU/RAM par service (Docker, Kubernetes)};
+\node[layer,draw=byPurple,fill=byPurple!6,above=of cont] (virt) {\textbf{Virtualisation} : hyperviseur, machines virtuelles, allocation dynamique};
+\node[layer,draw=byGreen,fill=byGreen!8,above=of virt] (mater){\textbf{Matériel} : CPU, RAM, disques, alimentation, refroidissement, salle};
+\node[layer,draw=byOrange,fill=byOrange!8,below=of app] (reseau){\textbf{Réseau} : switches, pare-feu (\py{fw-edge}), liens opérateur, 4G/5G de NOSYS};
+\end{tikzpicture}
+\end{center}
+\vspace{1mm}
+\begin{itemize}
+\item Chaque couche \textbf{émet ses propres données} : métriques matériel, télémétrie
+de conteneurs, journaux applicatifs, flux réseau.
+\item Un incident utilisateur est souvent la \textbf{signature} d'un problème deux couches
+plus bas : c'est pourquoi on collecte tout, puis on apprend les corrélations.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Métriques système : ce que mesurent les serveurs}
+\footnotesize%
+\begin{columns}[t]
+\begin{column}{0.52\textwidth}
+\begin{block}{Les cinq métriques du fichier NOSYS}
+\begin{itemize}
+\item \py{cpu\_pct} --- occupation processeur (\%).
+\item \py{ram\_pct} --- occupation mémoire (\%).
+\item \py{temperature\_c} --- température salle/machine (°C).
+\item \py{conso\_kwh} --- consommation électrique (kWh par fenêtre).
+\item \py{capacite\_cpu} --- capacité normalisée du serveur (0--1) :
+sert au TP pour le \textbf{ratio d'utilisation effective}.
+\end{itemize}
+\end{block}
+\begin{ebox}[Valeurs réelles du mois NOSYS]
+CPU moyen du parc : \textbf{20,5 \%} (min 14,4 \%, max 24,6 \%) ;
+RAM moyenne 41 à 61 \% ; température maximale \textbf{42,7 °C},
+moyenne 32,5 °C. Source : \file{key\_numbers\_git1.json}.
+\end{ebox}
+\end{column}
+\begin{column}{0.44\textwidth}
+\begin{kbox}[Bonnes pratiques de collecte]
+\begin{itemize}
+\item Pas \textbf{constant} (ici 5 min) : indispensable pour les séries temporelles.
+\item Horodatage en \textbf{UTC} côté collecte, conversion à l'affichage.
+\item Ne jamais moyenner les \textbf{percentiles} : p99 de moyennes $\ne$ p99.
+\item Un p98 de 42,7 °C n'est pas un souci ; une \textbf{dérive} de +0,3 °C/semaine si.
+\end{itemize}
+\end{kbox}
+\begin{wbox}[Ce que le CPU seul ne dit pas]
+Un serveur à 90 \% de CPU peut être sain (file d'attente vide)
+et un serveur à 40 \% saturé (latence explosive).
+\textbf{Toujours croiser} avec la latence et la perte.
+\end{wbox}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Métriques réseau : latence, gigue, perte}
+\begin{block}{Les trois mesures de base}
+\begin{itemize}
+\item \textbf{Latence} (ms) : temps de traversée. On suit la \textbf{distribution},
+pas la moyenne : p50, p95, \textbf{p99} --- les utilisateurs mécontents sont dans la queue.
+\item \textbf{Gigue} (jitter) : variation de la latence ; tue la voix/vidéo même
+quand la latence moyenne est bonne.
+\item \textbf{Perte de paquets} (\%) : chaque \% de perte coûte des retransmissions
+$\Rightarrow$ effet multiplicatif sur la latence effective.
+\end{itemize}
+\end{block}
+\begin{columns}[t]
+\begin{column}{0.48\textwidth}
+\begin{ebox}[NOSYS : chiffres réels]
+Latence moyenne du parc : \textbf{12,2 ms} ;
+\textbf{p99 = 16,3 ms} ; maximum observé \textbf{156,1 ms}
+(pendant l'incident du 9/09, srv-01).
+Perte : p99 = 0,17 \%. \textbf{Le SLO de 100 ms est tenu hors incidents.}
+\end{ebox}
+\end{column}
+\begin{column}{0.48\textwidth}
+\begin{kbox}[Moyenne vs p99 : l'exemple qui convainc]
+La moyenne de 12 ms cache que 1 requête sur 100 dépasse 16 ms.
+Sur 10 millions de requêtes/jour, cela fait \textbf{100 000 requêtes lentes} :
+c'est là que vivent les plaintes clients --- et c'est pourquoi on supervise
+le p99, jamais la moyenne seule.
+\end{kbox}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{SLI, SLO, SLA : ne plus jamais les confondre}
+\begin{center}
+\small
+\begin{tabular}{@{}p{1.2cm}p{4.9cm}p{6.4cm}@{}}
+\toprule
+\textbf{Terme} & \textbf{Définition} & \textbf{Exemple NOSYS}\\
+\midrule
+\textbf{SLI} & L'\emph{indicateur} : ce qu'on mesure réellement. &
+Latence p99 mesurée chaque minute ; taux de succès des requêtes.\\
+\addlinespace[1pt]
+\textbf{SLO} & L'\emph{objectif interne} posé sur le SLI. &
+« 99,9 \% des requêtes $<$ 100 ms sur 30 jours glissants ».\\
+\addlinespace[1pt]
+\textbf{SLA} & Le \emph{contrat} avec le client, avec conséquences
+(pénalités, crédits). & « Disponibilité 99,9 \% mensuelle, sinon crédit de 5 \% ».\\
+\bottomrule
+\end{tabular}
+\end{center}
+\vspace{1mm}
+\begin{columns}[t]
+\begin{column}{0.48\textwidth}
+\begin{kbox}[La hiérarchie opérationnelle]
+Le SLA \textbf{contraint} le SLO, le SLO \textbf{contraint} l'ingénierie.
+En pratique : on choisit le SLO avec une marge sous le SLA
+--- c'est le « budget d'erreur » (error budget) que le ML de la
+séance 4 aidera à défendre.
+\end{kbox}
+\end{column}
+\begin{column}{0.48\textwidth}
+\begin{qbox}[Mini-question]
+NOSYS mesure une latence p99 de 16,3 ms. Le SLO est « p99 $<$ 100 ms ».
+Quelle est la marge ?\\
+(a) 6$\times$ \quad (b) 83,7 ms \quad (c) 612 \%
+\end{qbox}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{La disponibilité : ce qu'un « neuf » coûte vraiment}
+\begin{center}
+\includegraphics[width=0.88\textwidth]{f06_sla.png}
+\end{center}
+\begin{itemize}
+\item Chaque 9 supplémentaire \textbf{divise le temps d'indisponibilité autorisé par 10} :
+passer de 99,9 \% à 99,99 \% = passer de 8,8 h à 53 min d'arrêt \emph{annuel}.
+\item Conséquence : à 99,999 \%, une panne de \textbf{30 min} consomme
+5,7 \textbf{ans} de budget d'erreur. On ne « rattrape » pas une panne à ce niveau.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Calculs de disponibilité : le rituel}
+\begin{columns}[t]
+\begin{column}{0.48\textwidth}
+\begin{block}{Les deux formules}
+\[
+\text{Disponibilité} = \frac{\text{temps de service correct}}{\text{temps total}}
+= 1 - \frac{\text{indisponibilité}}{\text{temps total}}
+\]
+\[
+\text{MTBF} = \frac{\text{temps total de service}}{\text{nombre de pannes}}
+\qquad
+\text{MTTR} = \frac{\text{temps cumulé de réparation}}{\text{nombre de pannes}}
+\]
+\end{block}
+\begin{ebox}[Exemple calculé sur NOSYS]
+16 incidents $\times$ 8 serveurs = 16 blocs sur le mois, durées
+35 et 50 min (0,58 h et 0,83 h). Indisponibilité cumulée du parc :
+$8 \times (0{,}58 + 0{,}83) = 11{,}3$ h sur $8 \times 720$ h
+$\Rightarrow$ disponibilité \textbf{99,80 \%}.
+\end{ebox}
+\end{column}
+\begin{column}{0.48\textwidth}
+\begin{wbox}[Conclusion à retenir]
+Avec 2 incidents/serveur/mois, NOSYS \textbf{rate son SLA de 99,9 \%}
+(99,80 \% atteint). Toute la mission ML des séances 3--4 se résume à :
+\textbf{transformer ces 11,3 h de panne réactive en prévention}.
+\end{wbox}
+\begin{qbox}[Pour le prochain cours]
+Si un prédictif détecte 70 \% des incidents 30 min à l'avance et que
+l'équipe les évite, quelle devient la disponibilité ?
+(faites le calcul --- réponse en séance 4.)
+\end{qbox}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Quiz 2 --- les indicateurs (5 min)}
+\begin{qbox}[3 questions]
+\begin{enumerate}
+\item Le p99 de latence est de 16 ms. Combien de requêtes sur 1 000 dépassent ce seuil ?\\
+(a) 1 \quad (b) 10 \quad (c) 99
+\item Un serveur a 6 pannes de 20 min sur l'année (8 760 h). MTTR = 20 min ;
+MTBF $\approx$ ?\\
+(a) 1 460 h \quad (b) 8 760 h \quad (c) 120 min
+\item Pourquoi suivre le p99 plutôt que la moyenne ?\\
+(a) le p99 est plus facile à calculer \quad (b) la moyenne masque la queue
+de distribution où se trouvent les utilisateurs pénalisés \quad
+(c) le p99 est exigé par le SLA uniquement
+\end{enumerate}
+\end{qbox}
+\vspace{1mm}
+\begin{solbox}[Réponses]
+\textbf{1 : b} --- p99 = 99 \% en dessous, 1 \% au-dessus = 10 sur 1 000.
+\quad
+\textbf{2 : a} --- MTBF = 8 760 / 6 $\approx$ 1 460 h.
+\quad
+\textbf{3 : b} --- la moyenne est dominée par la masse de requêtes rapides.
+\end{solbox}
+\end{frame}
+
+\begin{frame}{À retenir de la partie anatomie}
+\begin{kbox}[Les 5 idées de cette section]
+\begin{enumerate}
+\item Une infrastructure est une \textbf{pile de couches} ; chaque couche émet
+ses données --- et un symptôme applicatif a souvent sa cause deux couches plus bas.
+\item Superviser la \textbf{distribution} des métriques (p99), pas la moyenne.
+\item \textbf{SLI} = ce qu'on mesure ; \textbf{SLO} = l'objectif interne ;
+\textbf{SLA} = le contrat. Ne jamais les confondre devant un client.
+\item La disponibilité se \textbf{calcule} : 99,9 \% = 8,8 h/an ;
+chaque 9 supplémentaire divise le budget par 10.
+\item NOSYS est à \textbf{99,80 \%} : l'UE entière vise à remonter ce chiffre
+par la prédiction et la prévention.
+\end{enumerate}
+\end{kbox}
+\end{frame}

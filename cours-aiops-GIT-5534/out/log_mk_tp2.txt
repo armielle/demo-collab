@@ -1,0 +1,140 @@
+C:\Users\HP\Documents\cours-bayesien-SDIA-4112\.venv\Lib\site-packages\statsmodels\tsa\statespace\mlemodel.py:679: EstimationWarning: Non-stationary starting autoregressive parameters found. Using zeros as starting parameters.
+  start_params = self.start_params
+C:\Users\HP\Documents\cours-bayesien-SDIA-4112\.venv\Lib\site-packages\statsmodels\tsa\statespace\mlemodel.py:679: EstimationWarning: Non-invertible starting MA parameters found. Using zeros as starting parameters.
+  start_params = self.start_params
+C:\Users\HP\Documents\cours-bayesien-SDIA-4112\.venv\Lib\site-packages\statsmodels\tsa\statespace\mlemodel.py:737: ConvergenceWarning: Maximum Likelihood optimization failed to converge. Check mle_retvals
+  mlefit = super().fit(
+[IPKernelApp] WARNING | Kernel is running over TCP without encryption. All communication (including code and outputs) is sent in plain text and is susceptible to eavesdropping. Use IPC transport or launch with kernel manager-provisioned CurveZMQ keys to enable transport encryption.
+[IPKernelApp] WARNING | Kernel is running over TCP without encryption. All communication (including code and outputs) is sent in plain text and is susceptible to eavesdropping. Use IPC transport or launch with kernel manager-provisioned CurveZMQ keys to enable transport encryption.
+== pré-calcul des chiffres des markdown ==
+   pré-calcul OK (SARIMA MAE 3.00, GBC seuil 0.000, IF p@30 0.40, AUC 0.799, latence 18.4 ms)
+[nb] TP1_mise_en_route.ipynb             17 cellules (7 code, 3 figures)   166.1 Ko
+Traceback (most recent call last):
+  File "C:\Users\HP\Documents\cours-aiops-GIT-5534\src\mk_tp.py", line 1300, in <module>
+    execute(build(name, cells, title, intro), name)
+  File "C:\Users\HP\Documents\cours-aiops-GIT-5534\src\mk_tp.py", line 253, in execute
+    client.execute()
+  File "C:\Users\HP\Documents\cours-bayesien-SDIA-4112\.venv\Lib\site-packages\jupyter_core\utils\__init__.py", line 165, in wrapped
+    return loop.run_until_complete(inner)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\asyncio\base_events.py", line 654, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\HP\Documents\cours-bayesien-SDIA-4112\.venv\Lib\site-packages\nbclient\client.py", line 709, in async_execute
+    await self.async_execute_cell(
+  File "C:\Users\HP\Documents\cours-bayesien-SDIA-4112\.venv\Lib\site-packages\nbclient\client.py", line 1062, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "C:\Users\HP\Documents\cours-bayesien-SDIA-4112\.venv\Lib\site-packages\nbclient\client.py", line 918, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+# 1. dedoublonner
+b = b.drop_duplicates()
+
+# 2. erreurs physiquement impossibles -> NaN (pas de suppression !)
+b.loc[b["cpu_pct"] > 100, "cpu_pct"] = np.nan
+b.loc[b["temperature_c"] > 80, "temperature_c"] = np.nan
+
+# 3. grille explicite 5 min par serveur (les trous -> NaN visibles)
+def sur_grille(g):
+    g = g.set_index("horodatage").drop(columns=["serveur"])
+    return g.reindex(pd.date_range(g.index.min(), g.index.max(), freq="5min"))
+b = b.groupby("serveur").apply(sur_grille)   # MultiIndex (serveur, horodatage)
+
+# 4. imputation courte (<= 2 pas = 10 min), tendance-compatible
+b = b.interpolate(limit=2, limit_direction="both")
+
+print("contrôle de sortie :")
+print("  doublons :", b.duplicated().sum())
+print("  cpu > 100 :", (b["cpu_pct"] > 100).sum())
+print("  NaN résiduels :",
+      int(b[["cpu_pct", "ram_pct", "latence_ms", "paquets_perdus_pct",
+             "temperature_c"]].isna().sum().sum()))
+print("  fenêtres par serveur :")
+print(b.groupby(level=0).size())
+------------------
+
+
+[31m---------------------------------------------------------------------------[39m
+[31mKeyError[39m                                  Traceback (most recent call last)
+[36mCell[39m[36m [39m[32mIn[3][39m[32m, line 12[39m
+[32m      8[39m [38;5;66;03m# 3. grille explicite 5 min par serveur (les trous -> NaN visibles)[39;00m
+[32m      9[39m [38;5;28;01mdef[39;00m sur_grille(g):
+[32m     10[39m     g = g.set_index([33m"horodatage"[39m).drop(columns=[[33m"serveur"[39m])
+[32m     11[39m     [38;5;28;01mreturn[39;00m g.reindex(pd.date_range(g.index.min(), g.index.max(), freq=[33m"5min"[39m))
+[32m---> [39m[32m12[39m b = b.groupby([33m"serveur"[39m).apply(sur_grille)   [38;5;66;03m# MultiIndex (serveur, horodatage)[39;00m
+[32m     13[39m 
+[32m     14[39m [38;5;66;03m# 4. imputation courte (<= 2 pas = 10 min), tendance-compatible[39;00m
+[32m     15[39m b = b.interpolate(limit=[32m2[39m, limit_direction=[33m"both"[39m)
+
+[36mFile [39m[32m~\Documents\cours-bayesien-SDIA-4112\.venv\Lib\site-packages\pandas\core\groupby\groupby.py:1650[39m, in [36mGroupBy.apply[39m[34m(self, func, include_groups, *args, **kwargs)[39m
+[32m   1647[39m [38;5;28;01melse[39;00m:
+[32m   1648[39m     f = func
+[32m-> [39m[32m1650[39m [38;5;28;01mreturn[39;00m [30;43mself[39;49m[30;43m.[39;49m[30;43m_python_apply_general[39;49m[30;43m([39;49m[30;43mf[39;49m[30;43m,[39;49m[30;43m [39;49m[30;43mself[39;49m[30;43m.[39;49m[30;43m_obj_with_exclusions[39;49m[30;43m)[39;49m
+
+[36mFile [39m[32m~\Documents\cours-bayesien-SDIA-4112\.venv\Lib\site-packages\pandas\core\groupby\groupby.py:1687[39m, in [36mGroupBy._python_apply_general[39m[34m(self, f, data, not_indexed_same, is_transform, is_agg)[39m
+[32m   1652[39m [38;5;129m@final[39m
+[32m   1653[39m [38;5;28;01mdef[39;00m[38;5;250m [39m[34m_python_apply_general[39m(
+[32m   1654[39m     [38;5;28mself[39m,
+[32m   (...)[39m[32m   1659[39m     is_agg: [38;5;28mbool[39m = [38;5;28;01mFalse[39;00m,
+[32m   1660[39m ) -> NDFrameT:
+[32m   1661[39m [38;5;250m    [39m[33;03m"""[39;00m
+[32m   1662[39m [33;03m    Apply function f in python space[39;00m
+[32m   1663[39m 
+[32m   (...)[39m[32m   1685[39m [33;03m        data after applying f[39;00m
+[32m   1686[39m [33;03m    """[39;00m
+[32m-> [39m[32m1687[39m     values, mutated = [30;43mself[39;49m[30;43m.[39;49m[30;43m_grouper[39;49m[30;43m.[39;49m[30;43mapply_groupwise[39;49m[30;43m([39;49m[30;43mf[39;49m[30;43m,[39;49m[30;43m [39;49m[30;43mdata[39;49m[30;43m)[39;49m
+[32m   1688[39m     [38;5;28;01mif[39;00m not_indexed_same [38;5;129;01mis[39;00m [38;5;28;01mNone[39;00m:
+[32m   1689[39m         not_indexed_same = mutated
+
+[36mFile [39m[32m~\Documents\cours-bayesien-SDIA-4112\.venv\Lib\site-packages\pandas\core\groupby\ops.py:1035[39m, in [36mBaseGrouper.apply_groupwise[39m[34m(self, f, data)[39m
+[32m   1033[39m [38;5;66;03m# group might be modified[39;00m
+[32m   1034[39m group_axes = group.axes
+[32m-> [39m[32m1035[39m res = [30;43mf[39;49m[30;43m([39;49m[30;43mgroup[39;49m[30;43m)[39;49m
+[32m   1036[39m [38;5;28;01mif[39;00m [38;5;129;01mnot[39;00m mutated [38;5;129;01mand[39;00m [38;5;129;01mnot[39;00m _is_indexed_like(res, group_axes):
+[32m   1037[39m     mutated = [38;5;28;01mTrue[39;00m
+
+[36mCell[39m[36m [39m[32mIn[3][39m[32m, line 10[39m, in [36msur_grille[39m[34m(g)[39m
+[32m      9[39m [38;5;28;01mdef[39;00m sur_grille(g):
+[32m---> [39m[32m10[39m     g = g.set_index([33m"horodatage"[39m).drop(columns=[[33m"serveur"[39m])
+[32m     11[39m     [38;5;28;01mreturn[39;00m g.reindex(pd.date_range(g.index.min(), g.index.max(), freq=[33m"5min"[39m))
+
+[36mFile [39m[32m~\Documents\cours-bayesien-SDIA-4112\.venv\Lib\site-packages\pandas\core\frame.py:6302[39m, in [36mDataFrame.drop[39m[34m(self, labels, axis, index, columns, level, inplace, errors)[39m
+[32m   6298[39m                 weight  [32m250.0[39m   [32m150.0[39m
+[32m   6299[39m         falcon  speed   [32m320.0[39m   [32m250.0[39m
+[32m   6300[39m                 weight  [32m1.0[39m     [32m0.8[39m
+[32m   6301[39m         """
+[32m-> [39m[32m6302[39m         return super().drop(
+[32m   6303[39m             labels=labels,
+[32m   6304[39m             axis=axis,
+[32m   6305[39m             index=index,
+
+[36mFile [39m[32m~\Documents\cours-bayesien-SDIA-4112\.venv\Lib\site-packages\pandas\core\generic.py:4632[39m, in [36mNDFrame.drop[39m[34m(self, labels, axis, index, columns, level, inplace, errors)[39m
+[32m   4628[39m         obj = self
+[32m   4629[39m 
+[32m   4630[39m         [38;5;28;01mfor[39;00m axis, labels [38;5;28;01min[39;00m axes.items():
+[32m   4631[39m             [38;5;28;01mif[39;00m labels [38;5;28;01mis[39;00m [38;5;28;01mnot[39;00m [38;5;28;01mNone[39;00m:
+[32m-> [39m[32m4632[39m                 obj = obj._drop_axis(labels, axis, level=level, errors=errors)
+[32m   4633[39m 
+[32m   4634[39m         [38;5;28;01mif[39;00m inplace:
+[32m   4635[39m             self._update_inplace(obj)
+
+[36mFile [39m[32m~\Documents\cours-bayesien-SDIA-4112\.venv\Lib\site-packages\pandas\core\generic.py:4674[39m, in [36mNDFrame._drop_axis[39m[34m(self, labels, axis, level, errors, only_slice)[39m
+[32m   4670[39m                 [38;5;28;01mif[39;00m [38;5;28;01mnot[39;00m isinstance(axis, MultiIndex):
+[32m   4671[39m                     [38;5;28;01mraise[39;00m AssertionError([33m"axis must be a MultiIndex"[39m)
+[32m   4672[39m                 new_axis = axis.drop(labels, level=level, errors=errors)
+[32m   4673[39m             [38;5;28;01melse[39;00m:
+[32m-> [39m[32m4674[39m                 new_axis = axis.drop(labels, errors=errors)
+[32m   4675[39m             indexer = axis.get_indexer(new_axis)
+[32m   4676[39m 
+[32m   4677[39m         [38;5;66;03m# Case for non-unique axis[39;00m
+
+[36mFile [39m[32m~\Documents\cours-bayesien-SDIA-4112\.venv\Lib\site-packages\pandas\core\indexes\base.py:7268[39m, in [36mIndex.drop[39m[34m(self, labels, errors)[39m
+[32m   7266[39m [38;5;28;01mif[39;00m mask.any():
+[32m   7267[39m     [38;5;28;01mif[39;00m errors != [33m"[39m[33mignore[39m[33m"[39m:
+[32m-> [39m[32m7268[39m         [38;5;28;01mraise[39;00m [38;5;167;01mKeyError[39;00m([33mf[39m[33m"[39m[38;5;132;01m{[39;00mlabels[mask].tolist()[38;5;132;01m}[39;00m[33m not found in axis[39m[33m"[39m)
+[32m   7269[39m     indexer = indexer[~mask]
+[32m   7270[39m [38;5;28;01mreturn[39;00m [38;5;28mself[39m.delete(indexer)
+
+[31mKeyError[39m: "['serveur'] not found in axis"
+

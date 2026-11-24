@@ -1,0 +1,175 @@
+% =====================================================================
+%  Seance 4 -- D. TP : prevoir et decider (frames 22--27)
+% =====================================================================
+\section{TP « Prévoir et décider »}
+
+\begin{frame}[fragile]{TP B1 --- la série horaire du parc (30 min)}
+\begin{codebox}[B1. Agréger, décomposer, tester]
+\begin{lstlisting}
+import pandas as pd
+from statsmodels.tsa.seasonal import seasonal_decompose
+from statsmodels.tsa.stattools import adfuller
+
+m = pd.read_csv("data/nosys_metriques.csv",
+                parse_dates=["horodatage"])
+s = m.set_index("horodatage")["cpu_pct"].resample("1h").mean()
+print(len(s))                     # 720
+
+dec = seasonal_decompose(s, model="additive", period=24)
+dec.plot()                        # tendance + saison + residus
+
+stat, p, *_ = adfuller(s)         # 0.075 : on differencie
+stat, p, *_ = adfuller((s - s.shift(24)).dropna())  # ~0
+\end{lstlisting}
+\end{codebox}
+\begin{abox}[Livrable B1]
+Un graphique à 4 panneaux : série, décomposition, ACF, PACF
+(\py{plot_acf}, \py{plot_pacf} de \py{statsmodels}) + la conclusion
+ADF en une phrase. Vos chiffres doivent retrouver ceux du cours :
+$p_{\text{brut}} = 0{,}075$, saison à 24 h.
+\end{abox}
+\end{frame}
+
+\begin{frame}[fragile]{TP B2 --- SARIMA : ajuster, prévoir, mesurer (40 min)}
+\begin{codebox}[B2. Le protocole du cours, exécuté par vous]
+\begin{lstlisting}
+from statsmodels.tsa.statespace.sarimax import SARIMAX
+import numpy as np
+
+train, test = s.iloc[:576], s.iloc[576:]
+t = np.arange(len(s))             # harmoniques hebdo (exogenes)
+X = np.column_stack(
+    [f(t*2*np.pi*j/168) for j in (1,2,3)
+     for f in (np.sin, np.cos)])
+
+mod = SARIMAX(train, exog=X[:576],
+              order=(2,0,1), seasonal_order=(1,0,1,24))
+res = mod.fit(disp=False)
+fc = res.get_forecast(144, exog=X[576:])
+pred, ci = fc.predicted_mean, fc.conf_int()
+
+mae = np.mean(np.abs(pred - test))     # ~3.0
+\end{lstlisting}
+\end{codebox}
+\begin{wbox}[Deux contrôles obligatoires]
+\begin{enumerate}
+\item MAE \textbf{mesurée} sur les 144 heures de test, jamais sur le
+train --- et comparée à deux bases naïves (persistance 24 h : 5,06 ;
+semaine précédente : 5,23).
+\item Toujours tracer \textbf{l'intervalle} : c'est lui qui porte la
+marge de capacité du cours 3.
+\end{enumerate}
+\end{wbox}
+\end{frame}
+
+\begin{frame}{B2 --- ce que vous devez observer}
+\begin{center}
+\includegraphics[width=0.8\textwidth]{f26_sarima_prevision.png}
+\end{center}
+\vspace{1mm}
+\begin{columns}[t]
+\begin{column}{0.5\textwidth}
+\begin{solbox}[Résultat de référence]
+\small
+MAE test \textbf{3,01 pts CPU} : \textbf{$-40{,}5$ \%} d'erreur par
+rapport à la persistance. L'intervalle 95 \% couvre l'essentiel des
+pics --- sauf les incidents, invisibles pour un modèle de niveau.
+\end{solbox}
+\end{column}
+\begin{column}{0.46\textwidth}
+\begin{qbox}[Question d'analyse]
+\small
+Pourquoi l'intervalle s'élargit-il avec l'horizon ? (réponse :
+l'incertitude de prévision s'accumule --- au-delà de quelques jours,
+prévoir et moyenne hebdomadaire se valent.)
+\end{qbox}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{TP B3 --- modèle de panne, split temporel strict (30 min)}
+\begin{codebox}[B3. Le split qui respecte le temps]
+\begin{lstlisting}
+from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.metrics import confusion_matrix
+
+f = pd.read_csv("data/nosys_features.csv",
+                parse_dates=["fenetre"])
+feats = ["cpu_moy","cpu_max","ram_moy","lat_moy","lat_p99",
+         "perte_moy","temp_moy","conso_moy","cpu_delta",
+         "cpu_amplitude","h_sin","h_cos"]
+f = f.dropna(subset=feats+["incident_30min"])
+
+cut = pd.Timestamp("2026-09-22")        # JAMAIS de shuffle
+tr, te = f[f.fenetre < cut], f[f.fenetre >= cut]
+gbc = GradientBoostingClassifier(
+    n_estimators=300, max_depth=4,
+    learning_rate=0.06, random_state=5534)
+gbc.fit(tr[feats], tr.incident_30min)
+print(confusion_matrix(te.incident_30min,
+      gbc.predict(te[feats])))
+# -> [[10290, 14], [24, 40]] : rappel 62,5 %
+\end{lstlisting}
+\end{codebox}
+\begin{abox}[Vérification anti-fuite]
+Refaire le modèle avec \py{alarme} en entrée : 40 fenêtres d'alarme
+donnent 40 incidents « prédits » à 100 \%. C'est le signe de la fuite
+--- la variable répète l'étiquette au lieu de la précéder.
+\end{abox}
+\end{frame}
+
+\begin{frame}{TP B4 --- le budget d'alertes (20 min)}
+\begin{columns}[t]
+\begin{column}{0.52\textwidth}
+\begin{block}{Principe}
+Le rappel seul ne décide rien : chaque fausse alerte coûte du temps
+d'astreinte. On trace le \textbf{rappel en fonction du nombre
+d'alertes par jour} (classer les fenêtres de test par score
+décroissant, regarder les $k$ premières chaque jour) et on choisit le
+\textbf{point d'opération}.
+\end{block}
+\begin{solbox}[Référence du dossier]
+\textbf{5 alertes/jour} $\Rightarrow$ rappel \textbf{62,5 \%}
+(40 pannes sur 64 rattrapées). Au-delà, la courbe plafonne : les
+24 incidents restants n'ont aucun signal métrique --- il faudra les
+journaux (séance 5).
+\end{solbox}
+\end{column}
+\begin{column}{0.44\textwidth}
+\begin{qbox}[À débattre en binôme]
+Votre équipe accepte 2 alertes/jour maximum. Quel rappel obtenez-vous ?
+Quel compromis proposeriez-vous au responsable d'exploitation, chiffré
+en incidents manqués et en heures d'astreinte ?
+\end{qbox}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{TP B5 --- livrable et barème}
+\begin{columns}[t]
+\begin{column}{0.52\textwidth}
+\begin{abox}[À rendre]
+\begin{enumerate}
+\item \textbf{Graphique prévision/réalisé} avec intervalle (B2).
+\item \textbf{Tableau rappel / alertes par jour} (B4) avec le point
+d'opération choisi et justifié.
+\item \textbf{Date de saturation} du stockage, avec hypothèses
+explicites (cours 3).
+\item \textbf{Un paragraphe} : « que décide l'exploitant lundi matin ? »
+--- scale, marge, rétention, seuils.
+\end{enumerate}
+\end{abox}
+\end{column}
+\begin{column}{0.44\textwidth}
+\begin{kbox}[Barème (20 pts)]
+\begin{itemize}
+\item B1 série, décomposition, ADF --- 4 pts
+\item B2 SARIMA ajusté + MAE honnête --- \textbf{5 pts}
+\item B3 modèle sans fuite + split strict --- \textbf{5 pts}
+\item B4 courbe et choix du point --- 3 pts
+\item B5 livrable et décision argumentée --- 3 pts
+\end{itemize}
+\end{kbox}
+\end{column}
+\end{columns}
+\end{frame}

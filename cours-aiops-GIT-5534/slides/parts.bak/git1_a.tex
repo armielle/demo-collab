@@ -1,0 +1,375 @@
+% =====================================================================
+%  Seance 1 -- A. page de garde, plan, ML fondamental (frames 1--13)
+% =====================================================================
+\section{Séance 1 --- Introduction au ML et aux infrastructures}
+\chapterslide{Séance 1}{Introduction à l'apprentissage automatique et aux infrastructures}
+{4 h --- 2 h cours / 2 h TP --- Partie 1 du syllabus EPD-GIT-5534}
+{\textbf{Objectifs :} situer les trois familles de ML $\bullet$ nommer les composants d'une
+infrastructure et leurs indicateurs de santé (SLI/SLO/SLA, MTBF/MTTR) $\bullet$
+formuler un problème opérationnel en termes de ML $\bullet$ explorer un jeu de
+métriques réelles (NOSYS) et produire une fiche « état des lieux » chiffrée.}
+
+\begin{frame}{Plan de la séance (4 h)}
+\begin{columns}[t]
+\begin{column}{0.48\textwidth}
+\begin{kbox}[Cours magistral --- 2 h]
+\begin{enumerate}
+\item \textbf{Notions fondamentales du ML} (50 min) : les trois familles, le vocabulaire.
+\item \textbf{Anatomie d'une infrastructure} (40 min) : couches, métriques, SLI/SLO/SLA, MTBF/MTTR.
+\item \textbf{Le croisement : AIOps} (20 min) : pourquoi le ML change la supervision.
+\item \textbf{Lancement du dossier NOSYS} (10 min).
+\end{enumerate}
+\end{kbox}
+\end{column}
+\begin{column}{0.48\textwidth}
+\begin{ebox}[Travaux pratiques --- 2 h]
+\textbf{« Cartographier la plateforme »} sur les vraies métriques
+\file{nosys\_metriques.csv} :
+\begin{enumerate}
+\item B1 --- chargement et vérifications (30 min)
+\item B2 --- inventaire de qualité (20 min)
+\item B3 --- visualiser un serveur sur 7 jours (30 min)
+\item B4 --- statistiques par serveur (40 min)
+\item B5 --- livrable : fiche « état des lieux » (20 min)
+\end{enumerate}
+\end{ebox}
+\end{column}
+\end{columns}
+\vspace{1mm}
+\begin{center}\small
+Fil conducteur des 6 séances : \textbf{NOSYS}, exploitant d'un centre de données
+et d'un réseau 4G/5G à Douala.
+\end{center}
+\end{frame}
+
+\begin{frame}{Pourquoi le ML change le métier d'exploitant}
+\begin{columns}[t]
+\begin{column}{0.52\textwidth}
+\begin{ebox}[Le problème NOSYS (données réelles du dossier)]
+Les journaux du mois (\file{nosys\_logs.csv}) contiennent \textbf{100\,000 lignes}
+d'authentification. Une intrusion brute force y est enfouie :
+\textbf{125 échecs d'authentification concentrés} sur 2 heures de nuit,
+sur les comptes \py{root}, \py{admin}, \py{inconnu-*}.
+\begin{itemize}
+\item Baseline normale : $\approx$ 30 échecs/jour sur tout le parc.
+\item Personne ne lit 100\,000 lignes : \textbf{l'œil humain rate l'attaque}.
+\end{itemize}
+\end{ebox}
+\begin{kbox}[La promesse de cette UE]
+Un modèle qui lit les données en continu, apprend ce qui est \emph{normal},
+et alerte \emph{avant} la panne --- pas 3 heures après.
+\end{kbox}
+\end{column}
+\begin{column}{0.44\textwidth}
+\begin{wbox}[Ce que le ML ne remplace pas]
+\begin{itemize}
+\item Le \textbf{bon sens opérationnel} : un modèle alerte, un humain décide.
+\item Les \textbf{règles simples} quand elles suffisent (un disque plein, on le voit).
+\item La \textbf{qualité des données} : garbage in, garbage out.
+\end{itemize}
+\end{wbox}
+\vspace{2mm}
+\begin{center}\small
+Objectifs pédagogiques du syllabus couverts aujourd'hui :\\
+\#1 concepts fondamentaux $\bullet$ \#2 usages dans les infrastructures.
+\end{center}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Qu'est-ce que l'apprentissage automatique ?}
+\begin{block}{Définition de travail}
+\textbf{Apprendre} une fonction de prédiction ou de structure
+$f$ à partir de \textbf{données}, plutôt que de l'écrire à la main :
+\[
+\text{données } (x, y) \;\longrightarrow\; \text{apprentissage}
+\;\longrightarrow\; f \;\longrightarrow\; \text{prédictions sur du \textbf{nouveau}}
+\]
+\end{block}
+\begin{itemize}
+\item \textbf{Programmation classique} : l'humain écrit les règles
+(\py{if cpu > 90: alerte()}).
+\item \textbf{ML} : l'humain fournit des exemples, la machine \emph{apprend} les règles
+--- y compris celles qu'on ne saurait pas écrire (quel pattern de latence annonce une panne ?).
+\item Le critère d'apprentissage (fonction de coût) et la mesure de généralisation
+sont les \textbf{deux piliers} de tout modèle : on les verra à chaque séance.
+\end{itemize}
+\begin{kbox}[À retenir dès maintenant]
+Un modèle vaut ce que vaut sa performance \textbf{sur des données qu'il n'a jamais vues}
+--- jamais sa performance sur les données d'entraînement.
+\end{kbox}
+\end{frame}
+
+\begin{frame}{Les trois familles de l'apprentissage}
+\begin{center}
+\begin{tikzpicture}[node distance=4mm,
+  box/.style={rectangle,rounded corners=2mm,draw,align=center,font=\scriptsize,minimum height=9mm}]
+\node[box,draw=byBlue,fill=byBlue!8,text width=3.6cm] (sup) {\textbf{Supervisé}\\données étiquetées $(x,y)$\\régression \fcolorbox{byDeep}{byCyan!20}{\scriptsize ou} classification};
+\node[box,draw=byCyan,fill=byCyan!8,right=of sup,text width=3.6cm] (nonsup) {\textbf{Non supervisé}\\pas d'étiquette, chercher une\\structure : clustering,\\détection d'anomalies};
+\node[box,draw=byOrange,fill=byOrange!8,right=of nonsup,text width=3.6cm] (renf) {\textbf{Par renforcement}\\un agent agit, reçoit une\\récompense, ajuste\\sa stratégie};
+\draw[-{Stealth},thick,byDeep] (sup) -- node[above,font=\tiny]{étiquettes} (nonsup);
+\end{tikzpicture}
+\end{center}
+\vspace{1mm}
+\begin{columns}[t]
+\begin{column}{0.32\textwidth}
+\begin{ebox}[En infrastructure]
+Prédire la latence à $h{+}1$ ;\\
+classer une session « attaque / légitime » ;\\
+estimer la durée d'un incident.
+\end{ebox}
+\end{column}
+\begin{column}{0.32\textwidth}
+\begin{ebox}[En infrastructure]
+Regrouper les serveurs par profil de charge ;\\
+détecter les fenêtres « anormales » ;\\
+segmenter les applications.
+\end{ebox}
+\end{column}
+\begin{column}{0.32\textwidth}
+\begin{ebox}[En infrastructure]
+Piloter le refroidissement d'une salle ;\\
+ajuster dynamiquement la\\limite de débit d'un client.
+\end{ebox}
+\end{column}
+\end{columns}
+\vspace{1mm}
+\begin{center}\small
+Cette UE couvre en profondeur les \textbf{deux premières familles} ;
+le renforcement est un aperçu culturel.
+\end{center}
+\end{frame}
+
+\begin{frame}{Supervisé (1/2) : la régression}
+\begin{block}{Principe}
+La cible $y$ est \textbf{continue}. On apprend $f(x) \approx y$, par exemple une forme linéaire
+\[
+\hat{y} = \beta_0 + \beta_1 x_1 + \dots + \beta_p x_p
+\]
+en minimisant l'erreur quadratique moyenne (MSE) :
+\[
+\mathrm{MSE} = \frac{1}{n}\sum_{i=1}^{n}\bigl(y_i - \hat{y}_i\bigr)^2
+\]
+\end{block}
+\begin{columns}[t]
+\begin{column}{0.48\textwidth}
+\begin{ebox}[Exemples « infrastructure »]
+\begin{itemize}
+\item Prédire la \textbf{latence} de demain 14 h--15 h à partir de la charge.
+\item Prédire la \textbf{consommation} (kWh) d'une salle la semaine prochaine
+--- notre parc a consommé \textbf{11\,614 kWh} en 30 jours : le modèle du TP de la
+séance 4 partira de ce chiffre.
+\item Estimer la \textbf{durée restante} avant saturation du stockage.
+\end{itemize}
+\end{ebox}
+\end{column}
+\begin{column}{0.48\textwidth}
+\begin{kbox}[Ce qu'on apprendra (séances 4 et 11)]
+\begin{itemize}
+\item Régression linéaire : interpréter un $\beta$ (« +1 \% de CPU $\Rightarrow$ +x ms »).
+\item Séries temporelles (ARIMA) : les métriques d'infra sont \textbf{correlées dans le temps},
+on ne peut pas les traiter comme un tableau aléatoire.
+\end{itemize}
+\end{kbox}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Supervisé (2/2) : la classification}
+\begin{block}{Principe}
+La cible $y$ est \textbf{discrète} (une classe). Le modèle sort une \textbf{probabilité}
+$P(y = k \given x)$ et une règle de décision (seuil).
+\[
+P(\text{incident} \given \text{CPU, latence, heure}) = 0{,}87
+\;\Rightarrow\; \text{alerte si } P > 0{,}5
+\]
+\end{block}
+\begin{columns}[t]
+\begin{column}{0.48\textwidth}
+\begin{ebox}[Exemples « infrastructure »]
+\begin{itemize}
+\item \textbf{Incident dans les 30 min ?} (cible binaire, construite au TP2)
+\item \textbf{Session attaque / légitime} (séance 5)
+\item \textbf{Triage} d'un ticket : réseau / matériel / applicatif
+\end{itemize}
+\end{ebox}
+\begin{wbox}[Le piège des classes rares]
+Les incidents sont rares (16 blocs sur un mois) : la simple
+\textbf{exactitude} est trompeuse. Un modèle qui dit toujours
+« pas d'incident » a 99,98 \% d'exactitude et \textbf{zéro valeur}.
+$\Rightarrow$ précision, rappel, F1 (séance 3).
+\end{wbox}
+\end{column}
+\begin{column}{0.48\textwidth}
+\begin{kbox}[Vocabulaire de décision]
+\begin{itemize}
+\item \textbf{Faux positif} : alerte injustifiée $\Rightarrow$ fatigue d'alerte du NOC.
+\item \textbf{Faux négatif} : panne non détectée $\Rightarrow$ SLA cassé.
+\item Les deux coûts sont \textbf{asymétriques} : c'est un choix métier, pas technique.
+\end{itemize}
+\end{kbox}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Non supervisé : clustering et détection d'anomalies}
+\begin{columns}[t]
+\begin{column}{0.48\textwidth}
+\begin{block}{Clustering}
+Regrouper les observations \textbf{sans étiquette}. Ex. : $k$-means
+partitionne les serveurs selon (CPU, RAM, latence) en $k$ profils.
+\begin{itemize}
+\item Sert à \textbf{comprendre} avant de modéliser.
+\item Séance 10 (cours de ML général) / séance 5 ici pour regrouper des attaques.
+\end{itemize}
+\end{block}
+\begin{ebox}[Sur NOSYS]
+Classer nos \textbf{8 serveurs} par profil de charge : avec les CPU moyens
+(14,4 à 24,6 \%), les profils sont proches --- le clustering devient intéressant
+quand on agrège par \emph{application}, pas par machine.
+\end{ebox}
+\end{column}
+\begin{column}{0.48\textwidth}
+\begin{block}{Détection d'anomalies}
+Apprendre la distribution du \textbf{normal}, puis mesurer l'improbabilité :
+\[
+\text{score}(x) \text{ grand}
+\;\Longleftrightarrow\;
+x \text{ improbable sous } p_{\text{norm}}
+\]
+\begin{itemize}
+\item C'est \textbf{le} problème central de la supervision.
+\item Outils de la séance 3 : $z$-score, IQR, isolation forest, LOF.
+\end{itemize}
+\end{block}
+\begin{kbox}[Pourquoi pas seulement des seuils ?]
+Parce que « normal » \textbf{dépend de l'heure} : CPU 30 \% à 14 h est normal,
+CPU 30 \% à 3 h du matin pour srv-01 est suspect. Un seuil fixe ne voit pas cette différence.
+\end{kbox}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Par renforcement : l'aperçu culturel}
+\begin{block}{Principe}
+Un \textbf{agent} observe un état, \textbf{agit}, reçoit une \textbf{récompense},
+et ajuste sa politique pour maximiser la récompense cumulée.
+Pas de données étiquetées : les \emph{essais} créent l'expérience.
+\end{block}
+\begin{columns}[t]
+\begin{column}{0.5\textwidth}
+\begin{ebox}[L'exemple qui a tout déclenché]
+Les datacenters de Google : un agent de renforcement pilotant la
+climatisation a réduit l'énergie de refroidissement d'environ \textbf{40 \%}
+(DeepMind, 2016). La récompense : PUE (efficacité énergétique) minimisée.
+\end{ebox}
+\begin{ebox}[Autres usages « infra »]
+\begin{itemize}
+\item Routage dynamique dans un réseau maillé.
+\item Ordonnancement de tâches sur un parc hétérogène.
+\end{itemize}
+\end{ebox}
+\end{column}
+\begin{column}{0.46\textwidth}
+\begin{wbox}[Pourquoi un aperçu seulement]
+\begin{itemize}
+\item Nécessite un \textbf{simulateur} fidèle de l'infrastructure
+(on ne fait pas d'essais/erreurs en production !).
+\item Hors du périmètre de cette UE : cité pour que vous
+\textbf{sachiez le nommer} et reconnaître ses usages.
+\end{itemize}
+\end{wbox}
+\begin{center}\small
+En 2026, la majorité des usages ML \emph{matures} en infrastructure
+sont supervisés ou non supervisés.
+\end{center}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Exemple : classer les problèmes de NOSYS}
+\begin{columns}[t]
+\begin{column}{0.48\textwidth}
+\begin{abox}[À vous de jouer --- 4 min]
+Classer chaque problème dans la bonne famille (et sous-famille) :
+\begin{enumerate}
+\item Prévoir le trafic agrégé de la semaine prochaine.
+\item Détecter les fenêtres de métriques « pas comme les autres ».
+\item Prédire si un incident survient dans les 30 min.
+\item Regrouper les applications par profil de consommation.
+\item Choisir automatiquement quand lancer une tâche de sauvegarde.
+\end{enumerate}
+\end{abox}
+\end{column}
+\begin{column}{0.48\textwidth}
+\begin{solbox}[Corrigé]
+\begin{enumerate}
+\item Supervisé --- \textbf{régression} (série temporelle : séance 4).
+\item Non supervisé --- \textbf{anomalies} (séance 3).
+\item Supervisé --- \textbf{classification} binaire (séances 3--4).
+\item Non supervisé --- \textbf{clustering}.
+\item Renforcement --- l'agent apprend une politique d'ordonnancement
+(aperçu, hors UE).
+\end{enumerate}
+\textbf{Erreur fréquente} : le n°2 n'est pas supervisé --- il n'existe pas
+d'étiquette « anormal » au moment de l'apprentissage.
+\end{solbox}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Le vocabulaire qui reviendra à chaque séance}
+\begin{columns}[t]
+\begin{column}{0.49\textwidth}
+\begin{kbox}[Les mots et leur sens exact]
+\begin{description}
+\item[Variable explicative ($x$)] ce qu'on observe : CPU, latence, heure\ldots
+\item[Variable cible ($y$)] ce qu'on prédit : incident, charge, classe.
+\item[Jeu d'entraînement] données qui \textbf{fabriquent} le modèle.
+\item[Jeu de test] données \textbf{jamais vues} qui mesurent la généralisation.
+\item[Surapprentissage] le modèle a mémorisé le bruit du train ---
+excellent sur le passé, mauvais demain.
+\item[Pipeline] la chaîne reproductible : préparation $\to$ modèle $\to$ prédiction.
+\end{description}
+\end{kbox}
+\end{column}
+\begin{column}{0.47\textwidth}
+\begin{wbox}[Trois pièges qui coûtent des mois en production]
+\begin{enumerate}
+\item \textbf{Fuite de données} : donner au modèle une information
+du futur (ex. inclure l'alarme de 14 h pour prédire l'incident de 14 h\ldots
+qui est \emph{causée} par le pic). On y revient en séance 4.
+\item \textbf{Validation mélangée} : découper des séries temporelles au hasard
+--- le train contient alors le futur du test.
+\item \textbf{Métrique mal choisie} : exactitude sur des incidents rares
+(0,2 \% du temps) $\Rightarrow$ un modèle nul paraît parfait.
+\end{enumerate}
+\end{wbox}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Quiz 1 --- les fondations (5 min)}
+\begin{qbox}[3 questions --- répondez sans regarder la suite]
+\begin{enumerate}
+\item Détecter des sessions d'authentification anormales \textbf{sans} exemples
+d'attaques passés est un problème\ldots\\
+(a) supervisé \quad (b) non supervisé \quad (c) par renforcement
+\item Un modèle atteint 99,98 \% d'exactitude sur la détection d'incidents
+(16 blocs / mois). Que conclure ?\\
+(a) excellent modèle \quad (b) il dit peut-être toujours « non » --- il faut
+la matrice de confusion \quad (c) il faut plus de CPU
+\item Un SLI se mesure, un SLO est\ldots\\
+(a) le contrat signé avec le client \quad (b) l'objectif interne qu'on se fixe
+sur le SLI \quad (c) une métrique système
+\end{enumerate}
+\end{qbox}
+\vspace{1mm}
+\begin{solbox}[Réponses]
+\textbf{1 : b} --- sans étiquettes, on cherche l'improbabilité : anomalies (séance 5).
+\quad
+\textbf{2 : b} --- 99,98 \% = ne jamais alerter ; l'exactitude est piégeuse sur classes rares.
+\quad
+\textbf{3 : b} --- le SLA est le contrat (avec pénalités), le SLO l'objectif interne.
+\end{solbox}
+\end{frame}

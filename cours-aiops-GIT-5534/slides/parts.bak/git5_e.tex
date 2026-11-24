@@ -1,0 +1,239 @@
+% =====================================================================
+%  Seance 5 -- E. TP B1-B5, quiz de synthese, kbox, preview seance 6
+% =====================================================================
+\section{TP « Détecter l'intrusion de NOSYS » et synthèse}
+
+\begin{frame}{Le TP : objectif final, une note d'incident}
+\begin{columns}[t]
+\begin{column}{0.52\textwidth}
+\begin{kbox}[Ce que vous produisez à 18 h]
+\begin{center}
+\file{sessions\_suspectes.csv} + \textbf{note d'incident (1 page)}\\[1mm]
+une ligne $=$ (machine, fenêtre 10 min)\\[1mm]
+\begin{tabular}{@{}l@{}}
+\toprule
+echecs, succes, utilisateurs, entropie\\
+echecs\_consecutifs, comptes\_sensibles, nuit\\
+score\_anomalie (IsolationForest)\\
+pred\_attaque (forêt supervisée)\\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{kbox}
+\begin{ebox}[Chiffres attendus (mesurés)]
+\textbf{10\,000 sessions} dont \textbf{12 d'attaque} (0,12 \%) ;
+top 30 de l'IF $=$ les 12 sessions d'attaque aux \textbf{rangs 1--12},
+précision@30 $= 0{,}40$, rappel $= 1{,}00$ ; forêt supervisée :
+précision $=$ rappel $= 1{,}00$ en test stratifié.
+\end{ebox}
+\end{column}
+\begin{column}{0.44\textwidth}
+\begin{wbox}[Barème (20 points)]
+\begin{itemize}
+\item B1 parsing + agrégation : \textbf{4 pts}
+\item B2 features + entropie : \textbf{4 pts}
+\item B3 IsolationForest + précision@30 : \textbf{5 pts}
+\item B4 forêt supervisée + métriques : \textbf{4 pts}
+\item B5 livrable + note d'incident : \textbf{3 pts}
+\end{itemize}
+Graine \textbf{5534} partout, \textbf{2 threads} max. Le code doit
+s'exécuter de bout en bout sur \file{nosys\_logs.csv}.
+\end{wbox}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{TP B1 --- parser et agréger (30 min)}
+\begin{codebox}[B1. De 100 000 lignes à 10 000 sessions]
+\begin{lstlisting}
+import pandas as pd
+
+L = pd.read_csv("data/nosys_logs.csv", parse_dates=["horodatage"])
+L["echec"]  = (~L["auth_reussie"].astype(bool)).astype(int)
+L["succes"] = 1 - L["echec"]
+L["fenetre"] = L["horodatage"].dt.floor("10min")
+
+g = L.groupby(["machine", "fenetre"])
+S = pd.DataFrame({
+    "n_evenements": g.size(),
+    "echecs":  g["echec"].sum(),
+    "succes":  g["succes"].sum(),
+    "utilisateurs": g["utilisateur"].nunique(),
+})
+S["taux_echec"] = S["echecs"] / S["n_evenements"]
+print(len(S))            # 10000 sessions
+print(S["echecs"].max()) # 15  (la rafale de l'attaque)
+\end{lstlisting}
+\end{codebox}
+\vspace{1mm}
+\begin{solbox}[Vérification attendue]
+10\,000 sessions ; max \py{echecs} $= 15$ (bdd-principal, 03 h 10) ;
+moyenne d'échecs par session $\approx 0{,}48$ --- l'attaque dépasse la
+normale d'un facteur 20 sur sa feature principale.
+\end{solbox}
+\end{frame}
+
+\begin{frame}[fragile]{TP B2 --- features d'attaque et entropie (30 min)}
+\begin{codebox}[B2. Entropie de Shannon des comptes testés]
+\begin{lstlisting}
+from scipy.stats import entropy
+
+def entropie_comptes(u):          # u = liste des utilisateurs
+    comptage = pd.Series(list(u)).value_counts().values
+    return entropy(comptage, base=2)
+
+S["entropie"] = g["utilisateur"].apply(entropie_comptes)
+
+# echecs consecutifs max (la rafale), ordre horaire
+def max_run(d):
+    e = d.sort_values("horodatage")["echec"].values
+    best = cur = 0
+    for v in e:
+        cur = cur + 1 if v else 0
+        best = max(best, cur)
+    return best
+
+S["echecs_consecutifs"] = g.apply(max_run, include_groups=False)
+SENS = {"root", "admin", "inconnu-1", "inconnu-2"}
+S["comptes_sensibles"] = g.apply(
+    lambda d: int(d.loc[d["echec"]==1,
+                        "utilisateur"].isin(SENS).sum()),
+    include_groups=False)
+S["nuit"] = (S.index.get_level_values("fenetre").hour < 6)
+\end{lstlisting}
+\end{codebox}
+\vspace{1mm}
+\begin{center}\small
+Vérification : entropie moyenne attaque $\approx 1{,}73$ bits vs
+$2{,}22$ bits sur le reste ; \textbf{100 \%} des échecs d'attaque portent
+sur des comptes sensibles.
+\end{center}
+\end{frame}
+
+\begin{frame}[fragile]{TP B3 --- IsolationForest et précision@30 (30 min)}
+\begin{codebox}[B3. Classer, puis compter le recouvrement]
+\begin{lstlisting}
+from sklearn.ensemble import IsolationForest
+
+FEATS = ["echecs", "taux_echec", "utilisateurs", "entropie",
+         "echecs_consecutifs", "comptes_sensibles", "nuit"]
+X = S[FEATS].values
+
+iso = IsolationForest(n_estimators=200, contamination=0.005,
+                      random_state=5534, n_jobs=2)
+S["score"] = -iso.fit(X).decision_function(X)
+top30 = S.sort_values("score", ascending=False).head(30)
+
+# verite terrain : fenetre d'attaque reelle
+att = (top30["machine"] == "bdd-principal") & \
+      top30["fenetre"].between("2026-10-05 02:00",
+                               "2026-10-05 04:00")
+print("precision@30 :", att.mean())   # 0.40
+print("rappel :", ...)                 # 12/12 = 1.0
+\end{lstlisting}
+\end{codebox}
+\vspace{1mm}
+\begin{center}\small
+Attendu : les 12 sessions d'attaque occupent les \textbf{rangs 1 à 12}.
+Discutez : pourquoi précision@10 $= 1{,}0$ mais précision@30 $= 0{,}4$ ?
+\end{center}
+\end{frame}
+
+\begin{frame}[fragile]{TP B4 --- forêt supervisée ; B5 --- livrable (30 min)}
+\begin{columns}[t]
+\begin{column}{0.52\textwidth}
+\begin{codebox}[B4. Supervisé sur l'étiquette session-attaque]
+\begin{lstlisting}
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import \
+    train_test_split
+
+S["attaque"] = att_reelle(S)   # fenetre 2-4h bdd
+Xtr, Xte, ytr, yte = train_test_split(
+    S[FEATS], S["attaque"], test_size=0.5,
+    stratify=S["attaque"], random_state=5534)
+rf = RandomForestClassifier(
+    n_estimators=300, class_weight="balanced",
+    random_state=5534, n_jobs=2).fit(Xtr, ytr)
+print(precision_score(yte, rf.predict(Xte)))  # 1.0
+print(recall_score(yte, rf.predict(Xte)))     # 1.0
+\end{lstlisting}
+\end{codebox}
+\end{column}
+\begin{column}{0.44\textwidth}
+\begin{ebox}[B5. Livrable (10 min)]
+\begin{itemize}
+\item \file{sessions\_suspectes.csv} : le top 30 avec score et prédiction.
+\item \textbf{Note d'incident (1 page)} : ce qui s'est passé (brute force,
+bdd-principal, 05/10 02 h -- 04 h), \textbf{preuve chiffrée} (125 échecs,
+12 sessions, comptes ciblés, 0 succès), \textbf{action recommandée}
+(ex. blocage IP + verrouillage progressif + rotation des mots de passe).
+\end{itemize}
+\end{ebox}
+\begin{wbox}[Attention]
+\py{att\_reelle} ne doit servir \textbf{qu'à l'évaluation} --- l'utiliser
+comme feature serait une fuite de données (règle anti-fuite de la séance 2).
+\end{wbox}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Quiz de synthèse --- 5 QCM (10 min)}
+\begin{qbox}[Séance 5, tout le programme]
+\begin{enumerate}
+\item Le premier réflexe face à 100\,000 lignes de logs est de :\\
+(a) tout lire \quad (b) agréger en sessions et construire des features \quad
+(c) acheter un SIEM
+\item La granularité « session » utilisée aujourd'hui est :\\
+(a) (utilisateur, jour) \quad (b) (machine, fenêtre 10 min) \quad (c) (message, niveau)
+\item IsolationForest a placé les 12 sessions d'attaque :\\
+(a) aux rangs 1--12 \quad (b) aux rangs 100--112 \quad (c) nulle part
+\item Le superviseur bat le non-supervisé surtout parce qu'il :\\
+(a) va plus vite \quad (b) connaît la frontière attaque/normal apprise des
+incidents passés \quad (c) n'a pas d'hyperparamètres
+\item La meilleure défense contre la fatigue d'alerte est :\\
+(a) plus d'alertes \quad (b) classer et regrouper pour ne montrer que le
+haut du classement \quad (c) supprimer les règles
+\end{enumerate}
+\end{qbox}
+\vspace{1mm}
+\begin{solbox}[Corrigé]
+\textbf{1 : b} \quad \textbf{2 : b} \quad \textbf{3 : a} (mesuré, graine 5534) \quad
+\textbf{4 : b} \quad \textbf{5 : b}
+\end{solbox}
+\end{frame}
+
+\begin{frame}{Ce qu'il faut retenir --- et la suite}
+\begin{columns}[t]
+\begin{column}{0.52\textwidth}
+\begin{kbox}[Les 5 idées de la séance]
+\begin{enumerate}
+\item La signature d'une attaque vit dans l'\textbf{agrégation}, pas dans
+la ligne : sessions (machine $\times$ 10 min) et features d'attaque.
+\item \textbf{Combiner des signaux faibles} : échecs + entropie + comptes
+sensibles + nuit.
+\item IsolationForest \textbf{sans étiquette} a retrouvé les 12 sessions
+d'attaque aux rangs 1--12 (précision@30 $= 0{,}40$, hasard : 0,0012).
+\item Le supervisé (forêt, étiquettes d'incidents) : précision $=$ rappel
+$= 1{,}00$ en test --- mais méfiance devant le 100 \%.
+\item Limites à garder en tête : adversarial, fatigue d'alerte,
+explicabilité (SHAP), vie privée ; fiabilité : dérive, données, redondance.
+\end{enumerate}
+\end{kbox}
+\end{column}
+\begin{column}{0.44\textwidth}
+\begin{ebox}[Prochaine séance --- Séance 6]
+\textbf{MLOps : faire vivre les modèles}
+\begin{itemize}
+\item Exposer un détecteur en \textbf{API} (endpoint de scoring).
+\item \textbf{Réentraînement} automatique : déclencheurs, fenêtres,
+validation avant mise en production.
+\item Surveillance de bout en bout : données, dérive, scores --- le
+pipeline complet de NOSYS, de la collecte à l'alerte.
+\end{itemize}
+À préparer : relire la séance 3 (forêt, validation croisée) --- la séance 6
+met le \emph{modèle} en production, pas seulement le code.
+\end{ebox}
+\end{column}
+\end{columns}
+\end{frame}

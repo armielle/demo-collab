@@ -1,0 +1,84 @@
+{
+ "lignes": 34560,
+ "positifs": 120,
+ "taux_positifs_pct": 0.35,
+ "train_lignes": 24192,
+ "train_positifs": 56,
+ "test_lignes": 10368,
+ "test_positifs": 64,
+ "jours_test": 9,
+ "lat_p99_moy": 12.7,
+ "lat_p99_std": 5.3,
+ "lat_p99_zscore_depassements": 72,
+ "lat_p99_iqr_depassements": 82,
+ "iso_top20": 20,
+ "iso_top20_pct": 100.0,
+ "iso_anomalies_test": 174,
+ "iso_anomalies_test_incidents": 40,
+ "acc_toujours0_test": 99.38,
+ "acc_toujours0_global": 99.65,
+ "metriques_test_0.5": {
+  "Foret (balanced)": {
+   "tn": 10297,
+   "fp": 7,
+   "fn": 64,
+   "tp": 0,
+   "precision": 0.0,
+   "rappel": 0.0,
+   "f1": 0.0,
+   "pr_auc": 0.188
+  },
+  "Gradient boosting": {
+   "tn": 10304,
+   "fp": 0,
+   "fn": 24,
+   "tp": 40,
+   "precision": 1.0,
+   "rappel": 0.625,
+   "f1": 0.769,
+   "pr_auc": 0.629
+  },
+  "Reg. logistique": {
+   "tn": 9976,
+   "fp": 328,
+   "fn": 39,
+   "tp": 25,
+   "precision": 0.071,
+   "rappel": 0.391,
+   "f1": 0.12,
+   "pr_auc": 0.316
+  }
+ },
+ "cv_temporelle_F1_moy_std": {
+  "Foret (balanced)": [
+   0.343,
+   0.299
+  ],
+  "Gradient boosting": [
+   0.715,
+   0.024
+  ],
+  "Reg. logistique": [
+   0.247,
+   0.213
+  ]
+ },
+ "meilleur_modele": "Gradient boosting",
+ "budget_alertes_test": 360,
+ "seuil_choisi": 1.0,
+ "alertes_au_seuil": 40,
+ "alertes_par_jour_parc": 4.4,
+ "alertes_par_jour_serveur": 0.56,
+ "metriques_meilleur_seuil": {
+  "tn": 10304,
+  "fp": 0,
+  "fn": 24,
+  "tp": 40,
+  "precision": 1.0,
+  "rappel": 0.625,
+  "f1": 0.769
+ },
+ "indisp_initiale_h": 11.52,
+ "indisp_apres70_h": 3.46,
+ "dispo_apres70_pct": 99.94
+}

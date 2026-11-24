@@ -1,0 +1,149 @@
+% =====================================================================
+%  Seance 6 -- D. TP : du modele au service + evaluation blanche (23--28)
+% =====================================================================
+\section{TP « De la forêt au service » et évaluation blanche}
+
+\begin{frame}{Le TP : objectif et déroulé (2 h)}
+\begin{columns}[t]
+\begin{column}{0.52\textwidth}
+\begin{kbox}[Ce que vous produisez à 18 h]
+\begin{enumerate}
+\item \textbf{B1} --- \file{nosys\_pipeline.joblib} + un script de scoring
+qui charge le pipeline et score un nouveau fichier de métriques (30 min).
+\item \textbf{B2} --- un rapport de latence : moyenne et p99 sur
+\textbf{1 000 prédictions réelles}, et le raisonnement de capacité (30 min).
+\item \textbf{B3} --- une fiche MLOps d'une page : plan de retraining,
+métriques surveillées, procédure de rollback (30 min).
+\item \textbf{B4} --- évaluation blanche : 20 questions couvrant les 6
+séances, corrigé fourni (30 min).
+\end{enumerate}
+\end{kbox}
+\end{column}
+\begin{column}{0.44\textwidth}
+\begin{ebox}[Le pipeline officiel du cours]
+Tout part de \file{nosys\_features.csv} et du split temporel strict :
+train $<$ 2026-09-22 (24 192 fenêtres, 56 positives), test $\ge$
+(10 368, 64 positives). \textbf{Aucune ligne du futur dans le train.}
+\end{ebox}
+\begin{wbox}[Le test de vraie fin]
+Si votre B1 sauvegarde \textbf{la standardisation en même temps que la
+forêt}, c'est gagné : un pipeline partiel (modèle seul) produit des scores
+faux sur un nouveau fichier. C'est le piège classique de l'industrialisation.
+\end{wbox}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{TP B1 --- sauvegarder le pipeline avec joblib (30 min)}
+\small
+\begin{codebox}[B1. Le pipeline complet, pas seulement la forêt]
+\begin{lstlisting}
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.preprocessing import StandardScaler
+from sklearn.pipeline import make_pipeline
+import joblib
+
+pipe = make_pipeline(StandardScaler(),
+        RandomForestClassifier(n_estimators=200, min_samples_leaf=2,
+            class_weight="balanced", random_state=5534))
+pipe.fit(Xtr, ytr)                 # train < 2026-09-22
+joblib.dump(pipe, "out/nosys_pipeline.joblib")
+
+pipe = joblib.load("out/nosys_pipeline.joblib")   # dans le service
+nouveau = pd.read_csv("data/nouveaux_metriques.csv")
+scores = pipe.predict_proba(nouveau[variables])[:, 1]
+\end{lstlisting}
+\end{codebox}
+\small\begin{abox}[Livrable B1]
+\file{nosys\_pipeline.joblib} (dans \file{out/}, jamais dans \file{data/})
++ un script \py{scorer.py} qui prend un CSV de métriques et écrit les
+scores. Test : scorer le train doit redonner les probabilités d'avant
+sauvegarde.
+\end{abox}
+\end{frame}
+
+\begin{frame}{TP B2 --- mesurer la latence réelle de scoring (30 min)}
+\small
+\begin{center}
+\includegraphics[width=0.62\textwidth]{f34_latence.png}
+\end{center}
+\begin{columns}[t]
+\begin{column}{0.5\textwidth}
+\begin{ebox}[Résultats réels du script du cours (1 000 prédictions)]
+Moyenne : \textbf{59 ms} par fenêtre --- p99 : \textbf{105 ms}. Par lots de
+100 : \textbf{94 279 fenêtres/min} par cœur. Les chiffres de votre machine
+seront vos propres mesures --- c'est ça le livrable.
+\end{ebox}
+\end{column}
+\begin{column}{0.46\textwidth}
+\begin{qbox}[Le raisonnement de capacité à rédiger]
+NOSYS produit \textbf{1 152 fenêtres/jour} (8 serveurs). Un cœur à 1 000
+fenêtres/min en individuel : quelle marge ? Et pourquoi le scoring par lots
+est-il $\approx$ 90 fois plus rapide par fenêtre ? (indice : overhead
+d'appel, parallélisme interne des arbres)
+\end{qbox}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{TP B3 --- la fiche MLOps d'une page (30 min)}
+\small
+\begin{columns}[t]
+\begin{column}{0.52\textwidth}
+\small\begin{abox}[Les trois rubriques imposées]
+\begin{enumerate}
+\item \textbf{Plan de retraining} : fréquence de base (ex. hebdomadaire) et
+\textbf{déclencheurs chiffrés} --- ex. « proba moyenne $>$ 0,005 pendant
+48 h », « taux d'alertes $>$ 0,2 \%», « AUC $<$ 0,70 dès que mesurable ».
+\item \textbf{Métriques surveillées} : AUC, taux d'alertes, latence moyenne
++ p99, distribution des entrées --- avec les valeurs réelles du B2 et de f29.
+\item \textbf{Procédure de rollback} : garder les N dernières versions ; si
+le taux d'alertes double après bascule, revenir à la version précédente en
+moins de 10 minutes.
+\end{enumerate}
+\end{abox}
+\end{column}
+\begin{column}{0.44\textwidth}
+\small\begin{kbox}[Barème B3 (sur 7 pts de la note TP)]
+\begin{itemize}
+\item Déclencheurs \textbf{chiffrés} et justifiés par les mesures --- 3 pts
+\item Métriques complètes avec valeurs réelles --- 2 pts
+\item Rollback testable (qui, quoi, délai) --- 2 pts
+\end{itemize}
+\end{kbox}
+\begin{wbox}[Le critère de réussite]
+Une fiche MLOps est bonne quand un collègue qui n'a pas suivi le cours
+peut faire tourner et surveiller le modèle \textbf{avec elle seule}.
+\end{wbox}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{TP B4 --- évaluation blanche : 20 questions (30 min)}
+\small
+\begin{columns}[t]
+\begin{column}{0.52\textwidth}
+\begin{ebox}[Format]
+QCM identique à l'examen final : \textbf{20 questions}, une par grande
+notion : 3 sur les données (séances 1--2), 4 sur classification (séance 3),
+3 sur les séries temporelles (séance 4), 3 sur les logs (séance 5),
+7 sur MLOps et gouvernance (séance 6).
+\end{ebox}
+\end{column}
+\begin{column}{0.44\textwidth}
+\small\begin{kbox}[Exemples de questions]
+\begin{enumerate}
+\item Le split strict sépare train et test à quelle date ? \hfill (22/09)
+\item Pourquoi p99 et pas seulement la moyenne de latence ?\\
+(une moyenne cache les rares prédictions très lentes)
+\item Que surveille-t-on sur une tranche sans incident ?\\
+(la distribution des scores, pas l'AUC)
+\end{enumerate}
+\end{kbox}
+\begin{solbox}[Corrigé]
+Distribué après les 30 min --- chaque réponse renvoie à la séance et à la
+frame concernée.
+\end{solbox}
+\end{column}
+\end{columns}
+\end{frame}

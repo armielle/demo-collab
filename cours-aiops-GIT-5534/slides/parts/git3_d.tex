@@ -1,0 +1,205 @@
+% =====================================================================
+%  Seance 3 -- D. TP : detecter les incidents avant la panne (frames 24--30)
+% =====================================================================
+\section{TP « Détecter les incidents avant la panne »}
+
+\begin{frame}{Le TP : objectif et règle du jeu}
+\footnotesize%
+\begin{columns}[t]
+\begin{column}{0.5\textwidth}
+\begin{kbox}[Ce que vous produisez à 18 h]
+Un \textbf{système d'alerte} sur \file{nosys\_features.csv} qui :
+\begin{enumerate}
+\item détecte sans étiquette (IsolationForest) ;
+\item prédit « incident $\le$ 30 min » avec un modèle supervisé ;
+\item respecte un \textbf{budget NOC} : $\le$ 5 alertes/jour/serveur ;
+\item est \textbf{justifié par les chiffres} : matrice de confusion,
+courbe PR, tableau comparatif.
+\end{enumerate}
+\end{kbox}
+\begin{ebox}[Rappels de cadrage]
+\begin{itemize}
+\item Split \textbf{temporel} imposé : train $<$ 22/09 (24 192),
+test $\ge$ 22/09 (10 368, 9 jours).
+\item Graine 5534 partout (\py{random\_state=5534}).
+\item Jamais de KFold mélangé.
+\end{itemize}
+\end{ebox}
+\end{column}
+\begin{column}{0.46\textwidth}
+\begin{center}
+\includegraphics[width=\textwidth]{f20_courbes_pr.png}
+\end{center}
+\vspace{1mm}
+\begin{center}\small
+Votre cible à battre (corrigé officiel) :\\ $F_1$ \textbf{0,769},
+rappel \textbf{0,625}, AP \textbf{0,63}.
+\end{center}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{TP B1 --- IsolationForest sans étiquette (25 min)}
+\begin{codebox}[B1. Détecter sans jamais regarder la cible]
+\begin{lstlisting}
+import pandas as pd
+from sklearn.ensemble import IsolationForest
+
+f = pd.read_csv("data/nosys_features.csv", parse_dates=["fenetre"])
+X = f.drop(columns=["serveur", "fenetre", "incident_30min"])
+X = X.fillna(0.0)                       # cpu_delta de la 1re fenetre
+
+train = f["fenetre"] < "2026-09-22"
+iso = IsolationForest(n_estimators=300, contamination=0.01,
+                      random_state=5534, n_jobs=2).fit(X[train])
+f["score_anomalie"] = -iso.score_samples(X)
+
+top20 = f.nlargest(20, "score_anomalie")
+print(top20[["serveur", "fenetre", "cpu_moy", "lat_p99",
+             "incident_30min"]])
+\end{lstlisting}
+\end{codebox}
+\begin{abox}[Livrable B1]
+La liste des 20 fenêtres les plus anormales, triée par score.
+Contrôle attendu (corrigé) : \textbf{20/20 sont des pré-incidents}.
+Notez à la main ce que vous \emph{pouviez} savoir : aucun
+\py{incident\_30min} n'est entré dans le calcul.
+\end{abox}
+\end{frame}
+
+\begin{frame}[fragile]{TP B2 --- recouvrement détections / alarmes réelles (20 min)}
+\begin{codebox}[B2. Confronter le non-supervisé au réel]
+\begin{lstlisting}
+seuil = f.loc[train, "score_anomalie"].quantile(0.99)
+f["anomalie"] = f["score_anomalie"] > seuil
+
+test = f[~train]
+print("anomalies test :", test["anomalie"].sum())      # 174
+print("dont vrais incidents :",
+      test.loc[test["anomalie"], "incident_30min"].sum())  # 40
+
+# recouvrement : par fenetre, combien de serveurs detectes ?
+cov = (test.groupby("fenetre")["anomalie"].sum()
+           .value_counts().sort_index())
+print(cov)     # incidents vus sur 1, 2, ... serveurs a la fois
+\end{lstlisting}
+\end{codebox}
+\begin{columns}[t]
+\begin{column}{0.48\textwidth}
+\begin{wbox}[Ce que 174 anomalies veulent dire]
+\textbf{40} correspondent à un incident à venir ; les
+\textbf{134} autres sont des anomalies bénignes (batch, backup,
+pics). Chaque fausse alerte coûte une nuit d'ingénieur : le
+non-supervisé seul ne suffit pas.
+\end{wbox}
+\end{column}
+\begin{column}{0.48\textwidth}
+\begin{ebox}[Livrable B2]
+Un tableau croisé (anomalie $\times$ incident) sur le test + un
+commentaire de 3 lignes : quelle part des anomalies vaut le coup
+d'être envoyée au NOC ?
+\end{ebox}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{TP B3 --- forêt balanced et matrice de confusion (30 min)}
+\begin{codebox}[B3. Entraîner, puis JUGER sur le futur]
+\begin{lstlisting}
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import confusion_matrix
+
+Xtr, ytr = X[train], f.loc[train, "incident_30min"]
+Xte, yte = X[~train], f.loc[~train, "incident_30min"]
+
+rf = RandomForestClassifier(n_estimators=300,
+        class_weight="balanced", random_state=5534,
+        n_jobs=2).fit(Xtr, ytr)
+proba = rf.predict_proba(Xte)[:, 1]
+pred  = (proba >= 0.5).astype(int)
+
+print(confusion_matrix(yte, pred))
+\end{lstlisting}
+\end{codebox}
+\begin{columns}[t]
+\begin{column}{0.48\textwidth}
+\begin{wbox}[Le piège que vous devez rencontrer]
+Avec \py{class\_weight='balanced'}, le seuil 0,50 n'est plus
+calibré : au corrigé, la forêt prédit 7 positifs... tous faux
+(précision 0,00). Ce n'est \textbf{pas un bug} : c'est le déplacement
+du seuil effectif. Ne paniquez pas, passez au B4.
+\end{wbox}
+\end{column}
+\begin{column}{0.48\textwidth}
+\begin{ebox}[Livrable B3]
+La matrice de confusion sur le test + les 4 cadres
+(TN/FP/FN/TP) commentés en coût métier : qui dérange qui,
+combien de SLA en jeu.
+\end{ebox}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{TP B4 --- courbe PR et seuil métier (30 min)}
+\begin{codebox}[B4. Choisir le seuil sous contrainte de budget NOC]
+\begin{lstlisting}
+from sklearn.metrics import precision_recall_curve
+prec, rec, thr = precision_recall_curve(yte, proba)
+
+# budget : 5 alertes/jour/serveur
+# test = 9 jours x 8 serveurs -> au plus 5*8*9 = 360 alertes
+def alertes_jour_serveur(s):
+    n = (proba >= s).sum()          # alertes sur tout le test
+    return n / 9 / 8                # par jour et par serveur
+
+for s in [0.5, 0.2, 0.1, 0.05, 0.02, 0.01]:
+    p = (proba >= s).astype(int)
+    print(s, alertes_jour_serveur(s),
+          precision_score(yte, p, zero_division=0),
+          recall_score(yte, p, zero_division=0))
+\end{lstlisting}
+\end{codebox}
+\begin{abox}[Livrable B4]
+La courbe précision-rappel de VOTRE modèle + le tableau
+seuil $\rightarrow$ (alertes/jour/serveur, précision, rappel), et le
+\textbf{seuil recommandé} qui respecte les 5 alertes/jour/serveur.
+Référence du corrigé (gradient boosting) : \textbf{40 alertes sur
+9 jours} $= 0{,}56$/jour/serveur, précision 1,00, rappel 0,625.
+\end{abox}
+\end{frame}
+
+\begin{frame}{TP B5 --- livrable et barème}
+\begin{columns}[t]
+\begin{column}{0.52\textwidth}
+\begin{abox}[À rendre]
+\begin{enumerate}
+\item \textbf{Tableau comparatif} des modèles (au moins
+logistique, forêt, boosting --- et IsolationForest en repère) :
+précision, rappel, $F_1$, AP, alertes/jour/serveur au seuil choisi.
+\item \textbf{Seuil recommandé} avec sa justification métier
+(budget NOC, coût FP vs FN).
+\item \textbf{Un paragraphe} (5--8 lignes) : quel modèle vous
+déployez, pourquoi, et ce que vous n'avez PAS détecté (les 24 FN
+du corrigé --- que farez-vous ?).
+\item Reproductibilité : graine 5534, split temporel cité.
+\end{enumerate}
+\end{abox}
+\end{column}
+\begin{column}{0.44\textwidth}
+\begin{kbox}[Barème (20 pts)]
+\begin{itemize}
+\item B1 IsolationForest sans fuite --- 3 pts
+\item B2 recouvrement + commentaire honnête --- 3 pts
+\item B3 forêt balanced + matrice juste --- \textbf{5 pts}
+\item B4 courbe PR + seuil sous budget --- \textbf{5 pts}
+\item B5 comparatif + argumentation métier --- 3 pts
+\item Reproductibilité (graine, split) --- 1 pt
+\end{itemize}
+\end{kbox}
+\begin{wbox}[Fuite = 0 au critère B3]
+Toute valeur calculée sur train+test mélangés (standardisation,
+seuil, SMOTE) annule le critère : le futur ne sert qu'à juger.
+\end{wbox}
+\end{column}
+\end{columns}
+\end{frame}

@@ -1,0 +1,112 @@
+% EPD-GIT-5534 -- Fiche de rentrée : ce qu'il faut savoir avant la séance 1
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=2.0cm]{geometry}
+\usepackage[french]{babel}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{amssymb}
+\usepackage{xcolor}
+\usepackage[most]{tcolorbox}
+\usepackage{hyperref}
+\definecolor{bleuenspd}{HTML}{1F4E79}
+\definecolor{vertOK}{HTML}{2E7D32}
+\definecolor{rougeAlerte}{HTML}{C0504D}
+\emergencystretch=1.5em
+\setlist{nosep,leftmargin=*}
+\pagestyle{empty}
+
+\newtcolorbox{pbox}[1]{colback=bleuenspd!6,colframe=bleuenspd,boxrule=0.8pt,arc=1.5mm,
+  left=2mm,right=2mm,top=1.5mm,bottom=1.5mm,title={#1},fonttitle=\bfseries\color{white},
+  colbacktitle=bleuenspd}
+\newtcolorbox{abox}[1]{colback=vertOK!6,colframe=vertOK!80!black,boxrule=0.8pt,arc=1.5mm,
+  left=2mm,right=2mm,top=1.5mm,bottom=1.5mm,title={#1},fonttitle=\bfseries\color{white},
+  colbacktitle=vertOK!80!black}
+\newtcolorbox{rbox}[1]{colback=rougeAlerte!5,colframe=rougeAlerte,boxrule=0.8pt,arc=1.5mm,
+  left=2mm,right=2mm,top=1.5mm,bottom=1.5mm,title={#1},fonttitle=\bfseries\color{white},
+  colbacktitle=rougeAlerte}
+\newtcolorbox{cbox}{colback=gray!6,colframe=gray!55,boxrule=0.6pt,arc=1.5mm,
+  left=2mm,right=2mm,top=1.5mm,bottom=1.5mm,title={Checklist de rentrée — à cocher},
+  fonttitle=\bfseries\color{white},colbacktitle=gray!70}
+
+\begin{document}
+
+\begin{center}
+\includegraphics[width=2.4cm]{../assets/logo_enspd.png}\\[1mm]
+{\large\color{bleuenspd}\bfseries EPD-GIT-5534 --- Apprentissage automatique appliqué aux infrastructures}\\[1mm]
+{\large\bfseries Avant de venir : ce que vous devez savoir}\\[1mm]
+Master Professionnel ASIC --- Enseignante : Dr. Noulapeu Ngaffo Armielle\\
+École Nationale Supérieure Polytechnique de Douala --- Université de Douala
+\end{center}
+\vspace{2mm}
+
+\begin{pbox}{1. Prérequis indispensables}
+\begin{description}[style=nextline]
+\item[Programmation Python (syntaxe de base)] variables, fonctions, boucles,
+listes et dictionnaires, \texttt{import}, lecture/écriture de fichier,
+lire un message d'erreur (\emph{traceback}) sans paniquer. \emph{Remarque :
+NumPy et Pandas sont enseignés en séance 1 --- mais on ne peut pas les apprendre
+sans la syntaxe de base.}
+\item[Mathématiques de niveau bac] pourcentages et proportions (calculer une
+disponibilité de 99,9 \%), moyenne, variance, lire une échelle logarithmique,
+manipuler une formule simple ($z$, IQR, $F_1$).
+\item[Statistiques élémentaires (bac/1\textsuperscript{re} année)] moyenne,
+médiane, distribution, corrélation --- le vocabulaire doit être familier ;
+il sera formalisé en séance 2.
+\item[Notions de systèmes] serveur, CPU, RAM, disque, salle serveur ;
+différence application/système.
+\item[Notions de réseaux] adresse IP, port, pare-feu, latence versus débit,
+ce qu'est une authentification (login/mot de passe).
+\end{description}
+\end{pbox}
+
+\vspace{2mm}
+\begin{abox}{2. À faire AVANT la première séance (30--45 min)}
+\begin{enumerate}
+\item Installer \textbf{Anaconda} (Python 3.11) sur votre ordinateur :
+\href{https://www.anaconda.com/download}{anaconda.com/download} ;
+\item vérifier que vous savez ouvrir un \textbf{notebook Jupyter} et exécuter une cellule ;
+\item vérifier les bibliothèques en tapant dans un notebook :\\
+\texttt{import numpy, pandas, matplotlib, seaborn, sklearn} --- si une ligne échoue :
+\texttt{pip install <nom>} dans Anaconda Prompt ;
+\item créer un dossier de cours et y placer le dossier \texttt{data/} distribué
+(4 fichiers CSV : métriques propres, métriques brutes, logs, dataset supervisé) ;
+\item apporter \textbf{votre portable} (tout le cours tourne sur CPU : un portable
+ordinaire suffit, aucun GPU n'est nécessaire).
+\end{enumerate}
+\end{abox}
+
+\vspace{2mm}
+\begin{cbox}
+\small
+\begin{tabular}{@{}p{12.6cm}l@{}}
+Python installé et notebook testé & $\square$\\
+\texttt{import numpy, pandas, sklearn} fonctionne & $\square$\\
+Dossier \texttt{data/} récupéré & $\square$\\
+Portable chargé le jour J & $\square$\\
+Relire : moyenne, variance, pourcentage & $\square$\\
+\end{tabular}
+\end{cbox}
+
+\vspace{2mm}
+\begin{rbox}{3. Ce qui n'est PAS un prérequis --- ne vous découragez pas}
+\begin{itemize}
+\item \textbf{Aucune expérience en machine learning} : les trois familles de ML
+sont enseignées dès la séance 1, à partir de zéro.
+\item \textbf{Aucune statistique avancée} : pas de tests d'hypothèses formels
+avant la séance 2, qui reprend tout.
+\item \textbf{Aucune expérience DevOps} : le vocabulaire d'exploitation
+(SLA, SLO, MTBF) est défini en séance 1.
+\item \textbf{Pas de machine puissante} : graines fixées, calculs allégés,
+un portable standard suffit pour l'intégralité des TP.
+\end{itemize}
+\end{rbox}
+
+\vspace{2mm}
+\begin{pbox}{4. Prérequis recommandés (aide précieuse, non bloquants)}
+Ligne de commande (cmd/PowerShell) · notions de SQL (utile pour les jointures
+temporelles de la séance 2) · premier contact avec Git · avoir déjà vu un
+dashboard type Grafana (un plus culturel).
+\end{pbox}
+
+\end{document}

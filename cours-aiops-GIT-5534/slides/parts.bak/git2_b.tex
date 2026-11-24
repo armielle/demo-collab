@@ -1,0 +1,198 @@
+% =====================================================================
+%  Seance 2 -- B. Preparer les donnees (frames 10--18)
+% =====================================================================
+\section{Préparer les données : doublons, manquants, aberrants}
+
+\begin{frame}[fragile]{Étape 0 : trier et dédoublonner}
+\begin{codebox}[Le rituel des 3 premières lignes de tout pipeline]
+\begin{lstlisting}
+b = pd.read_csv("data/nosys_metriques_brutes.csv", parse_dates=["horodatage"])
+
+# 1. trier : la collecte arrive dans le desordre
+b = b.sort_values(["serveur", "horodatage"]).reset_index(drop=True)
+
+# 2. dedoublonner : 200 lignes exactement identiques (re-tentative reseau)
+print(b.duplicated().sum())        # -> 200
+b = b.drop_duplicates()
+
+# 3. verifier la completude : nb de points attendus par serveur
+b.groupby("serveur").size()
+\end{lstlisting}
+\end{codebox}
+\begin{columns}[t]
+\begin{column}{0.48\textwidth}
+\begin{ebox}[Ce que révèle l'étape 3 sur le fichier brut]
+7 serveurs à $\approx$ 8 600 points, \textbf{srv-07 à 2 880} : la
+granularité 15 min se voit immédiatement dans le compte.
+\end{ebox}
+\end{column}
+\begin{column}{0.48\textwidth}
+\begin{wbox}[Pourquoi trier AVANT tout le reste]
+Diff, fenêtres glissantes et interpolation supposent l'ordre
+temporel. Sur un fichier « brûlé » (ordre mélangé), une moyenne
+mobile calculée avant le tri est \textbf{mathématiquement fausse}
+--- sans qu'aucune erreur ne soit levée.
+\end{wbox}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Valeurs manquantes : trois mécanismes, trois réponses}
+\begin{center}
+\footnotesize
+\begin{tabular}{@{}p{2.4cm}p{4.8cm}p{5.0cm}@{}}
+\toprule
+\textbf{Mécanisme} & \textbf{Ce que c'est} & \textbf{Réponse adaptée}\\
+\midrule
+\textbf{MCAR} & manquant \emph{au hasard} (capteur flottant) &
+imputation simple acceptable\\
+\addlinespace[1pt]
+\textbf{MAR} & manquant \emph{lié à une autre variable observée} &
+modèle d'imputation (KNN, régression)\\
+\addlinespace[1pt]
+\textbf{MNAR} & manquant \emph{pour une raison liée à sa valeur}
+(le CPU à 100 \% fait planter l'agent !) &
+ne jamais imputer aveuglément : documenter, traiter le trou comme signal\\
+\bottomrule
+\end{tabular}
+\end{center}
+\vspace{1mm}
+\begin{columns}[t]
+\begin{column}{0.52\textwidth}
+\begin{ebox}[Dans le fichier brut NOSYS]
+\textbf{5 508} cellules manquantes (1,73 \% des cellules numériques),
+réparties uniformément sur les 5 colonnes (1 072 à 1 123 chacune) :
+profil \textbf{MCAR} --- capteurs flottants. Imputation justifiée,
+\textbf{après} vérification du profil.
+\end{ebox}
+\end{column}
+\begin{column}{0.44\textwidth}
+\begin{kbox}[Le test à faire systématiquement]
+Comparer le taux de manquants \textbf{pendant les incidents} et
+\textbf{hors incidents}. Si les manquants se concentrent pendant les
+incidents $\Rightarrow$ MNAR : l'absence de donnée \emph{est} une information.
+\end{kbox}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Imputer : forward-fill contre interpolation}
+\begin{center}
+\includegraphics[width=0.94\textwidth]{f13_imputation.png}
+\end{center}
+\begin{columns}[t]
+\begin{column}{0.52\textwidth}
+\begin{ebox}[Erreur mesurée sur CPU (600 points masqués, srv-01)]
+\begin{itemize}
+\item \textbf{Forward-fill} (recopier la dernière valeur) :
+erreur absolue moyenne \textbf{1,018} points de CPU.
+\item \textbf{Interpolation linéaire} :
+\textbf{0,743} --- 27 \% mieux, car le signal évolue en tendance.
+\end{itemize}
+\end{ebox}
+\end{column}
+\begin{column}{0.44\textwidth}
+\begin{wbox}[La règle du pas]
+Jamais d'imputation au-delà d'1--2 pas. Au-delà (trou de 40 min),
+interpoler \textbf{invente} des données : mieux vaut marquer le trou
+et l'exclure des fenêtres d'entraînement.
+\end{wbox}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Valeurs aberrantes : z-score et IQR en pratique}
+\begin{center}
+\includegraphics[width=0.92\textwidth]{f12_outliers.png}
+\end{center}
+\begin{columns}[t]
+\begin{column}{0.5\textwidth}
+\begin{ebox}[Sur la latence du fichier brut]
+Après exclusion des 12 pics capteur (latence $>$ 400 ms) :
+\begin{itemize}
+\item bornes IQR : \py{[Q1 - 1.5*IQR ; Q3 + 1.5*IQR]} ;
+\item bornes z-score : moyenne $\pm$ 3 écart-types.
+\item Les deux méthodes se recouvrent sur une loi proche de la normale ---
+l'IQR est \textbf{robuste} même si la distribution est asymétrique.
+\end{itemize}
+\end{ebox}
+\end{column}
+\begin{column}{0.46\textwidth}
+\begin{wbox}[Le défaut à ne JAMAIS faire]
+Supprimer tout ce qui dépasse ! Sur nos données, \textbf{les incidents
+sont des valeurs extrêmes légitimes} (CPU 96 \% pendant l'incident).
+\begin{itemize}
+\item Distinguer \textbf{erreur de mesure} (température 1 575 °C,
+CPU 350 \% : physiquement impossible) et \textbf{événement réel} (CPU 96 \%).
+\item Règle métier d'abord : bornes physiques du système, puis statistiques.
+\end{itemize}
+\end{wbox}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Rééchantillonner : du pas irrégulier à la grille commune}
+\begin{codebox}[Normaliser la granularité (srv-07 en 15 min $\to$ 5 min)]
+\begin{lstlisting}
+def normaliser(g):                      # g = un serveur
+    g = g.set_index("horodatage").drop(columns=["serveur"])
+    # grille reguliere de 5 min sur la plage du serveur
+    grille = pd.date_range(g.index.min(), g.index.max(), freq="5min")
+    return g.reindex(grille)            # les trous deviennent des NaN
+
+b = b.groupby("serveur", group_keys=False).apply(normaliser)
+\end{lstlisting}
+\end{codebox}
+\begin{columns}[t]
+\begin{column}{0.5\textwidth}
+\begin{center}
+\includegraphics[width=\textwidth]{f09_reechantillonnage.png}
+\end{center}
+\end{column}
+\begin{column}{0.46\textwidth}
+\begin{kbox}[Ce que fait \py{reindex}]
+Il crée la grille 5 min \textbf{explicite} : les trous (agent redémarré)
+apparaissent comme \py{NaN} au lieu de disparaître silencieusement ---
+on peut alors les compter, les tracer, les imputer ou les exclure
+en connaissance de cause.
+\end{kbox}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Quiz 2 --- préparation (5 min)}
+\begin{qbox}[3 questions]
+\begin{enumerate}
+\item 5 508 manquants uniformément répartis sur les colonnes : quel mécanisme ?\\
+(a) MNAR \quad (b) MAR \quad (c) MCAR
+\item Un CPU affiché à 350 \%. Que fait-on ?\\
+(a) on l'impute \quad (b) c'est une erreur de mesure (physiquement impossible)
+$\Rightarrow$ on la corrige en NaN puis on impute \quad (c) on le garde, c'est
+un incident
+\item Pourquoi l'IQR est-il souvent préféré au z-score sur des métriques d'infra ?\\
+(a) il est plus rapide \quad (b) il est robuste aux distributions
+asymétriques (latence, queues longues) \quad (c) il détecte plus d'outliers
+\end{enumerate}
+\end{qbox}
+\vspace{1mm}
+\begin{solbox}[Réponses]
+\textbf{1 : c} \quad \textbf{2 : b} --- CPU $>$ 100 \% n'existe pas ;
+CPU 96 \% pendant un incident est, lui, légitime. \quad \textbf{3 : b}
+\end{solbox}
+\end{frame}
+
+\begin{frame}{À retenir de la préparation}
+\begin{kbox}[Les 5 règles du pipeline de préparation]
+\begin{enumerate}
+\item \textbf{Trier} par (serveur, temps) avant toute fenêtre ou interpolation.
+\item \textbf{Dédoublonner} puis \textbf{compter} : la granularité se voit
+dans les comptes (srv-07 : 2 880 points).
+\item \textbf{Réindexer} sur une grille explicite : les trous deviennent
+des NaN \emph{visibles}, jamais des silences.
+\item Classer les manquants (\textbf{MCAR/MAR/MNAR}) avant de choisir
+l'imputation --- et ne jamais imputer au-delà d'1--2 pas.
+\item Distinguer \textbf{erreur de mesure} (impossible physiquement)
+et \textbf{événement réel} : les incidents SONT des valeurs extrêmes légitimes.
+\end{enumerate}
+\end{kbox}
+\end{frame}

@@ -1,0 +1,54 @@
+C:\Users\HP\Documents\cours-bayesien-SDIA-4112\.venv\Lib\site-packages\statsmodels\tsa\statespace\mlemodel.py:679: EstimationWarning: Non-stationary starting autoregressive parameters found. Using zeros as starting parameters.
+  start_params = self.start_params
+C:\Users\HP\Documents\cours-bayesien-SDIA-4112\.venv\Lib\site-packages\statsmodels\tsa\statespace\mlemodel.py:679: EstimationWarning: Non-invertible starting MA parameters found. Using zeros as starting parameters.
+  start_params = self.start_params
+C:\Users\HP\Documents\cours-bayesien-SDIA-4112\.venv\Lib\site-packages\statsmodels\tsa\statespace\mlemodel.py:737: ConvergenceWarning: Maximum Likelihood optimization failed to converge. Check mle_retvals
+  mlefit = super().fit(
+[IPKernelApp] WARNING | Kernel is running over TCP without encryption. All communication (including code and outputs) is sent in plain text and is susceptible to eavesdropping. Use IPC transport or launch with kernel manager-provisioned CurveZMQ keys to enable transport encryption.
+== pré-calcul des chiffres des markdown ==
+   pré-calcul OK (SARIMA MAE 3.00, GBC seuil 0.000, IF p@30 0.40, AUC 0.799, latence 18.5 ms)
+Traceback (most recent call last):
+  File "C:\Users\HP\Documents\cours-aiops-GIT-5534\src\mk_tp.py", line 1299, in <module>
+    execute(build(name, cells, title, intro), name)
+  File "C:\Users\HP\Documents\cours-aiops-GIT-5534\src\mk_tp.py", line 253, in execute
+    client.execute()
+  File "C:\Users\HP\Documents\cours-bayesien-SDIA-4112\.venv\Lib\site-packages\jupyter_core\utils\__init__.py", line 165, in wrapped
+    return loop.run_until_complete(inner)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\asyncio\base_events.py", line 654, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\HP\Documents\cours-bayesien-SDIA-4112\.venv\Lib\site-packages\nbclient\client.py", line 709, in async_execute
+    await self.async_execute_cell(
+  File "C:\Users\HP\Documents\cours-bayesien-SDIA-4112\.venv\Lib\site-packages\nbclient\client.py", line 1062, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "C:\Users\HP\Documents\cours-bayesien-SDIA-4112\.venv\Lib\site-packages\nbclient\client.py", line 918, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+ordre = par_srv.sort_values("cpu_moy", ascending=False)
+fig, ax = plt.subplots(figsize=(8, 3.2))
+cols = ["#c0392b" if s == "srv-01" else "#4c72b0" for s in ordre.index]
+ax.bar(ordre.index, ordre["cpu_moy"], color=cols)
+ax.axhline(cpu_parc, color="k", ls="--", lw=1,
+           label="moyenne du parc (%.1f %%)" % cpu_parc)
+ax.set_ylabel("CPU moyen (%)")
+ax.set_title("Classement des serveurs — CPU moyen (srv-01 surligné)")
+ax.legend(); plt.show()
+------------------
+
+
+[31m---------------------------------------------------------------------------[39m
+[31mNameError[39m                                 Traceback (most recent call last)
+[36mCell[39m[36m [39m[32mIn[6][39m[32m, line 5[39m
+[32m      1[39m ordre = par_srv.sort_values([33m"cpu_moy"[39m, ascending=[38;5;28;01mFalse[39;00m)
+[32m      2[39m fig, ax = plt.subplots(figsize=([32m8[39m, [32m3.2[39m))
+[32m      3[39m cols = [[33m"#c0392b"[39m [38;5;28;01mif[39;00m s == [33m"srv-01"[39m [38;5;28;01melse[39;00m [33m"#4c72b0"[39m [38;5;28;01mfor[39;00m s [38;5;28;01min[39;00m ordre.index]
+[32m      4[39m ax.bar(ordre.index, ordre[[33m"cpu_moy"[39m], color=cols)
+[32m----> [39m[32m5[39m ax.axhline(cpu_parc, color="k", ls="--", lw=1,
+[32m      6[39m            label="moyenne du parc (%.1f %%)" % cpu_parc)
+[32m      7[39m ax.set_ylabel([33m"CPU moyen (%)"[39m)
+[32m      8[39m ax.set_title([33m"Classement des serveurs — CPU moyen (srv-01 surligné)"[39m)
+
+[31mNameError[39m: name 'cpu_parc' is not defined
+

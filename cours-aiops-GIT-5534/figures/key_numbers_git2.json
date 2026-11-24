@@ -1,0 +1,32 @@
+{
+ "lignes_brutes": 63521,
+ "doublons_exactes": 200,
+ "nan_total": 5508,
+ "nan_pct": 1.734,
+ "nan_par_colonne": {
+  "cpu_pct": 1122,
+  "ram_pct": 1126,
+  "latence_ms": 1072,
+  "paquets_perdus_pct": 1114,
+  "temperature_c": 1074
+ },
+ "temp_max_brute": 1575.0,
+ "cpu_max_brute": 425.9448109368466,
+ "lat_max_brute": 5534.4,
+ "temp_max_normale": 42.65,
+ "cpu_max_normale": 95.99,
+ "lat_max_normale": 156.08,
+ "pas_5min": 7,
+ "serveurs_15min": [
+  "srv-07"
+ ],
+ "pas_15min": 1,
+ "derive_srv06_C_par_jour": 0.222,
+ "pente_normale_srv06": -0.018,
+ "err_ffill_cpu": 1.018,
+ "err_interp_cpu": 0.743,
+ "ecart_type_cpu_normal": 12.4,
+ "nb_fenetres_10min": 34560,
+ "nb_fenetres_incident_futur": 120,
+ "taux_positifs_pct": 0.35
+}

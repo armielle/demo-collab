@@ -1,0 +1,46 @@
+{
+  "provenance": "src/make_nosys_data.py (graine 5534)",
+  "cours": "EPD-GIT-5534 - Apprentissage automatique applique aux infrastructures",
+  "metriques": {
+    "fichier": "nosys_metriques.csv",
+    "lignes": 69120,
+    "serveurs": 8,
+    "pas_min": 5,
+    "periode": [
+      "2026-09-01 00:00:00",
+      "2026-09-30 23:55:00"
+    ],
+    "fenetres_alarme": 136,
+    "cpu_moyen": 20.495177083333335,
+    "latence_p99": 16.31,
+    "incidents_planifies": 2
+  },
+  "logs": {
+    "fichier": "nosys_logs.csv",
+    "lignes": 100000,
+    "periode": [
+      "2026-10-01 00:00:00",
+      "2026-10-07 22:39:54"
+    ],
+    "echecs_auth": 4828,
+    "lignes_intrusion": 125,
+    "niveaux": {
+      "INFO": 71946,
+      "WARNING": 12990,
+      "ERROR": 11055,
+      "CRITICAL": 4009
+    }
+  },
+  "incidents_planifies": [
+    {
+      "serveur": "srv-08",
+      "debut": "2026-09-09 14:00:00",
+      "duree_min": 35
+    },
+    {
+      "serveur": "srv-08",
+      "debut": "2026-09-22 03:00:00",
+      "duree_min": 50
+    }
+  ]
+}

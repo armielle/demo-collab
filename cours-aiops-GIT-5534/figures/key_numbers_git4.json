@@ -1,0 +1,101 @@
+{
+ "serie": {
+  "n_points": 720,
+  "granularite": "1 h",
+  "periode_saison": 24,
+  "n_train": 576,
+  "n_test": 144,
+  "cpu_moy_parc": 20.5,
+  "adf_stat_brut": -2.693,
+  "adf_p_brut": 0.0753,
+  "adf_stat_d1": -15.188,
+  "adf_p_d1": 0.0,
+  "adf_stat_d24": -5.859,
+  "adf_p_d24": 3.4e-07
+ },
+ "sarima": {
+  "ordre": [
+   2,
+   0,
+   1
+  ],
+  "saisonnier": [
+   1,
+   0,
+   1,
+   24
+  ],
+  "aics": {
+   "(0, 0, 1)": 3228.8,
+   "(1, 0, 0)": 3176.5,
+   "(1, 0, 1)": 3124.7,
+   "(2, 0, 1)": 3121.5
+  },
+  "aic_meilleur": 3121.5,
+  "mae_test": 3.007,
+  "mae_persist_jour": 5.055,
+  "mae_semaine_precedente": 5.229,
+  "gain_vs_persist_pct": 40.5,
+  "gain_vs_semaine_pct": 42.5,
+  "ljungbox_p_lag24": 0.0,
+  "cpu_moy_parc": 20.5
+ },
+ "panne": {
+  "n_train": 24184,
+  "n_test": 10368,
+  "pos_train": 56,
+  "pos_test": 64,
+  "jours_test": 9.16,
+  "confusion_vn_fp_fn_vp": [
+   10290,
+   14,
+   24,
+   40
+  ],
+  "recall_test": 0.625,
+  "precision_test": 0.741,
+  "cm_fuite_vn_fp_fn_vp": [
+   10289,
+   15,
+   24,
+   40
+  ],
+  "recall_fuite": 0.625,
+  "precision_fuite": 0.727,
+  "n_fenetres_alarme_test": 40,
+  "pos_si_alarme": 40,
+  "p_incident_si_alarme": 1.0,
+  "n_sans_alarme_test": 10328,
+  "pos_sans_alarme": 24,
+  "p_incident_sans_alarme_pct": 0.232,
+  "kfold_recall_moy": 0.6,
+  "kfold_recalls": [
+   0.625,
+   0.625,
+   0.542,
+   0.583,
+   0.625
+  ],
+  "k_op_alertes_par_jour": 5,
+  "recall_op": 0.625,
+  "rappel_k3": 0.4062,
+  "rappel_k6": 0.625,
+  "rappel_k12": 0.625,
+  "rappel_max_topk": 0.625
+ },
+ "saturation": {
+  "usage_initial_pct": 40.0,
+  "taux_pct_par_jour": 1.333,
+  "seuil_pct": 90.0,
+  "jours_restants": 37.5,
+  "date_saturation": "07/11/2026",
+  "date_saturation_iso": "2026-11-07"
+ },
+ "disponibilite": {
+  "indispo_h_mois": 11.3,
+  "part_evitee": 0.7,
+  "indispo_restante_h": 3.39,
+  "heures_serveur_mois": 5760,
+  "dispo_pct": 99.941
+ }
+}

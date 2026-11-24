@@ -1,0 +1,176 @@
+% =====================================================================
+%  Seance 5 -- A. menaces, telemetrie, regles vs modeles (frames 1--6)
+% =====================================================================
+\section{Séance 5 --- Sécurité et fiabilité des infrastructures assistées par l'IA}
+\chapterslide{Séance 5}{Sécurité et fiabilité des infrastructures assistées par l'IA}
+{4 h --- 2 h cours / 2 h TP --- Partie 5 du syllabus EPD-GIT-5534}
+{\textbf{Objectifs :} reconnaître les grandes familles de menaces (balayage,
+brute force, exfiltration, comptes compromis) et leur télémétrie $\bullet$
+construire des \textbf{sessions} (machine $\times$ fenêtre) et des
+\textbf{features d'attaque} depuis des logs bruts $\bullet$ détecter une
+intrusion réelle par \textbf{IsolationForest} puis par une forêt supervisée
+$\bullet$ mesurer précision@N, précision/rappel $\bullet$ connaître les
+\textbf{limites} : attaques adversariales, fatigue d'alerte, explicabilité,
+vie privée.}
+
+\begin{frame}{Plan de la séance (4 h)}
+\begin{columns}[t]
+\begin{column}{0.48\textwidth}
+\begin{kbox}[Cours magistral --- 2 h]
+\begin{enumerate}
+\item \textbf{Les menaces et leur télémétrie} (25 min) : balayage, brute force,
+exfiltration, comptes compromis ; logs d'auth, netflow, EDR.
+\item \textbf{Règles vs modèles} (25 min) : ce que chacun voit, ce que
+chacun rate.
+\item \textbf{Détecter par ML} (60 min) : sessions, features d'attaque,
+IsolationForest, clustering, supervisé quand on a des étiquettes.
+\item \textbf{Fiabilité du détecteur} (20 min) : dérive de modèle, qualité des
+données, redondance.
+\item \textbf{Limites} (30 min) : adversarial, fatigue d'alerte, SHAP, vie privée.
+\end{enumerate}
+\end{kbox}
+\end{column}
+\begin{column}{0.48\textwidth}
+\begin{ebox}[Travaux pratiques --- 2 h]
+\textbf{« Détecter l'intrusion de NOSYS »} sur \file{nosys\_logs.csv}
+(100\,000 lignes, 7 jours) :
+\begin{enumerate}
+\item B1 --- parser et agréger par (machine, 10 min) (30 min)
+\item B2 --- features d'attaque + entropie de Shannon (30 min)
+\item B3 --- IsolationForest, top 30, précision@30 (30 min)
+\item B4 --- forêt supervisée : précision / rappel (20 min)
+\item B5 --- livrable : sessions suspectes + note d'incident (10 min)
+\end{enumerate}
+\end{ebox}
+\end{column}
+\end{columns}
+\vspace{1mm}
+\begin{center}\small
+Le fil rouge : \textbf{l'intrusion brute force réelle} enfouie dans les logs
+de NOSYS --- le TP la détecte \emph{de bout en bout}, avec des chiffres mesurés.
+\end{center}
+\end{frame}
+
+\begin{frame}{Les quatre familles de menaces vues depuis les logs}
+\begin{center}
+\footnotesize
+\begin{tabular}{@{}p{2.5cm}p{4.3cm}p{2.7cm}@{}}
+\toprule
+\textbf{Menace} & \textbf{Signature dans les données} & \textbf{Télémétrie qui la voit}\\
+\midrule
+\textbf{Balayage} (scan de ports, de services) & beaucoup de cibles, peu
+d'événements par cible ; connexions courtes & netflow, pare-feu\\
+\addlinespace[1pt]
+\textbf{Brute force} & \textbf{rafales d'échecs} sur \emph{une} cible,
+comptes testés en série, la nuit & logs d'auth (SSH, VPN, BDD)\\
+\addlinespace[1pt]
+\textbf{Exfiltration} & volume sortant anormal, transferts lents et réguliers,
+heures creuses & netflow, proxy, DNS\\
+\addlinespace[1pt]
+\textbf{Compte compromis} & connexion \emph{réussie} mais horaire, machine ou
+comportement inhabituels & logs d'auth + EDR (processus)\\
+\bottomrule
+\end{tabular}
+\end{center}
+\vspace{1mm}
+\begin{kbox}[Notre cas d'école]
+Dans \file{nosys\_logs.csv} : une \textbf{brute force} sur \py{bdd-principal}
+dans la nuit du 05/10, 02 h -- 04 h. \py{root}, \py{admin}, \py{inconnu-*}
+testés en rafale. Séance 1 l'avait \emph{annoncée} ; aujourd'hui on la
+\textbf{détecte automatiquement}.
+\end{kbox}
+\end{frame}
+
+\begin{frame}{La télémétrie de sécurité : trois sources, trois angles morts}
+\begin{columns}[t]
+\begin{column}{0.5\textwidth}
+\begin{block}{Logs d'authentification}
+Qui tente quoi, quand, avec quel résultat. \textbf{Notre source du jour} :
+\file{nosys\_logs.csv} --- horodatage, machine, niveau, utilisateur, message,
+\py{auth\_reussie}.
+\begin{itemize}
+\item Voit : échecs, comptes testés, rythme, horaire.
+\item Rate : le trafic réseau, les process malveillants.
+\end{itemize}
+\end{block}
+\begin{block}{Netflow / pare-feu}
+Qui parle à qui, combien d'octets. Voit le balayage et l'exfiltration ;
+rate le contenu et l'identité.
+\end{block}
+\end{column}
+\begin{column}{0.46\textwidth}
+\begin{block}{EDR (endpoint)}
+Processus, injections, exécutions suspectes sur l'hôte. Voit le post-exploitation ;
+ coûte cher en agents et en bruit.
+\end{block}
+\begin{wbox}[Le piège du « tout-logs »]
+Nos logs contiennent \textbf{100\,000 lignes sur 7 jours} : beaucoup sont du
+bruit opérationnel (rotations, sauvegardes, retries). \textbf{Personne ne les
+lit à la main} --- c'est exactement le travail d'un modèle : séparer le
+\emph{normal} de l'\emph{anormal}.
+\end{wbox}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Règles vs modèles : ce que chacun voit}
+\footnotesize%
+\begin{columns}[t]
+\begin{column}{0.5\textwidth}
+\begin{block}{La règle : « alerte si $\ge$ 5 échecs en 10 min »}
+\begin{itemize}
+\item \ok{} \textbf{Explicable} : l'alerte cite sa condition.
+\item \ok{} Zéro entraînement, déployable en une heure.
+\item \nok{} \textbf{Trivial à contourner} : l'attaquant ralentit à
+4 échecs / 10 min (l'attaque dure plus, passe inaperçue).
+\item \nok{} Aveugle aux formes lentes (\emph{low and slow}).
+\end{itemize}
+\end{block}
+\begin{ebox}[Ce que la règle trouve déjà dans nos logs]
+Seuil à 5 échecs / 10 min : toutes les sessions d'attaque (12) sonnent...
+et \textbf{0 session normale ne sonne} (max mesuré : 4 échecs). Sur CE jeu,
+la règle suffit --- parce que l'attaque est grossière.
+\end{ebox}
+\end{column}
+\begin{column}{0.46\textwidth}
+\begin{block}{Le modèle : apprend la forme du normal}
+\begin{itemize}
+\item \ok{} Combine \textbf{plusieurs} dimensions faibles une à une
+(échecs, comptes, entropie, nuit).
+\item \ok{} Détecte des attaques \emph{sous} le seuil des règles.
+\item \nok{} Nécessite des données propres et un suivi (dérive, séance 5 c).
+\item \nok{} Moins explicable --- d'où SHAP (slide limites).
+\end{itemize}
+\end{block}
+\begin{kbox}[La bonne réponse opérationnelle]
+\textbf{Les deux en parallèle} : la règle protège le cas grossier et sert de
+garde-fou ; le modèle attrape ce que la règle ne formule pas. On y revient en
+fiabilité (cours 3).
+\end{kbox}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Quiz 1 --- menaces et télémétrie (5 min)}
+\begin{qbox}[3 questions]
+\begin{enumerate}
+\item Un attaquant teste 40 mots de passe sur \py{bdd-principal} à raison de
+4 échecs toutes les 10 minutes. La règle « 5 échecs / 10 min » :\\
+(a) alerte immédiatement \quad (b) ne sonne jamais --- l'attaque est sous le seuil \quad
+(c) alerte à la fin
+\item Quelle source voit le mieux une \textbf{exfiltration} de données ?\\
+(a) les logs d'auth \quad (b) le netflow / proxy \quad (c) les tickets
+\item Sur nos logs, le seuil « 5 échecs / 10 min » produit :\\
+(a) des faux positifs massifs \quad (b) 12 alertes, toutes vraies, mais ne
+verrait rien si l'attaque ralentissait \quad (c) rien du tout
+\end{enumerate}
+\end{qbox}
+\vspace{1mm}
+\begin{solbox}[Réponses]
+\textbf{1 : b} --- c'est le scénario \emph{low and slow}, la faille des règles.
+\quad
+\textbf{2 : b} --- l'exfiltration est un phénomène de \emph{volume réseau}.
+\quad
+\textbf{3 : b} --- la règle marche aujourd'hui, mais elle est fragile.
+\end{solbox}
+\end{frame}

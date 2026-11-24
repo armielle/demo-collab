@@ -1,0 +1,18 @@
+seance 2: 8 page(s) signalee(s) [5, 7, 10, 17, 18, 19, 21, 23] | offset=1 (score 27/28)
+  p  5 -> git2_a.tex:115  Le fichier du TP : une collecte « comme en production »
+  p  7 -> git2_b.tex:6  Étape 0 : trier et dédoublonner
+  p 10 -> git2_b.tex:104  Valeurs aberrantes : z-score et IQR en pratique
+  p 17 -> git2_c.tex:88  Encodage cyclique : pourquoi 23 h et 0 h sont voisines
+  p 18 -> git2_c.tex:120  La dérive de capteur : un défaut invisible aux seuils
+  p 19 -> git2_c.tex:154  Standardiser : mettre toutes les échelles à égalité
+  p 21 -> git2_d.tex:6  Le TP : objectif final, un jeu de données supervisé
+  p 23 -> git2_d.tex:72  TP B2 --- nettoyage (35 min)
+frames modifiees : 8
+    git2_a.tex:115
+    git2_b.tex:104
+    git2_b.tex:6
+    git2_c.tex:154
+    git2_c.tex:120
+    git2_c.tex:88
+    git2_d.tex:72
+    git2_d.tex:6

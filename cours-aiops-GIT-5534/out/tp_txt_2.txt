@@ -1,0 +1,154 @@
+======================================================================
+TITRE : Le TP : objectif final, un jeu de données supervisé
+%
+0.52
+nosys\_features.csv\\[1mm]
+une ligne = (serveur, fenêtre de 10 min)\\[1mm]
+@l@
+variables de niveau : cpu\_moy, ram\_moy\\
+dispersion : cpu\_max, cpu\_amplitude\\
+distribution : lat\_p99\\
+dynamique : cpu\_delta (dérivée)\\
+contexte : h\_sin, h\_cos, jour\_sem\\
+cible : incident\_30min \0,1\\\
+34 560 fenêtres (8 serveurs 4 320), dont
+120 positives (0,35 \%) --- une classe très rare,
+c'est exactement ce que la séance 3 apprendra à traiter.
+0.44
+f15_etiquette.png
+1mm
+Le calcul de incident\_30min utilise uniquement la colonne
+alarme du futur. Les variables de signaux, elles, utilisent
+uniquement le passé de la fenêtre. Mélanger les deux
+= tricher, et le modèle de la séance 3 paraîtra magique
+en validation, nul en production.
+======================================================================
+TITRE : TP B1 --- audit des défauts (30 min)
+b = pd.read_csv("data/nosys_metriques_brutes.csv",
+ parse_dates=["horodatage"])
+b = b.sort_values(["serveur", "horodatage"]).reset_index(drop=True)
+print("doublons :", b.duplicated().sum()) # 200
+print("NaN par colonne :")
+print(b[["cpu_pct","ram_pct","latence_ms",
+ "paquets_perdus_pct","temperature_c"]].isna().sum())
+print("valeurs impossibles :")
+print("cpu > 100 :", (b["cpu_pct"] > 100).sum()) # 4
+print("temp > 80 :", (b["temperature_c"] > 80).sum()) # 5
+print("points par serveur :")
+print(b.groupby("serveur").size()) # srv-07 a 2880
+Un tableau d'audit : chaque défaut, son volume, son hypothèse de cause
+(doublon réseau, capteur flottant, pic capteur, redémarrage d'agent,
+config de granularité, dérive). Avant de réparer, on explique.
+======================================================================
+TITRE : TP B2 --- nettoyage (35 min)
+%
+# 1. dedoublonner
+b = b.drop_duplicates()
+# 2. erreurs physiquement impossibles -> NaN (pas de suppression !)
+b.loc[b["cpu_pct"] > 100, "cpu_pct"] = np.nan
+b.loc[b["temperature_c"] > 80, "temperature_c"] = np.nan
+# 3. grille explicite 5 min par serveur (les trous -> NaN visibles)
+def sur_grille(g):
+ g = g.set_index("horodatage").drop(columns=["serveur"])
+ return g.reindex(pd.date_range(g.index.min(), g.index.max(),
+ freq="5min"))
+b = b.groupby("serveur", group_keys=False).apply(sur_grille)
+# 4. imputation courte (<= 2 pas), tendance-compatible
+b = b.interpolate(limit=2, limit_direction="both")
+0.48
+Supprimer une ligne d'incident suspecte, c'est supprimer
+l'exemple le plus précieux du dataset. On neutralise
+l'erreur de mesure, on garde l'observation.
+0.48
+Après B2 : 0 doublon, 0 CPU > 100, 0 NaN résiduels
+(interpolation a couvert les trous courts), 8 serveurs
+sur la même grille --- srv-07 inclus.
+======================================================================
+TITRE : TP B3 --- construire les signaux (30 min)
+f = (b.reset_index().set_index("horodatage")
+ .groupby("serveur")
+ .resample("10min")
+ .agg(cpu_moy=("cpu_pct", "mean"),
+ cpu_max=("cpu_pct", "max"),
+ ram_moy=("ram_pct", "mean"),
+ lat_moy=("latence_ms", "mean"),
+ lat_p99=("latence_ms", lambda s: s.quantile(0.99)),
+ perte_moy=("paquets_perdus_pct", "mean"),
+ temp_moy=("temperature_c", "mean")))
+# dynamique : derivee du CPU (fenetre precedente)
+f["cpu_delta"] = f.groupby("serveur")["cpu_moy"].diff()
+# contexte : encodage cyclique
+h = f.index.get_level_values("horodatage").hour
+f["h_sin"] = np.sin(2*np.pi*h/24)
+f["h_cos"] = np.cos(2*np.pi*h/24)
+Détecter la dérive de srv-06 : régression de temp\_moy sur le temps
+(np.polyfit) par fenêtre de 7 jours. Vous devez retrouver la pente
+d'env. +0,22 °C/jour mesurée en cours.
+======================================================================
+TITRE : TP B4 --- l'étiquette « incident 30 min » (35 min)
+# alarme par fenetre de 10 min (max des 2 sous-fenetres de 5 min)
+al = (b.reset_index()
+ .groupby(["serveur", pd.Grouper(key="horodatage", freq="10min")])
+ ["alarme"].max().unstack(0)) # fenetres x serveurs
+# max sur les 3 fenetres qui suivent (t+10, t+20, t+30 min)
+fut = al.copy()
+for k in (1, 2, 3):
+ fut |= al.shift(-k)
+# on aplatit : une ligne = (fenetre, serveur)
+fut = fut.stack().rename("incident_30min")
+features = f.join(fut).dropna(subset=["incident_30min"])
+print(features["incident_30min"].value_counts())
+# -> 1 : 120 (0,35 %) 0 : 34 440
+ Pourquoi shift(-k) et pas shift(+k) ? (réponse : regarder
+le futur, pas le passé.)
+ Où la fuite serait-elle possible ici ? (réponse : nulle part ---
+alarme n'entre PAS dans les features, seulement dans la cible.)
+======================================================================
+TITRE : TP B5 --- livrable et barème
+0.52
+ nosys\_features.csv --- le dataset supervisé complet
+(34 560 lignes, 12 colonnes).
+ Dictionnaire des variables --- une ligne par colonne :
+définition, fenêtre de calcul, unité, méthode (ex. : « lat\_p99 :
+quantile 0,99 de latence sur fenêtre 10 min, ms »).
+ Note de 5 lignes sur les choix : quelle imputation, pourquoi ;
+quelles bornes physiques ; ce que vous avez exclu et pourquoi.
+0.44
+ Audit des défauts complet et expliqué --- 4 pts
+ Nettoyage correct (ordre, bornes physiques) --- 5 pts
+ Signaux corrects (fenêtres, p99, cyclique) --- 4 pts
+ Étiquette sans fuite --- 5 pts (la note la plus chère :
+c'est là que 80 \% des projets échouent)
+ Dictionnaire et reproductibilité --- 2 pts
+======================================================================
+TITRE : Quiz de synthèse --- 5 questions (10 min)
+Pourquoi trier par (serveur, temps) AVANT les fenêtres glissantes ?\\
+(a) pour l'esthétique (b) une moyenne mobile sur un ordre mélangé
+est mathématiquement fausse (c) pandas l'exige
+ CPU à 350 \% : erreur de mesure ou incident ? Et CPU à 96 \% pendant
+un incident ?\\
+(a) les deux sont des erreurs (b) le premier est une erreur
+(impossible), le second un événement réel à garder (c) les
+deux sont des incidents
+ Quelle est la part de fenêtres positives dans le dataset final ?\\
+(a) 50 \% (b) 5 \% (c) 0,35 \%
+ La fuite de données dans B4 serait possible si\\
+(a) on ajoutait alarme aux variables d'entrée (b) on standardisait
+après le split (c) les deux
+ L'interpolation bat le forward-fill sur CPU car :\\
+(a) elle est plus rapide (b) le signal évolue en tendance --- erreur
+0,74 contre 1,02 (c) pandas la recommande
+======================================================================
+TITRE : Corrigé du quiz de synthèse
+b --- démontré en cours : la moyenne mobile suppose l'ordre
+temporel ; sur des lignes mélangées elle mélange passé et futur.
+ b --- bornes physiques d'abord (règle métier), statistiques ensuite.
+ c --- 120 / 34 560 = 0,35 \% : c'est le défi de la séance 3
+(classes très rares).
+ c --- les deux sont des fuites : l'une dans les features,
+l'autre dans les statistiques de standardisation.
+ b --- mesuré : 0,743 contre 1,018 (erreur absolue moyenne sur
+600 points masqués de srv-01).
+Séance 3 : avec ce dataset en main --- anomalies (isolation forest)
+et classification sur classe rare (0,35 \%), précision/rappel et seuils.
+Votre nosys\_features.csv est la matière première.
