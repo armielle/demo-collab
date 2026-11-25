@@ -1,0 +1,35 @@
+=== Chapitre-1-donnees-sequencielles.pdf — 15 pages ===
+   p7   [     SOUS-PIED] +  4.4 pt  masque   neutralise   le   remplissage
+   p5   [   ENCADRE-BAS] + 13.4 pt  
+   p5   [   ENCADRE-BAS] + 12.5 pt  
+   p7   [   ENCADRE-BAS] + 11.6 pt  
+   p7   [   ENCADRE-BAS] + 10.7 pt  
+=== Chapitre-2-architecture-RNN.pdf — 15 pages ===
+   p9   [     SOUS-PIED] +  6.4 pt  𝑟=   0,55   :   𝑟 20   =   6,4   ⋅10 −
+   p9   [     SOUS-PIED] +  6.4 pt  𝑟=
+   p6   [   ENCADRE-BAS] +  3.1 pt  
+   p6   [   ENCADRE-BAS] +  2.2 pt  
+   p9   [   ENCADRE-BAS] + 25.5 pt  
+   p9   [   ENCADRE-BAS] + 24.6 pt  
+   p14  [   ENCADRE-BAS] + 31.7 pt  
+   p14  [   ENCADRE-BAS] + 30.8 pt  
+=== Chapitre-3-LSTM-GRU.pdf — 16 pages ===
+   p8   [     SOUS-PIED] +  4.9 pt  magie   :   il   offre   un   chemin  
+   p10  [     SOUS-PIED] +  4.7 pt  mais   mesurez   les   deux.
+   p8   [   ENCADRE-BAS] + 24.1 pt  
+   p8   [   ENCADRE-BAS] + 23.2 pt  
+   p10  [   ENCADRE-BAS] + 10.0 pt  
+   p10  [   ENCADRE-BAS] +  9.1 pt  
+   p14  [   ENCADRE-BAS] +  1.5 pt  
+   p14  [   ENCADRE-BAS] +  0.6 pt  
+   p15  [   ENCADRE-BAS] +  1.2 pt  
+   p15  [   ENCADRE-BAS] +  0.3 pt  
+=== Chapitre-4-entrainement-et-applications.pdf — 15 pages ===
+   p5   [     SOUS-PIED] +  0.8 pt  citez   pas   comme   des   constantes
+   p6   [     SOUS-PIED] +  0.6 pt  moyenne   glissante)   avant   de   cé
+   p5   [   ENCADRE-BAS] +  8.0 pt  
+   p5   [   ENCADRE-BAS] +  7.1 pt  
+   p6   [   ENCADRE-BAS] + 17.9 pt  
+   p6   [   ENCADRE-BAS] + 17.0 pt  
+
+RESULTAT : 29 DEFAUT(S)
