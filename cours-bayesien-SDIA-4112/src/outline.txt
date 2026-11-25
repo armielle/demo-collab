@@ -1,0 +1,76 @@
+=== CHAPTERS ===
+ p  3 | Chapitre 1 : Introduction & Fondements Bayésiens
+ p 11 | Chapitre 2 : Distributions A Priori & A Posteriori (50 slides)
+ p 11 | Chapitre 3 : Estimation & Inférence Bayésienne (50 slides)
+ p 11 | Chapitre 4 : Comparaison de Modèles & Décision (50 slides)
+ p 11 | Chapitre 5 : Méthodes Numériques (MCMC) & Projet (50 slides)
+ p 13 | Chapitre 1 : Introduction \& Fondements Bayésiens}
+ p 39 | Chapitre 2 : Distributions A Priori \& A Posteriori \\
+ p 41 | Chapitre 1 : Introduction \& Fondements Bayésiens}
+ p 68 | Chapitre 2 : Distributions A Priori \& A Posteriori \\
+ p 77 | Chapitre 1 : Introduction et Fondements Bayésiens}
+ p 97 | Chapitre 2 : Distributions A Priori et A Posteriori}
+ p119 | Chapitre 3 : Estimation et Inference Bayesienne
+ p123 | Chapitre 1 : Introduction et fondements
+ p123 | Chapitre 2 : Distributions a priori et a posteriori
+ p148 | Chapitre 3 : Estimation et Inférence Bayésienne, conçu dans le même style que les
+ p148 | Chapitre 3 : Estimation et Inference Bayesienne}
+
+=== SECTIONS (unique, in order) ===
+ p  3 | Section 1.1 : Contexte et Motivation (Slides 1-8)
+ p  4 | Section 1.2 : Probabilité & Interprétations (Slides 9-18)
+ p  6 | Section 1.3 : Théorème de Bayes (Slides 19-30)
+ p  8 | Section 1.4 : Différences Bayésien vs Fréquentiste (Slides 31-40)
+ p  9 | Section 1.5 : Outils & Écosystème (Slides 41-50)
+
+=== SLIDES: 50 ===
+ p  3 | s  1 | Titre du cours
+ p  3 | s  2 | Pourquoi le Bayésien ?
+ p  3 | s  3 | Exemple concret : Diagnostic médical
+ p  3 | s  4 | Quiz rapide (Kahoot/Mentimeter)
+ p  4 | s  5 | Histoire rapide
+ p  4 | s  6 | Objectifs pédagogiques
+ p  4 | s  7 | Plan du chapitre
+ p  4 | s  8 | Activité brise-glace
+ p  4 | s  9 | Deux visions de la probabilité\
+ p  4 | s 10 | Animation : Lancer de pièce
+ p  5 | s 11 | Exemple : Sondage électoral
+ p  5 | s 12 | Quiz : Vrai ou Faux
+ p  5 | s 13 | Exercice guidé (10 min)
+ p  5 | s 14 | Code Python : Visualisation
+ p  5 | s 15 | Interprétation du graphique
+ p  5 | s 16 | Activité interactive
+ p  5 | s 17 | Pièges à éviter
+ p  6 | s 18 | Résumé section 1.2
+ p  6 | s 19 | Formule magique\
+ p  6 | s 20 | Démonstration pas à pas
+ p  6 | s 21 | Animation : Mise à jour séquentielle
+ p  6 | s 22 | Exemple réel : Spam detection
+ p  6 | s 23 | Solution détaillée\
+ p  6 | s 24 | Quiz : Application
+ p  7 | s 25 | Exercice : COVID test
+ p  7 | s 26 | Code : Calcul automatique
+ p  7 | s 27 | Généralisation : Paramètres continus
+ p  7 | s 28 | Exemple : Régression linéaire
+ p  7 | s 29 | Activité : À vous de jouer (15 min)
+ p  7 | s 30 | Correction collective
+ p  8 | s 31 | Tableau comparatif\
+ p  8 | s 32 | Exemple : Test d'hypothèse
+ p  8 | s 33 | Animation : p-value vs posterior
+ p  8 | s 34 | Avantages du Bayésien
+ p  8 | s 35 | Inconvénients
+ p  8 | s 36 | Quand utiliser lequel ?\
+ p  8 | s 37 | Quiz : Cas pratique
+ p  9 | s 38 | Étude de cas : A/B testing
+ p  9 | s 39 | Code : A/B test bayésien
+ p  9 | s 40 | Activité : Analysez vos propres données
+ p  9 | s 41 | Panorama des logiciels\
+ p  9 | s 42 | Installation (live demo)
+ p  9 | s 43 | Premier modèle en 5 lignes
+ p 10 | s 44 | Diagnostic de convergence
+ p 10 | s 45 | Quiz : Quel outil choisir ?
+ p 10 | s 46 | Ressources en ligne
+ p 10 | s 47 | Activité : Installer et tester
+ p 10 | s 48 | Défi bonus
+ p 10 | s 49 | Résumé du chapitre 1
+ p 10 | s 50 | QCM final (10 questions)

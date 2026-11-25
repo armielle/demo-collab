@@ -1,0 +1,52 @@
+{
+ "pymc_coin_mean": 0.6479676192784136,
+ "pymc_coin_ci": [
+  0.38344856336018884,
+  0.8637173242482756
+ ],
+ "pymc_coin_rhat": 1.0005232125431462,
+ "pymc_coin_ess": 1513.9899942632424,
+ "pymc_coin_seconds": 5.84,
+ "pymc_coin_draws": 4000,
+ "f12_table": [
+  {
+   "prior": "Beta(1, 1) — uniforme",
+   "posterior": "Beta(8, 4)",
+   "moyenne": 0.667,
+   "IC95": [
+    0.39,
+    0.891
+   ]
+  },
+  {
+   "prior": "Beta(2, 2) — faiblement informatif",
+   "posterior": "Beta(9, 5)",
+   "moyenne": 0.643,
+   "IC95": [
+    0.386,
+    0.861
+   ]
+  },
+  {
+   "prior": "Beta(5, 3) — informatif (biais)",
+   "posterior": "Beta(12, 6)",
+   "moyenne": 0.667,
+   "IC95": [
+    0.44,
+    0.858
+   ]
+  },
+  {
+   "prior": "Beta(50, 50) — très informatif",
+   "posterior": "Beta(57, 53)",
+   "moyenne": 0.518,
+   "IC95": [
+    0.425,
+    0.611
+   ]
+  }
+ ],
+ "f13_mean_n100": 0.43,
+ "f13_mean_n250": 0.386,
+ "f13_mean_n500": 0.355
+}

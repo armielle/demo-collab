@@ -1,0 +1,12 @@
+[OK ] chapitre1          19.8s    1367.2 Ko  0 erreur(s)  ->  Chapitre-1-fondements-bayesiens.pdf
+[OK ] chapitre2          19.8s    2465.1 Ko  0 erreur(s)  ->  Chapitre-2-a-priori-a-posteriori.pdf
+[OK ] chapitre3          19.1s    2286.3 Ko  0 erreur(s)  ->  Chapitre-3-estimation-inference.pdf
+[OK ] chapitre4          19.3s    2092.6 Ko  0 erreur(s)  ->  Chapitre-4-comparaison-decision.pdf
+[OK ] chapitre5          19.9s    2236.6 Ko  0 erreur(s)  ->  Chapitre-5-mcmc-mini-projet.pdf
+[OK ] cours_complet      76.5s   10104.6 Ko  0 erreur(s)  ->  Cours-complet-Statistique-Bayesienne.pdf
+
+Frames par chapitre : {"1": 49, "2": 50, "3": 49, "4": 50, "5": 50}
+[readme] C:\Users\HP\Documents\cours-bayesien-SDIA-4112\README.md ecrit (8049 octets)
+  frames=253 (dont 248 dans les fichiers parts)  figures=68  notebooks=6  valeurs tracables=275  quiz=32 activites=39 exemples=151
+[dashboard] C:\Users\HP\Documents\cours-bayesien-SDIA-4112\out\tableau-de-bord.html  (2326 Ko)
+  slides=253 figures=67 notebooks=6 valeurs=275

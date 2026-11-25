@@ -1,0 +1,30 @@
+
+=== chapitre 1 : 7 page(s) a scinder ===
+  p62  scindee (tcolorbox (dans la colonne))
+  p50  scindee (wbox (dans la colonne))
+  p45  impossible : bloc unique non decoupable
+  p43  impossible : bloc unique non decoupable
+  p36  scindee (kbox (dans la colonne))
+  p34  impossible : bloc unique non decoupable
+  p22  impossible : bloc unique non decoupable
+
+=== chapitre 2 : 6 page(s) a scinder ===
+  p63  scindee (kbox (dans la colonne))
+  p48  impossible : bloc unique non decoupable
+  p35  scindee (kbox (dans la colonne))
+  p19  impossible : bloc unique non decoupable
+  p17  impossible : bloc unique non decoupable
+  p14  impossible : bloc unique non decoupable
+=== chapitre 3 : rien a scinder ===
+
+=== chapitre 4 : 1 page(s) a scinder ===
+  p9   scindee (kbox (dans la colonne))
+
+=== chapitre 5 : 5 page(s) a scinder ===
+  p62  impossible : bloc unique non decoupable
+  p57  scindee (kbox (dans la colonne))
+  p52  impossible : bloc unique non decoupable
+  p48  scindee (solbox (dans la colonne))
+  p45  scindee (solbox (dans la colonne))
+
+9 frame(s) scindee(s) (simulation)

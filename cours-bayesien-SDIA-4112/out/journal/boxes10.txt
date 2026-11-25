@@ -1,0 +1,85 @@
+
+=== Chapitre-1-fondements-bayesiens.pdf — 62 pages | titre finit 24.2 pt | pied a 247.7 pt | page 453.5x255.1 ===
+  encadrés touchant le pied : 39 sur 13 page(s)
+  dont perte visible (>8 pt) : 20 sur 7 page(s)  [22, 34, 36, 43, 45, 50, 62]
+      p43  + 108.8 pt  (encadré de 76 pt)
+      p43  + 107.9 pt  (encadré de 74 pt)
+      p36  +  74.8 pt  (encadré de 78 pt)
+      p36  +  73.9 pt  (encadré de 76 pt)
+      p22  +  63.9 pt  (encadré de 66 pt)
+      p22  +  63.0 pt  (encadré de 64 pt)
+      p50  +  44.2 pt  (encadré de 154 pt)
+      p50  +  43.3 pt  (encadré de 153 pt)
+  textes sous la barre de titre : 3  [37, 45]
+      p45  +   3.8 pt  Critère d’évaluation
+      p45  +   3.8 pt  Points Acquis ?
+      p37  +   1.1 pt  le centre est tiré vers les données,
+  textes hors zone droite : 0
+
+=== Chapitre-2-a-priori-a-posteriori.pdf — 71 pages | titre finit 24.2 pt | pied a 247.7 pt | page 453.5x255.1 ===
+  encadrés touchant le pied : 23 sur 13 page(s)
+  dont perte visible (>8 pt) : 12 sur 6 page(s)  [14, 17, 19, 35, 48, 63]
+      p14  +  39.3 pt  (encadré de 87 pt)
+      p14  +  38.4 pt  (encadré de 85 pt)
+      p17  +  33.6 pt  (encadré de 72 pt)
+      p48  +  33.0 pt  (encadré de 101 pt)
+      p17  +  32.7 pt  (encadré de 70 pt)
+      p48  +  32.1 pt  (encadré de 99 pt)
+      p35  +  29.6 pt  (encadré de 89 pt)
+      p35  +  28.7 pt  (encadré de 87 pt)
+  textes sous la barre de titre : 6  [4, 8]
+      p4   +   8.5 pt  2.1 Conjugaison et couples conjugués
+      p4   +   8.5 pt  frames 2–18
+      p8   +   1.8 pt  Vraisemblance
+      p8   +   1.8 pt  A priori conjugué
+      p8   +   1.8 pt  A posteriori
+      p8   +   1.8 pt  Mise à jour
+  textes hors zone droite : 0
+
+=== Chapitre-3-estimation-inference.pdf — 54 pages | titre finit 24.2 pt | pied a 247.7 pt | page 453.5x255.1 ===
+  encadrés touchant le pied : 17 sur 10 page(s)
+  dont perte visible (>8 pt) : 0 sur 0 page(s)  []
+      p24  +   4.9 pt  (encadré de 81 pt)
+      p44  +   4.5 pt  (encadré de 40 pt)
+      p24  +   4.0 pt  (encadré de 79 pt)
+      p44  +   3.6 pt  (encadré de 38 pt)
+      p39  +   3.5 pt  (encadré de 41 pt)
+      p19  +   3.4 pt  (encadré de 56 pt)
+      p23  +   3.2 pt  (encadré de 52 pt)
+      p19  +   2.5 pt  (encadré de 55 pt)
+  textes sous la barre de titre : 4  [2, 23]
+      p23  +   5.7 pt  Critère
+      p23  +   5.7 pt  Intervalle de confiance (fréquentiste) Inter
+      p2   +   4.7 pt  3.1 Estimateurs ponctuels et perte minimisée
+      p2   +   4.7 pt  slides 3–16
+  textes hors zone droite : 0
+
+=== Chapitre-4-comparaison-decision.pdf — 63 pages | titre finit 24.2 pt | pied a 247.7 pt | page 453.5x255.1 ===
+  encadrés touchant le pied : 17 sur 9 page(s)
+  dont perte visible (>8 pt) : 3 sur 2 page(s)  [9, 11]
+      p9   +  19.0 pt  (encadré de 78 pt)
+      p9   +  18.1 pt  (encadré de 76 pt)
+      p11  +   8.0 pt  (encadré de 138 pt)
+      p11  +   7.1 pt  (encadré de 136 pt)
+      p43  +   6.3 pt  (encadré de 63 pt)
+      p49  +   6.2 pt  (encadré de 53 pt)
+      p37  +   6.0 pt  (encadré de 135 pt)
+      p43  +   5.4 pt  (encadré de 62 pt)
+  textes sous la barre de titre : 0  []
+  textes hors zone droite : 0
+
+=== Chapitre-5-mcmc-mini-projet.pdf — 62 pages | titre finit 24.2 pt | pied a 247.7 pt | page 453.5x255.1 ===
+  encadrés touchant le pied : 21 sur 10 page(s)
+  dont perte visible (>8 pt) : 10 sur 5 page(s)  [45, 48, 52, 57, 62]
+      p62  +  83.4 pt  (encadré de 161 pt)
+      p62  +  82.5 pt  (encadré de 160 pt)
+      p48  +  60.6 pt  (encadré de 63 pt)
+      p48  +  59.7 pt  (encadré de 62 pt)
+      p57  +  38.4 pt  (encadré de 126 pt)
+      p57  +  37.5 pt  (encadré de 125 pt)
+      p45  +  29.3 pt  (encadré de 77 pt)
+      p45  +  28.4 pt  (encadré de 75 pt)
+  textes sous la barre de titre : 0  []
+  textes hors zone droite : 0
+
+TOTAL — encadres coupés : 117 | textes sous le titre : 13 | hors zone droite : 0

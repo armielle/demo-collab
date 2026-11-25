@@ -1,0 +1,50 @@
+
+=== chapitre 1 : 9 page(s) a scinder ===
+  p59  un seul bloc : a traiter a la main
+  p55  scindee (dernier bloc : kbox)
+  p48  un seul bloc : a traiter a la main
+  p44  scindee (dernier bloc : wbox)
+  p42  un seul bloc : a traiter a la main
+  p35  un seul bloc : a traiter a la main
+  p33  un seul bloc : a traiter a la main
+  p21  un seul bloc : a traiter a la main
+  p18  scindee (dernier bloc : wbox)
+
+=== chapitre 2 : 15 page(s) a scinder ===
+  p59  scindee (dernier bloc : ebox)
+  p54  un seul bloc : a traiter a la main
+  p44  scindee (dernier bloc : columns)
+  p40  un seul bloc : a traiter a la main
+  p34  scindee (dernier bloc : tcolorbox)
+  p33  scindee (dernier bloc : columns)
+  p31  scindee (dernier bloc : wbox)
+  p30  un seul bloc : a traiter a la main
+  p24  scindee (dernier bloc : columns)
+  p15  un seul bloc : a traiter a la main
+  p13  un seul bloc : a traiter a la main
+  p11  scindee (dernier bloc : kbox)
+  p9   scindee (dernier bloc : wbox)
+  p3   scindee (dernier bloc : tcolorbox)
+  p2   scindee (dernier bloc : tcolorbox)
+
+=== chapitre 3 : 1 page(s) a scinder ===
+  p49  scindee (dernier bloc : kbox)
+
+=== chapitre 4 : 5 page(s) a scinder ===
+  p59  scindee (dernier bloc : kbox)
+  p33  scindee (dernier bloc : columns)
+  p22  scindee (dernier bloc : tcolorbox)
+  p8   un seul bloc : a traiter a la main
+  p5   scindee (dernier bloc : columns)
+
+=== chapitre 5 : 8 page(s) a scinder ===
+  p59  un seul bloc : a traiter a la main
+  p54  un seul bloc : a traiter a la main
+  p49  un seul bloc : a traiter a la main
+  p45  un seul bloc : a traiter a la main
+  p42  un seul bloc : a traiter a la main
+  p39  scindee (dernier bloc : columns)
+  p36  scindee (dernier bloc : columns)
+  p23  scindee (dernier bloc : columns)
+
+21 frame(s) scindee(s)

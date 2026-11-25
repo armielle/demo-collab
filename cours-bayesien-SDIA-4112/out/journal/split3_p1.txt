@@ -1,0 +1,29 @@
+
+=== chapitre 1 : 7 page(s) ===
+  p62  colonnes reparties sur 2 slides (2 colonnes)
+  p50  colonnes reparties sur 2 slides (2 colonnes)
+  p45  colonnes reparties sur 2 slides (2 colonnes)
+  p43  colonnes reparties sur 2 slides (2 colonnes)
+  p36  colonnes reparties sur 2 slides (2 colonnes)
+  p34  colonnes reparties sur 2 slides (2 colonnes)
+  p22  colonnes reparties sur 2 slides (2 colonnes)
+
+=== chapitre 2 : 6 page(s) ===
+  p63  colonnes reparties sur 2 slides (2 colonnes)
+  p48  colonnes reparties sur 2 slides (2 colonnes)
+  p35  colonnes reparties sur 2 slides (2 colonnes)
+  p19  colonnes reparties sur 2 slides (2 colonnes)
+  p17  colonnes reparties sur 2 slides (2 colonnes)
+  p14  colonnes reparties sur 2 slides (2 colonnes)
+
+=== chapitre 4 : 1 page(s) ===
+  p9   colonnes reparties sur 2 slides (2 colonnes)
+
+=== chapitre 5 : 5 page(s) ===
+  p62  colonnes reparties sur 2 slides (2 colonnes)
+  p57  colonnes reparties sur 2 slides (2 colonnes)
+  p52  colonnes reparties sur 2 slides (2 colonnes)
+  p48  colonnes reparties sur 2 slides (2 colonnes)
+  p45  colonnes reparties sur 2 slides (2 colonnes)
+
+19 frame(s) scindee(s)

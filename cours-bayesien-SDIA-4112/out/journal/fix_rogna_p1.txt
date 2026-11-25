@@ -1,0 +1,86 @@
+
+=== chapitre 1 : 8 frame(s) a compacter (seuil 2.0 pt) ===
+  p45  + 6.7 pt : figure 0.86 -> 0.78   | l’autocorrélation qui retombe en q
+  p43  + 2.3 pt : passage en \small      | Ď Le conseil du cours
+  p38  + 9.8 pt : figure 0.78 -> 0.70   | −1
+  p33  + 3.8 pt : figure 0.80 -> 0.72   | Modèle échantillonné par NUTS : 2 
+  p27  + 3.0 pt : passage en \small      | lo = prior_grid[np.searchsorted(c,
+  p23  + 3.1 pt : passage en \small      | 122 = 36, soit 36/37). Le facteur 
+  p21  + 2.7 pt : passage en \small      | rapport de vraisemblance
+  p16  + 9.5 pt : passage en \small      | lancers donnaient 0,857 : le petit
+
+=== chapitre 2 : 25 frame(s) a compacter (seuil 2.0 pt) ===
+  p47  + 4.7 pt : passage en \small      | unités d’un prédicteur en euros, m
+  p46  + 7.8 pt : passage en \small      | Chaque règle s’accompagne d’un dia
+  p44  + 9.2 pt : passage en \small      | prédit déjà 90 % des dispersions d
+  p42  + 4.0 pt : passage en \small      | sai plus précisément que les 8 est
+  p41  + 9.0 pt : figure 0.84 -> 0.76   | leur théorique.
+  p40  + 9.6 pt : passage en \small      | est petit : même modèle, géométrie
+  p39  + 6.6 pt : figure 0.84 -> 0.76   | Beta(𝑎0𝑠0 + 𝑠1 + 1,
+  p37  + 4.2 pt : figure 0.88 -> 0.80   | précision s’achète en 1/√𝑛, la ro-
+  p36  + 8.8 pt : passage en \small      | Beta(1, 1)
+  p35  + 5.1 pt : passage en \small      | Beta(5, 3) exclut la réalité obser
+  p31  + 8.5 pt : figure 0.95 -> 0.87   | données décider.
+  p30  + 6.6 pt : figure 0.95 -> 0.87   | Conclusion : un prior centré sur 0
+  p27  + 8.5 pt : passage en \small      | 0,0011 : le prior n’annonce jamais
+  p26  + 8.7 pt : passage en \small      | une log-uniforme ; éviter le mélan
+  p21  + 8.1 pt : passage en \small      | l’ignorance, c’est une information
+  p19  + 8.9 pt : passage en \small      | Beta(2, 2)
+  p18  + 4.3 pt : passage en \small      | terior dépend du prior ; Á conclur
+  p17  + 7.2 pt : passage en \small      | 0,3571.
+  p14  + 3.3 pt : figure 0.94 -> 0.86   | est calculable.
+  p12  + 6.3 pt : figure 0.93 -> 0.85   | dériver le noyau du posterior, ide
+  p11  + 4.9 pt : passage en \small      | Dirichlet(324, 111, 104, 33)
+  p10  + 9.8 pt : passage en \small      | d’un facteur 0,432 vers le prior.
+  p8   + 7.5 pt : passage en \small      | ▶Moyenne a posteriori 0,320,
+  p5   + 6.8 pt : passage en \small      | qu’on empile des paramètres (hiéra
+  p3   + 2.7 pt : passage en \small      | évalué par comparaison avec ce qu’
+
+=== chapitre 3 : 1 frame(s) a compacter (seuil 2.0 pt) ===
+  p36  + 5.6 pt : figure 0.80 -> 0.72   | croyance molle.
+
+=== chapitre 4 : 22 frame(s) a compacter (seuil 2.0 pt) ===
+  p51  + 9.2 pt : passage en \small      | TP4 : notebooks/TP4 comparaison mo
+  p43  +12.2 pt : passage en \small      | 𝐻0 (slide 35).
+  p42  + 3.4 pt : passage en \small      | seuil franchi après 40 regards n’a
+  p39  + 2.9 pt : passage en \small      | gain attendu : la décision s’inver
+  p37  + 8.0 pt : figure 0.89 -> 0.81   | bayésien séquentiel, seuil 0,99
+  p35  + 6.1 pt : passage en \small      | la vérité de l’énoncé. En revanche
+  p34  + 4.1 pt : passage en \small      | le même argmin, aux erreurs de Mon
+  p32  + 6.9 pt : passage en \small      | nées insuﬀisantes pour trancher.
+  p29  + 4.7 pt : figure 0.78 -> 0.70   | à 0,05 et la probabilité postérieu
+  p26  + 9.4 pt : passage en \small      | instable.
+  p24  + 9.7 pt : figure 0.95 -> 0.87   | la formule des poids pseudo-BMA at
+  p21  + 7.1 pt : figure 0.84 -> 0.76   | chique : 𝜃𝑖∼Beta(𝜇𝜅, (1−𝜇)𝜅)).
+  p20  + 6.4 pt : passage en \small      | raison de plus pour ne pas conclur
+  p19  + 9.0 pt : passage en \small      | .compute log likelihood(idata).
+  p16  + 2.6 pt : passage en \small      | 1,3 à 1,8 ici ; un prior à 𝑎= 𝑏= 1
+  p14  + 6.9 pt : figure 0.78 -> 0.70   | faveur à 𝐻1
+  p13  + 3.2 pt : figure 0.95 -> 0.87   | alertes par construction, pas une
+  p11  +11.3 pt : passage en \small      | 𝐻1 à 71 % et laisse 28,9 % à 𝐻0.
+  p10  + 9.3 pt : figure 0.80 -> 0.72   | tité estimée. Conséquence pratique
+  p7   + 2.0 pt : passage en \small      | la région où la vraisemblance vit,
+  p6   + 5.2 pt : figure 0.86 -> 0.78   | tolérance arbitraire ; le rapport 
+  p5   + 3.5 pt : passage en \small      | ▶Sensibilité : 𝐵𝐹01 dépend du
+
+=== chapitre 5 : 18 frame(s) a compacter (seuil 2.0 pt) ===
+  p50  + 5.5 pt : figure 0.90 -> 0.82   | ▶Après hiérarchie : de 0,882 à 1,8
+  p49  + 9.6 pt : passage en \small      | due des moyennes brutes des comtés
+  p47  + 4.2 pt : passage en \small      | mais pas absurdes. Une telle vérif
+  p46  + 6.8 pt : passage en \small      | Question : l’effet « premier étage
+  p44  + 3.4 pt : passage en \small      | remplacer une distribution, borner
+  p43  + 4.5 pt : passage en \small      | Écart absolu sur la moyenne : 0,00
+  p42  + 2.3 pt : figure 0.94 -> 0.86   | ici) ;
+  p40  + 3.0 pt : passage en \small      | seul.
+  p39  + 6.5 pt : passage en \small      | √
+  p37  + 3.1 pt : passage en \small      | structure visible.
+  p35  + 6.7 pt : passage en \small      | jugent que le premier point.
+  p32  + 7.0 pt : passage en \small      | í Le réflexe industriel : NUTS par
+  p25  + 6.8 pt : passage en \small      | Coût du progrès : HMC demande le g
+  p23  + 8.3 pt : figure 0.74 -> 0.66   | ▶Deux chaînes parties de (−3, −3) 
+  p20  + 4.6 pt : passage en \small      | soit 0,1 ESS par évaluation, contr
+  p16  + 6.2 pt : figure 0.76 -> 0.68   | cible 1D de cette slide, l’optimum
+  p15  + 5.6 pt : passage en \small      | corrélés.
+  p4   + 5.1 pt : passage en \small      | 𝔼[𝑔(𝜃) | 𝒟] sans jamais calculer l
+
+74 frame(s) traitee(s)

@@ -1,0 +1,234 @@
+% EPD-GIT-5534 — Apprentissage automatique appliqué aux infrastructures
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=2.2cm]{geometry}
+\usepackage[french]{babel}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage[most]{tcolorbox}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true, linkcolor=bleuenspd!70!black, urlcolor=bleuenspd!70!black}
+\definecolor{bleuenspd}{HTML}{1F4E79}
+\definecolor{vertOK}{HTML}{2E7D32}
+\definecolor{grisClair}{HTML}{F2F2F2}
+\emergencystretch=1.5em
+
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small EPD-GIT-5534 — Apprentissage automatique appliqué aux infrastructures}
+\fancyhead[R]{\small\thepage}
+\fancyfoot[C]{\small Séances de 4 h --- 2 h cours + 2 h travaux pratiques}
+
+\newtcolorbox{seancebox}[1]{colback=bleuenspd!8, colframe=bleuenspd, title={#1}, fonttitle=\bfseries, boxrule=0.8pt, arc=2mm}
+\newtcolorbox{coursbox}[1]{colback=bleuenspd!4, colframe=bleuenspd!70, title={Cours magistral (2 h) — #1}, fonttitle=\bfseries, boxrule=0.6pt, arc=2mm}
+\newtcolorbox{tpbox}[1]{colback=vertOK!6, colframe=vertOK!80!black, title={Travaux pratiques (2 h) — #1}, fonttitle=\bfseries, boxrule=0.6pt, arc=2mm}
+\newtcolorbox{evalbox}{colback=grisClair, colframe=gray!60, title={Auto-évaluation}, fonttitle=\bfseries, boxrule=0.5pt, arc=2mm}
+
+\title{\vspace{-1.2cm}\includegraphics[width=3.2cm]{../assets/logo_enspd.png}\\[2mm]
+{\Large\color{bleuenspd} EPD-GIT-5534}\\[1mm]
+{\Large Apprentissage automatique appliqué aux infrastructures}\\[1mm]
+{\large Support de cours complet — 6 séances de 4 h + évaluation (30 h : 11 CM / 5 TD / 11 TP / 3 TPE)}}
+\author{Enseignante : Dr. Noulapeu Ngaffo Armielle\\
+École Nationale Supérieure Polytechnique de Douala\\
+Université de Douala --- Département Génie Informatique et Télécommunications}
+\date{}
+
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+
+\begin{seancebox}{But du cours (extrait du syllabus officiel)}
+Former les étudiants à l'utilisation des techniques d'apprentissage automatique appliquées aux infrastructures informatiques et réseaux afin de leur permettre d'\textbf{analyser, superviser et optimiser} le fonctionnement, la performance et la fiabilité des infrastructures modernes. Les 6 parties du syllabus deviennent 6 séances ; chaque séance combine 2 h de cours magistral et 2 h de travaux pratiques sur un cas d'entreprise réel.
+\end{seancebox}
+
+\begin{seancebox}{Fil conducteur : l'observatoire NOSYS}
+Les TP s'appuient sur un dossier unique : \textbf{NOSYS}, l'exploitant d'un centre de données et d'un réseau 4G/5G à Douala. Deux jeux de données (fournis avec le support, à graine fixe) :
+\begin{itemize}[nosep]
+\item \texttt{nosys\_metriques.csv} — 30 jours de métriques à la minute : CPU, RAM, latence, paquets perdus, température, consommation, alarmes ;
+\item \texttt{nosys\_logs.csv} — 100\,000 lignes de journaux (syslog + auth) : horodatage, machine, niveau, message, résultat d'authentification.
+\end{itemize}
+Chaque séance fait avancer la mission de l'exploitant : comprendre la plateforme $\to$ préparer les données $\to$ modéliser $\to$ prédire les pannes $\to$ détecter les intrusions $\to$ industrialiser.
+\end{seancebox}
+
+\begin{center}
+\footnotesize
+\begin{tabular}{@{}llll@{}}
+\toprule
+\textbf{Séance} & \textbf{Partie du syllabus} & \textbf{Heures} & \textbf{TP fil conducteur}\\
+\midrule
+1 & Introduction au ML et aux infrastructures & 4 h & Cartographier la plateforme\\
+2 & Données d'infrastructures et préparation & 4 h & Nettoyer et construire les signaux\\
+3 & Modèles de ML appliqués aux infrastructures & 4 h & Anomalies et classification\\
+4 & Supervision, optimisation et prédiction & 4 h & Prédire les pannes\\
+5 & Sécurité et fiabilité assistées par l'IA & 4 h & Détecter les intrusions\\
+6 & Perspectives, évolutions et industrialisation & 4 h & Pipeline MLOps\\
+7 & Évaluation (examen 1 h 30 + TPE) & 2 h + 3 h TPE & --- \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\newpage
+\section*{Séance 1 — Introduction à l'apprentissage automatique et aux infrastructures}
+\begin{seancebox}{Partie 1 du syllabus — 2 h cours / 2 h TP}
+\end{seancebox}
+\begin{coursbox}{ML (50 min) + infrastructures (40 min) + croisement (30 min)}
+\begin{enumerate}[nosep]
+\item \textbf{Notions fondamentales de ML} : apprentissage supervisé (régression, classification), non supervisé (clustering, anomalies), par renforcement (aperçu) ; vocabulaire : features, cible, entraînement, généralisation.
+\item \textbf{Anatomie d'une infrastructure} : serveurs, virtualisation, conteneurs, réseau (latence, gigue, perte), stockage ; SLA/SLO/SLI, disponibilité (les \og cinq neufs \fg{}), MTBF/MTTR.
+\item \textbf{Croisement} : pourquoi le ML pour les opérations (AIOps) ? Détection d'anomalies, prédiction de capacité, maintenance prédictive, triage d'alertes, analyse de journaux.
+\item Cas d'étude : NOSYS — présentation du dossier, des données et de la mission des 6 séances.
+\end{enumerate}
+\end{coursbox}
+\begin{tpbox}{Cartographier la plateforme (metrics 101)}
+\begin{enumerate}[nosep]
+\item Charger \texttt{nosys\_metriques.csv} (30 j × 1\,440 min) ; structure, plages temporelles, serveurs — 30 min.
+\item Inventaire : \texttt{info}, \texttt{describe}, valeurs manquantes par machine et par métrique — 20 min.
+\item Visualiser CPU/latence d'un serveur sur 7 jours (matplotlib) : cycles jour/nuit visibles ? — 30 min.
+\item Statistiques par serveur : pic, moyenne, écart-type ; classer les serveurs par charge — 40 min.
+\item \textbf{Livrable} : fiche \og état des lieux \fg{} (1 page) : 5 constats chiffrés + 3 risques identifiés pour le SLA.
+\end{enumerate}
+\end{tpbox}
+\begin{evalbox}
+1. Quelle différence entre SLI, SLO et SLA ? 2. Un problème de détection d'intrusion est-il supervisé ou non supervisé ? 3. Que mesure le MTTR ?
+\end{evalbox}
+
+\section*{Séance 2 — Données d'infrastructures et préparation des données}
+\begin{seancebox}{Partie 2 du syllabus — 2 h cours / 2 h TP}
+\end{seancebox}
+\begin{coursbox}{Sources de données (40 min) + préparation (60 min) + qualité (20 min)}
+\begin{enumerate}[nosep]
+\item \textbf{Où sont les données d'infrastructure ?} Métriques (Prometheus, SNMP), journaux (syslog, ELK), traces, events, tickets ; granularités et horloges.
+\item \textbf{Préparation} : rééchantillonnage temporel, trous et horloges désynchronisées, valeurs manquantes (imputation avant/arrière), valeurs aberrantes, standardisation, encodage des catégorielles.
+\item \textbf{Ingénierie de signaux} : fenêtres glissantes, moyennes/p99 sur 5--60 min, dérivées, ratios (CPU/limite), encodage cyclique de l'heure.
+\item Qualité des données : validation (pandas-schema, great\_expectations), gestion du fuseau horaire, séries temporelles vs tableaux classiques.
+\end{enumerate}
+\end{coursbox}
+\begin{tpbox}{Des métriques brutes aux signaux exploitables}
+\begin{enumerate}[nosep]
+\item Nettoyage : détection des trous, rééchantillonnage à 5 min, imputation des gaps courts — 40 min.
+\item Ingénierie : moyennes mobiles 15/60 min, p99 de latence par fenêtre, écart à la saisonnalité horaire — 40 min.
+\item Encodage cyclique (\texttt{sin}/\texttt{cos} de l'heure et du jour de la semaine) — 20 min.
+\item Fusion métriques + events d'alarme : table par (serveur, fenêtre 10 min) avec étiquette \og incident dans les 30 min \fg{} — 40 min.
+\item \textbf{Livrable} : \texttt{nosys\_features.parquet} + dictionnaire des variables (1 ligne par variable : définition, unité, fenêtre).
+\end{enumerate}
+\end{tpbox}
+\begin{evalbox}
+1. Pourquoi l'encodage cyclique de l'heure plutôt que 0--23 ? 2. Quelle différence entre fuite temporelle et aléa ? 3. Citez deux causes de trous dans des métriques.
+\end{evalbox}
+
+\section*{Séance 3 — Modèles d'apprentissage automatique appliqués aux infrastructures}
+\begin{seancebox}{Partie 3 du syllabus — 2 h cours / 2 h TP}
+\end{seancebox}
+\begin{coursbox}{Détection d'anomalies (50 min) + classification (40 min) + sélection de modèle (30 min)}
+\begin{enumerate}[nosep]
+\item \textbf{Anomalies non supervisées} : règles statistiques (z-score, IQR), isolation forest, LOF, autoencodeur (aperçu) ; scores et seuils.
+\item \textbf{Classification supervisée} : régression logistique, k-NN, arbres, forêts, gradient boosting ; pondération de classes pour les incidents rares.
+\item \textbf{Évaluation} : précision/rappel/F1, courbe précision-rappel (préférée à la ROC quand les positifs sont rares), coût des faux positifs pour un équipe NOC.
+\item Choix de modèle : validation croisée, comparaison, compromis interprétabilité/performance.
+\end{enumerate}
+\end{coursbox}
+\begin{tpbox}{Anomalies et classification sur les métriques}
+\begin{enumerate}[nosep]
+\item Isolation forest sur les signaux de la séance 2 ; score d'anomalie par (serveur, fenêtre) ; inspecter les 20 pires points : que s'est-il passé ? — 40 min.
+\item Détection par la saisonnalité : écart à la médiane de la même heure les jours précédents — 30 min.
+\item Classification d'incident (étiquette construite en TP2) : forêt aléatoire avec \texttt{class\_weight='balanced'} ; matrice de confusion — 30 min.
+\item Courbe précision-rappel : choisir le seuil pour $\le$ 5 alertes/jour/serveur — 20 min.
+\item \textbf{Livrable} : notebook avec tableau des 3 méthodes d'anomalie comparées (nb de détections, recoupement avec les alarmes réelles).
+\end{enumerate}
+\end{tpbox}
+\begin{evalbox}
+1. Pourquoi la précision-rappel plutôt que la ROC avec 0,1 \% d'incidents ? 2. Que fait l'isolation forest ? 3. Un faux positif coûte quoi à un NOC ?
+\end{evalbox}
+
+\section*{Séance 4 — Supervision, optimisation et prédiction}
+\begin{seancebox}{Partie 4 du syllabus — 2 h cours / 2 h TP}
+\end{seancebox}
+\begin{coursbox}{Prédiction de séries (50 min) + capacité et optimisation (40 min) + boucle de supervision (30 min)}
+\begin{enumerate}[nosep]
+\item \textbf{Séries temporelles de métriques} : stationnarité, ACF/PACF, ARIMA/SARIMA ; régression avec saisonnalité ; prévision de charge à 1 h / 24 h.
+\item \textbf{Prédiction de défaillance} : horizon de prédiction, étiquettes \og panne dans les $h$ heures \fg{}, fuite temporelle (le piège n°1), validation par découpage temporel.
+\item \textbf{Optimisation} : dimensionnement (prévision $\to$ marge $\to$ capacité), autoscaling, planification des maintenance windows ; optimisation énergétique (prévision de consommation).
+\item \textbf{Boucle de supervision} : du modèle au dashboard, seuils dynamiques vs statiques, mise à jour des modèles.
+\end{enumerate}
+\end{coursbox}
+\begin{tpbox}{Prédire les pannes et la charge}
+\begin{enumerate}[nosep]
+\item Prévision SARIMA du trafic agrégé à 24 h ; intervalles de confiance, MAE sur 7 jours de validation — 40 min.
+\item Modèle de panne : forêt/gradient boosting sur les fenêtres 10 min, cible \og incident $\le$ 30 min \fg{}, validation temporelle stricte (train = 24 premiers jours, test = 6 derniers) — 40 min.
+\item Comparaison des seuils : table \og alertes/jour vs rappel \fg{} et choix d'un point d'opération — 20 min.
+\item Capacité : à partir de la prévision, calculer la date de saturation du stockage (+10 \% marge) — 20 min.
+\item \textbf{Livrable} : graphique prévision/réalisé + tableau \og rappel, fausses alertes/jour \fg{} + date de saturation.
+\end{enumerate}
+\end{tpbox}
+\begin{evalbox}
+1. Pourquoi ne jamais mélanger passé et futur dans la validation ? 2. Qu'est-ce qu'un seuil dynamique ? 3. Comment transformer une prévision en décision de capacité ?
+\end{evalbox}
+
+\section*{Séance 5 — Sécurité et fiabilité des infrastructures assistées par l'IA}
+\begin{seancebox}{Partie 5 du syllabus — 2 h cours / 2 h TP}
+\end{seancebox}
+\begin{coursbox}{Sécurité par ML (50 min) + fiabilité (30 min) + limites et adversarial (40 min)}
+\begin{enumerate}[nosep]
+\item \textbf{Menaces} : balayages, brute force, exfiltration, comptes compromis ; télémétrie de sécurité (logs d'auth, flux netflow, EDR).
+\item \textbf{Détection par ML} : règles vs anomalies ; caractéristiques d'authentification (échecs successifs, heures inhabituelles, pays improbable) ; isolation forest/LOF sur sessions agrégées ; clustering pour regrouper les attaques.
+\item \textbf{Fiabilité} : prédiction de dérive des modèles, contrôle de la qualité des données en production, redondance des détecteurs (ML + règles).
+\item \textbf{Limites} : attaques adversariales (contourner un détecteur), faux positifs et fatigue d'alerte, explicabilité (SHAP aperçu), vie privée des logs.
+\end{enumerate}
+\end{coursbox}
+\begin{tpbox}{Détecter les intrusions dans les journaux}
+\begin{enumerate}[nosep]
+\item Charger \texttt{nosys\_logs.csv} (100\,000 lignes) ; parser syslog, agréger par (machine, fenêtre 10 min) : nb d'échecs, nb de succès, utilisateurs distincts — 40 min.
+\item Caractéristiques d'attaque : échecs consécutifs, entropie des utilisateurs, écart à l'horaire habituel — 30 min.
+\item Isolation forest sur les sessions ; inspecter les 30 sessions les plus anormales ; recouper avec les étiquettes d'attaque injectées — 30 min.
+\item Classification supervisée (attaque connue) : forêt, précision/rappel ; tableau des 2 détecteurs (non supervisé vs supervisé) — 20 min.
+\item \textbf{Livrable} : liste des sessions suspectes (top 30) + note d'incident d'une page : ce qui s'est passé, preuve, action recommandée.
+\end{enumerate}
+\end{tpbox}
+\begin{evalbox}
+1. Pourquoi agréger les logs avant de modéliser ? 2. Qu'est-ce que la fatigue d'alerte et comment la ML l'aggrave-t-il si on le règle mal ? 3. Citez une limite adversariale d'un détecteur ML.
+\end{evalbox}
+
+\section*{Séance 6 — Perspectives, évolutions et industrialisation}
+\begin{seancebox}{Partie 6 du syllabus — 2 h cours / 2 h TP}
+\end{seancebox}
+\begin{coursbox}{Industrialisation (50 min) + panorama des évolutions (40 min) + éthique et gouvernance (30 min)}
+\begin{enumerate}[nosep]
+\item \textbf{MLOps pour l'infrastructure} : pipeline données $\to$ entraînement $\to$ validation $\to$ déploiement ; retraining automatique, suivi de dérive, registre de modèles ; conteneurisation du modèle.
+\item \textbf{Perspectives} : autoencodeurs et deep learning pour les métriques, LLM pour le résumé d'incidents et la requête de métriques en langage naturel, jumeaux numériques, edge ML (détection sur l'équipement).
+\item \textbf{Gouvernance} : responsabilité d'une alerte fausse/négligée, documentation des modèles, protection des données des logs, auditabilité.
+\item Retour sur la mission NOSYS : synthèse des 6 livrables, ce qui est prêt pour la production.
+\end{enumerate}
+\end{coursbox}
+\begin{tpbox}{Emballer le détecteur de pannes}
+\begin{enumerate}[nosep]
+\item Sauvegarder le pipeline (préparation + modèle) avec \texttt{joblib} ; script de scoring sur un nouveau fichier de métriques — 30 min.
+\item Mini-API de scoring (\texttt{FastAPI}) : POST de fenêtres de métriques $\to$ probabilité d'incident — 40 min.
+\item Test de charge léger + mesure de latence de prédiction — 20 min.
+\item Fiche MLOps : plan de retraining (fréquence, déclencheurs), métriques surveillées en production, procédure de rollback — 30 min.
+\item \textbf{Livrable} : API fonctionnelle + fiche MLOps d'une page.
+\end{enumerate}
+\end{tpbox}
+\begin{evalbox}
+1. Qu'est-ce que la dérive de modèle et comment la détecter ? 2. Pourquoi re-entraîner un modèle d'infrastructure périodiquement ? 3. Citez un usage d'un LLM dans un NOC.
+\end{evalbox}
+
+\section*{Évaluation de l'UE (30 h, 3 crédits)}
+\begin{seancebox}{Conformément aux méthodes pédagogiques du syllabus}
+\begin{itemize}[nosep]
+\item \textbf{Évaluation continue} (30 \%) : les 6 livrables de TP (un notebook + un livrable par séance).
+\item \textbf{TPE} (3 h, 20 \%) : étude de cas individuelle — choisir un article AIOps récent ou une fonctionnalité d'un outil (Prometheus + ML, Elastic anomaly detection) et produire une note critique de 2 pages.
+\item \textbf{Examen final} (50 \%, 1 h 30) : sujet à 6 exercices couvrant les 6 parties (théorème appliqué aux données d'infrastructures, préparation de signaux, modèle d'anomalie, prédiction temporelle, détection d'intrusion, décision de capacité).
+\end{itemize}
+\end{seancebox}
+
+\begin{seancebox}{Ressources}
+\begin{itemize}[nosep]
+\item \texttt{scikit-learn} (modèles, pipelines), \texttt{statsmodels} (ARIMA), \texttt{pandas} (séries temporelles), \texttt{shap} (explicabilité).
+\item Outils de référence à citer en cours : Prometheus/Grafana (métriques), Elastic/ELK (journaux), \texttt{prophet} (prévision).
+\item Données des TP : \texttt{nosys\_metriques.csv} et \texttt{nosys\_logs.csv}, fournis avec le support (générés par \texttt{src/make\_nosys\_data.py}, graine fixe).
+\end{itemize}
+\end{seancebox}
+
+\end{document}

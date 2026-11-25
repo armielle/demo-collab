@@ -1,0 +1,97 @@
+
+=== Chapitre-1-fondements-bayesiens.pdf — 52 pages | titre finit 24.2 pt | pied a 247.7 pt | page 453.5x255.1 ===
+  encadres coupés en bas : 76 sur 22 page(s)  [1, 10, 15, 16, 17, 18, 22, 26, 28, 29, 31, 35, 36, 37, 38, 40, 41, 43, 44, 46, 48, 52]
+      p36  + 201.6 pt  (encadré de 76 pt)
+      p36  + 200.7 pt  (encadré de 74 pt)
+      p18  + 157.8 pt  (encadré de 66 pt)
+      p18  + 156.9 pt  (encadré de 64 pt)
+      p10  + 134.0 pt  (encadré de 137 pt)
+      p10  + 133.1 pt  (encadré de 136 pt)
+      p36  + 131.8 pt  (encadré de 15 pt)
+      p36  + 131.8 pt  (encadré de 15 pt)
+  textes sous la barre de titre : 60  [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52]
+      p2   +  16.9 pt  Pourquoi le bayésien ?
+      p3   +  16.9 pt  Le problème qui met tout le monde d’accord
+      p5   +  16.9 pt  Trois siècles d’une idée contrariée
+      p6   +  16.9 pt  Objectifs pédagogiques du chapitre
+      p7   +  16.9 pt  Plan du chapitre 1 (8 h)
+      p8   +  16.9 pt  Activité brise-glace — tour de table (5 min)
+  textes hors zone droite : 0
+
+=== Chapitre-2-a-priori-a-posteriori.pdf — 52 pages | titre finit 24.2 pt | pied a 247.7 pt | page 453.5x255.1 ===
+  encadres coupés en bas : 90 sur 30 page(s)  [1, 2, 3, 4, 7, 8, 9, 10, 11, 12, 14, 15, 19, 22, 24, 25, 27, 28, 30, 31, 32, 36, 37, 42, 43, 44, 45, 50, 51, 52]
+      p9   + 178.8 pt  (encadré de 68 pt)
+      p9   + 177.9 pt  (encadré de 66 pt)
+      p24  + 146.6 pt  (encadré de 89 pt)
+      p24  + 145.7 pt  (encadré de 87 pt)
+      p8   + 131.5 pt  (encadré de 51 pt)
+      p8   + 130.6 pt  (encadré de 49 pt)
+      p9   + 116.9 pt  (encadré de 15 pt)
+      p9   + 116.9 pt  (encadré de 15 pt)
+  textes sous la barre de titre : 73  [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52]
+      p2   +  16.9 pt  Objectifs pédagogiques du chapitre 2
+      p3   +  16.9 pt  Plan du chapitre 2 (8 h)
+      p4   +  16.9 pt  La recette en trois gestes
+      p5   +  16.9 pt  Pourquoi la conjugaison simplifie (et ce qu’
+      p6   +  16.9 pt  Tableau récapitulatif des conjugaisons
+      p7   +  16.9 pt  Les familles de priors et leurs moments
+  textes hors zone droite : 0
+
+=== Chapitre-3-estimation-inference.pdf — 52 pages | titre finit 24.2 pt | pied a 247.7 pt | page 453.5x255.1 ===
+  encadres coupés en bas : 26 sur 13 page(s)  [1, 8, 12, 19, 23, 24, 28, 31, 39, 44, 46, 48, 51]
+      p1   +  98.1 pt  (encadré de 250 pt)
+      p46  +  68.5 pt  (encadré de 51 pt)
+      p46  +  67.6 pt  (encadré de 49 pt)
+      p48  +  62.8 pt  (encadré de 54 pt)
+      p48  +  61.9 pt  (encadré de 52 pt)
+      p46  +  23.6 pt  (encadré de 15 pt)
+      p46  +  23.6 pt  (encadré de 15 pt)
+      p48  +  15.0 pt  (encadré de 14 pt)
+  textes sous la barre de titre : 70  [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52]
+      p2   +  16.9 pt  Plan du chapitre 3 — du posterior à la décis
+      p3   +  16.9 pt  Section 3.1 — Ce que « estimer » veut dire
+      p4   +  16.9 pt  Le risque a posteriori : la seule définition
+      p5   +  16.9 pt  Trois pertes canoniques, trois estimateurs
+      p6   +  16.9 pt  Pourquoi ces trois-là ? Les calculs, en troi
+      p7   +  16.9 pt  Les trois estimateurs et leur perte, mesurés
+  textes hors zone droite : 0
+
+=== Chapitre-4-comparaison-decision.pdf — 51 pages | titre finit 24.2 pt | pied a 247.7 pt | page 453.5x255.1 ===
+  encadres coupés en bas : 68 sur 24 page(s)  [1, 5, 6, 7, 9, 10, 11, 13, 14, 18, 21, 24, 26, 27, 28, 29, 31, 33, 37, 38, 41, 42, 47, 51]
+      p24  + 117.5 pt  (encadré de 66 pt)
+      p24  + 116.6 pt  (encadré de 64 pt)
+      p1   +  98.1 pt  (encadré de 250 pt)
+      p13  +  76.8 pt  (encadré de 117 pt)
+      p13  +  75.9 pt  (encadré de 115 pt)
+      p21  +  74.1 pt  (encadré de 141 pt)
+      p21  +  73.2 pt  (encadré de 139 pt)
+      p10  +  73.1 pt  (encadré de 140 pt)
+  textes sous la barre de titre : 59  [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 36, 37, 39, 40, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51]
+      p2   +  16.9 pt  Objectifs pédagogiques du chapitre
+      p3   +  16.9 pt  Plan du chapitre 4 (8 h)
+      p4   +  16.9 pt  Deux questions que le chapitre 3 laissait ou
+      p5   +  16.9 pt  4.1 Le facteur de Bayes : définition
+      p6   +  16.9 pt  Un rapport de vraisemblances, pas une aire d
+      p7   +  16.9 pt  Calculer un 𝐵𝐹par échantillonnage (Monte-Car
+  textes hors zone droite : 0
+
+=== Chapitre-5-mcmc-mini-projet.pdf — 51 pages | titre finit 24.2 pt | pied a 247.7 pt | page 453.5x255.1 ===
+  encadres coupés en bas : 61 sur 22 page(s)  [1, 5, 12, 15, 16, 17, 20, 23, 28, 32, 35, 37, 38, 41, 42, 43, 45, 46, 47, 49, 50, 51]
+      p42  + 158.4 pt  (encadré de 212 pt)
+      p42  + 157.5 pt  (encadré de 210 pt)
+      p50  + 152.4 pt  (encadré de 205 pt)
+      p50  + 151.5 pt  (encadré de 204 pt)
+      p51  + 124.9 pt  (encadré de 329 pt)
+      p51  + 123.5 pt  (encadré de 326 pt)
+      p45  + 100.4 pt  (encadré de 305 pt)
+      p45  +  99.0 pt  (encadré de 302 pt)
+  textes sous la barre de titre : 52  [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51]
+      p5   +  27.0 pt  √
+      p2   +  16.9 pt  Objectifs et plan du chapitre 5 (8 h)
+      p3   +  16.9 pt  Pourquoi il faut des méthodes numériques
+      p4   +  16.9 pt  Le principe Monte-Carlo : remplacer une inté
+      p5   +  16.9 pt  𝑁: la mesure plutôt que l’aﬀirmation
+      p6   +  16.9 pt  Intervalle de confiance Monte-Carlo et couve
+  textes hors zone droite : 0
+
+TOTAL — encadres coupés : 321 | textes sous le titre : 314 | hors zone droite : 0

@@ -1,0 +1,26 @@
+[ECHEC] chapitre1          19.6s       0.0 Ko  6 erreur(s)  ->  aucun PDF
+       error: _build_ch1.tex:14: File ended while scanning use of \frame
+       error: something bad happened inside XeTeX; its output follows:
+       (pgfplots.errorbars.code.tex) (pgfplots.markers.code.tex)
+       ! File ended while scanning use of \frame.
+       error: the XeTeX engine had an unrecoverable error
+       caused by: halted on potentially-recoverable error as specified
+[OK ] chapitre2          66.0s    2541.3 Ko  0 erreur(s)  ->  Chapitre-2-a-priori-a-posteriori.pdf
+[OK ] chapitre3          47.0s    2332.4 Ko  0 erreur(s)  ->  Chapitre-3-estimation-inference.pdf
+[OK ] chapitre4          43.8s    2150.2 Ko  0 erreur(s)  ->  Chapitre-4-comparaison-decision.pdf
+[ECHEC] chapitre5          18.2s       0.0 Ko  6 erreur(s)  ->  aucun PDF
+       error: _build_ch5.tex:11: File ended while scanning use of \frame
+       error: something bad happened inside XeTeX; its output follows:
+       (pgfplots.errorbars.code.tex) (pgfplots.markers.code.tex)
+       ! File ended while scanning use of \frame.
+       error: the XeTeX engine had an unrecoverable error
+       caused by: halted on potentially-recoverable error as specified
+[ECHEC] cours_complet      20.3s       0.0 Ko  6 erreur(s)  ->  aucun PDF
+       error: _build_all.tex:14: File ended while scanning use of \frame
+       error: something bad happened inside XeTeX; its output follows:
+       (pgfplots.errorbars.code.tex) (pgfplots.markers.code.tex)
+       ! File ended while scanning use of \frame.
+       error: the XeTeX engine had an unrecoverable error
+       caused by: halted on potentially-recoverable error as specified
+
+Frames par chapitre : {"1": 64, "2": 72, "3": 53, "4": 63, "5": 64}

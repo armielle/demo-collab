@@ -1,0 +1,43 @@
+
+======================================================================
+>>> nb_tp1.py
+======================================================================
+    [nb] TP1_mise_a_jour_bayesienne.ipynb          18 cellules (9 code, 2 figures)   132.9 Ko
+    (20.9 s)
+
+======================================================================
+>>> nb_tp2.py
+======================================================================
+    [nb] TP2_priors_conjugaison_shrinkage.ipynb    12 cellules (5 code, 3 figures)   178.7 Ko
+    (439.4 s)
+
+======================================================================
+>>> nb_tp34.py
+======================================================================
+    [nb] TP3_estimation_prediction_regression.ipynb  13 cellules (6 code, 3 figures)   153.2 Ko
+    !!! ECHEC :
+       print(f"BF10 final sous H1 : {res[0.7][-1]:.3e}  (evidence très forte)")
+       ------------------
+       
+       
+         [36mCell[39m[36m [39m[32mIn[3][39m[32m, line 24[39m
+       [31m    [39m[31max[1].set_title("La p-value sous H0 "significative" dans ~5 % des cas")[39m
+                           ^
+       [31mSyntaxError[39m[31m:[39m invalid syntax. Perhaps you forgot a comma?
+    (839.9 s)
+
+======================================================================
+>>> nb_tp5.py
+======================================================================
+    !!! ECHEC :
+       [32m      5[39m az.plot_rank(idata, var_names=[[33m"theta"[39m])
+       [32m      6[39m plt.tight_layout(); plt.show()
+       [32m      7[39m 
+       [32m      8[39m print([33m"Lecture des seuils :"[39m)
+       [32m----> [39m[32m9[39m print([33mf"  r_hat = {float(s_nuts.loc['theta','r_hat']):.4f}  -> {'OK' if float(s_nuts.loc['theta','r_hat'])<1.01 else 
+       [32m     10[39m print([33mf"  ess   = {ess_nuts:8.0f}  -> {'OK' if ess_nuts>400 else 'PROBLEME'}"[39m)
+       
+       [31mNameError[39m: name 's_nuts' is not defined
+    (254.9 s)
+
+2/4 notebooks regeneres en 1555 s
