@@ -1,0 +1,118 @@
+{
+ "p_conv_3_1_32": 320,
+ "p_conv_3_3_64": 1792,
+ "p_conv_3_64_128": 73856,
+ "p_conv_5_16_120_vieux": 48120,
+ "p_dense_1024_1000": 1025000,
+ "pooling_matrice": [
+  [
+   1,
+   2,
+   5,
+   3
+  ],
+  [
+   4,
+   9,
+   2,
+   1
+  ],
+  [
+   7,
+   3,
+   8,
+   6
+  ],
+  [
+   2,
+   1,
+   4,
+   5
+  ]
+ ],
+ "pooling_max": [
+  [
+   9.0,
+   5.0
+  ],
+  [
+   7.0,
+   8.0
+  ]
+ ],
+ "pooling_avg": [
+  [
+   4.0,
+   2.75
+  ],
+  [
+   3.25,
+   5.75
+  ]
+ ],
+ "lenet_couches": [
+  {
+   "nom": "Entrée",
+   "h": 32,
+   "w": 32,
+   "c": 1,
+   "params": 0
+  },
+  {
+   "nom": "C1 conv 5×5, 6",
+   "h": 28,
+   "w": 28,
+   "c": 6,
+   "params": 156
+  },
+  {
+   "nom": "S2 pool 2×2",
+   "h": 14,
+   "w": 14,
+   "c": 6,
+   "params": 0
+  },
+  {
+   "nom": "C3 conv 5×5, 16",
+   "h": 10,
+   "w": 10,
+   "c": 16,
+   "params": 2416
+  },
+  {
+   "nom": "S4 pool 2×2",
+   "h": 5,
+   "w": 5,
+   "c": 16,
+   "params": 0
+  },
+  {
+   "nom": "C5 conv 5×5, 120",
+   "h": 1,
+   "w": 1,
+   "c": 120,
+   "params": 48120
+  },
+  {
+   "nom": "F6 dense 84",
+   "h": 1,
+   "w": 1,
+   "c": 84,
+   "params": 10164
+  },
+  {
+   "nom": "Sortie softmax 10",
+   "h": 1,
+   "w": 1,
+   "c": 10,
+   "params": 850
+  }
+ ],
+ "lenet_params_total": 61706,
+ "lenet_entrees": 1024,
+ "lenet_flatten": 400,
+ "vgg16_conv_params": 14714688,
+ "vgg16_dense_params": 123642856,
+ "vgg16_total": 138357544,
+ "vgg16_part_dense_pct": 89.4
+}

@@ -1,0 +1,16 @@
+{
+ "detection_image": [
+  256,
+  342
+ ],
+ "detection_seuil_iou": 0.5,
+ "nms_iou": 0.45,
+ "unet_connexions_sautees": 3,
+ "ecg_frequence_bpm": 72,
+ "ecg_duree_s": 10,
+ "ecg_points": 1200,
+ "ecg_battements_detectes": 11,
+ "ecg_seuil_sigma": 2.2,
+ "trafic_periode_nuit_h": 24,
+ "trafic_horizon_jours": 4
+}

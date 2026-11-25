@@ -1,0 +1,39 @@
+{
+ "courbes_finales": {
+  "sous_apprentissage": [
+   0.423,
+   0.408
+  ],
+  "bon_compromis": [
+   0.072,
+   0.115
+  ],
+  "surapprentissage": [
+   0.034,
+   0.447
+  ]
+ },
+ "epoque_arret_optimal": 5,
+ "dropout_p": 0.5,
+ "dropout_actifs_sur_6": 4,
+ "bn_moyenne_avant": 1.974,
+ "bn_ecart_type_avant": 1.918,
+ "bn_moyenne_apres": 0.0,
+ "bn_ecart_type_apres": 1.0,
+ "augmentation_variantes": [
+  "originale",
+  "rotation +15°",
+  "miroir horizontal",
+  "translation",
+  "zoom (recadrage)",
+  "bruit gaussien"
+ ],
+ "augmentation_facteur": 6,
+ "imagenet_images": "1,2 M",
+ "imagenet_classes": 1000,
+ "lr_cas": [
+  0.001,
+  0.05,
+  0.9
+ ]
+}

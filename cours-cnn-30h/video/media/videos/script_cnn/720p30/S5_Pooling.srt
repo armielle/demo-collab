@@ -1,0 +1,4 @@
+1
+00:00:04,300 --> 00:00:07,300
+Dans chaque bloc 2x2, on garde le maximum
+

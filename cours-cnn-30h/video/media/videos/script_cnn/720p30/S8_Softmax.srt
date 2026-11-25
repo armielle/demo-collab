@@ -1,0 +1,12 @@
+1
+00:00:02,200 --> 00:00:05,200
+Le softmax transforme les scores en probabilites
+
+2
+00:00:06,500 --> 00:00:09,500
+La classe la plus probable gagne
+
+3
+00:00:13,100 --> 00:00:16,100
+Le meme noyau, reutilise partout
+

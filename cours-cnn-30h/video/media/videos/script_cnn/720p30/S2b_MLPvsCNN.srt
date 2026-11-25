@@ -1,0 +1,8 @@
+1
+00:00:02,400 --> 00:00:05,400
+Une couche dense sur une photo : des dizaines de milliards de parametres
+
+2
+00:00:06,400 --> 00:00:09,400
+Le partage de poids divise le compte par des dizaines de milliers
+

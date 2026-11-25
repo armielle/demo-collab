@@ -1,0 +1,84 @@
+1
+00:00:00,000 --> 00:00:02,000
+De l'image a la decision
+
+2
+00:00:05,100 --> 00:00:07,100
+Voici notre image de travail
+
+3
+00:00:08,200 --> 00:00:11,200
+Comment 9 nombres suffisent-ils a decider ?
+
+4
+00:00:14,600 --> 00:00:16,600
+Chaque pixel est un nombre
+
+5
+00:00:17,000 --> 00:00:19,000
+Ce pixel vaut une intensite
+
+6
+00:00:26,100 --> 00:00:29,100
+Une couche dense sur une photo : des dizaines de milliards de parametres
+
+7
+00:00:30,100 --> 00:00:33,100
+Le partage de poids divise le compte par des dizaines de milliers
+
+8
+00:00:42,900 --> 00:00:45,900
+On multiplie la zone par le noyau, puis on additionne
+
+9
+00:00:48,500 --> 00:00:51,500
+Le noyau balaie toute l'image
+
+10
+00:00:54,820 --> 00:00:57,820
+La carte complete, calculee sur l'image reelle
+
+11
+00:01:05,333 --> 00:01:08,333
+Les valeurs negatives deviennent zero
+
+12
+00:01:19,533 --> 00:01:22,533
+Dans chaque bloc 2x2, on garde le maximum
+
+13
+00:01:32,933 --> 00:01:35,933
+Des cartes de plus en plus abstraites
+
+14
+00:01:38,233 --> 00:01:41,233
+Le champ recepteur grandit couche apres couche
+
+15
+00:01:46,333 --> 00:01:50,333
+Chaque couche elargit le champ recepteur de deux pixels de chaque cote
+
+16
+00:01:55,133 --> 00:01:58,133
+Empiler plutot qu'agrandir le noyau
+
+17
+00:02:02,733 --> 00:02:05,733
+On aplatit la carte en un vecteur de 16 valeurs
+
+18
+00:02:10,333 --> 00:02:13,333
+Chaque connexion porte un poids appris
+
+19
+00:02:21,633 --> 00:02:24,633
+Le softmax transforme les scores en probabilites
+
+20
+00:02:25,933 --> 00:02:28,933
+La classe la plus probable gagne
+
+21
+00:02:32,533 --> 00:02:35,533
+Le meme noyau, reutilise partout
+

@@ -1,0 +1,11 @@
+# This file records the segment order used by Manim.
+file 'file:C:/Users/HP/Documents/cours-cnn-30h/video/media/videos/script_cnn/480p15/partial_movie_files/S6_Hierarchie/7f94796a4bf098cda48a5f7e14507b8ddb95ff042a17f34945f20607dd91f75a.mp4'
+file 'file:C:/Users/HP/Documents/cours-cnn-30h/video/media/videos/script_cnn/480p15/partial_movie_files/S6_Hierarchie/b5ae54f2089c3777b40d180228ca1a2b43643377c98d147fbaebddc07d8a5b0d.mp4'
+file 'file:C:/Users/HP/Documents/cours-cnn-30h/video/media/videos/script_cnn/480p15/partial_movie_files/S6_Hierarchie/ed219e8c64293d8c082077f34bebab75093a54fb1f3f4a9d932c0d4998195bbf.mp4'
+file 'file:C:/Users/HP/Documents/cours-cnn-30h/video/media/videos/script_cnn/480p15/partial_movie_files/S6_Hierarchie/d75cc5a34df9f344cdf35f0bab3425b240bbca6f6f9d6ab2cc7b805bc66081d3.mp4'
+file 'file:C:/Users/HP/Documents/cours-cnn-30h/video/media/videos/script_cnn/480p15/partial_movie_files/S6_Hierarchie/6fc2cad01dac364556395ebbecf0b6cfec1cf1043887913fd3f3bc8bc3f28fa2.mp4'
+file 'file:C:/Users/HP/Documents/cours-cnn-30h/video/media/videos/script_cnn/480p15/partial_movie_files/S6_Hierarchie/c9adcd45490c219e74d8d84335c58b7259db5906c34911f58b26a7804d5c44c0.mp4'
+file 'file:C:/Users/HP/Documents/cours-cnn-30h/video/media/videos/script_cnn/480p15/partial_movie_files/S6_Hierarchie/a3f5d49c79b84f8c9054f4a92debba7af917601e1a64d21e26bbc8a65614088b.mp4'
+file 'file:C:/Users/HP/Documents/cours-cnn-30h/video/media/videos/script_cnn/480p15/partial_movie_files/S6_Hierarchie/fd49b16e27982c993c1276c37432ee2fff40c330c08aecb7c4b13a5cf6e2198e.mp4'
+file 'file:C:/Users/HP/Documents/cours-cnn-30h/video/media/videos/script_cnn/480p15/partial_movie_files/S6_Hierarchie/0dbdf2245d87a6f69e935dc18bfd70578bbc111cb8e0759786b7b5bab8b8677f.mp4'
+file 'file:C:/Users/HP/Documents/cours-cnn-30h/video/media/videos/script_cnn/480p15/partial_movie_files/S6_Hierarchie/7a2eb75a95813a57a94b902adca0db68028242a513722e9fe4f1189a5fdc0025.mp4'

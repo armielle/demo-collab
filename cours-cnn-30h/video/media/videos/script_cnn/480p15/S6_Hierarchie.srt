@@ -1,0 +1,8 @@
+1
+00:00:01,000 --> 00:00:04,000
+Des cartes de plus en plus abstraites
+
+2
+00:00:06,333 --> 00:00:09,333
+Le champ recepteur grandit couche apres couche
+

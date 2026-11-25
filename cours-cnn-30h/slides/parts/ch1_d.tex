@@ -1,0 +1,131 @@
+% =====================================================================
+%  Chapitre 1 -- Du MLP aux CNN
+%  Partie d : recapitulatif, quiz de synthese, TP1
+% =====================================================================
+
+\begin{frame}{MLP contre CNN : le tableau de bord}
+\begin{center}
+\small
+\begin{tabular}{@{}p{0.30\textwidth}p{0.32\textwidth}p{0.32\textwidth}@{}}
+\toprule
+ & \textbf{MLP (couche dense)} & \textbf{CNN (couche convolutive)} \\
+\midrule
+\textbf{Entrée attendue} & vecteur (image aplatie) & tenseur (image, structure conservée) \\
+\textbf{Voisinage} & tout l'image & un voisinage local ($3 \times 3$, $5 \times 5$) \\
+\textbf{Poids} & un par (pixel, neurone) & un par position du noyau, partagés \\
+\textbf{Paramètres, photo 24 Mpx} & $\approx 48$ milliards & $\approx 1\,800$ \\
+\textbf{Dépend à la position} & oui & non (invariance par translation) \\
+\textbf{Ce qu'il apprend} & des corrélations globales & des motifs locaux réutilisables \\
+\textbf{Adapté aux images} & non, sauf très petites & oui \\
+\bottomrule
+\end{tabular}
+\end{center}
+\vspace{1mm}
+\begin{kbox}[La phrase à retenir]
+Un CNN n'est pas un MLP amélioré : c'est un MLP auquel on a \textbf{interdit}
+de connecter des pixels éloignés, et \textbf{obligé} de réutiliser ses poids.
+\end{kbox}
+\end{frame}
+
+\begin{frame}{À retenir}
+\begin{kbox}[Les trois idées de ce chapitre]
+\begin{enumerate}
+  \item Une image est une \textbf{matrice} (niveaux de gris) ou un
+  \textbf{tenseur} (couleur). L'aplatir détruit l'information la plus utile.
+  \item Le MLP explose : le nombre de paramètres croît comme
+  $n_{\text{pixels}} \times n_{\text{neurones}}$. Sur une vraie photo, c'est
+  des dizaines de milliards.
+  \item Deux idées règlent le problème : \textbf{localité} (un noyau ne voit
+  qu'un voisinage) et \textbf{partage de poids} (le même noyau partout),
+  d'où l'\textbf{invariance par translation}.
+\end{enumerate}
+\end{kbox}
+\vspace{2mm}
+\begin{wbox}[Ce qui reste à construire]
+Nous avons le \emph{principe}. Il manque : le calcul précis de la convolution
+(chapitre 2), l'architecture complète (chapitre 3), et l'entraînement
+(chapitre 4).
+\end{wbox}
+\end{frame}
+
+\begin{frame}{Quiz de synthèse du chapitre 1}
+\begin{qbox}[Question 1]
+Pourquoi aplatisse-t-on une image avant un MLP ?
+\begin{itemize}
+  \item[(a)] Pour réduire la mémoire \quad (b) Parce que l'entrée d'un MLP est un
+  vecteur \quad (c) Pour normaliser les valeurs
+\end{itemize}
+\end{qbox}
+\begin{qbox}[Question 2]
+Une couche convolutive $5 \times 5$, $32$ filtres, sur une entrée à $3$ canaux
+contient :
+\begin{itemize}
+  \item[(a)] $32$ paramètres \quad (b) $2\,432$ \quad (c) $4\,800$
+\end{itemize}
+\end{qbox}
+\begin{qbox}[Question 3]
+Lequel de ces défauts le partage de poids ne règle-t-il \textbf{pas} à lui seul ?
+\begin{itemize}
+  \item[(a)] L'explosion des paramètres \quad (b) La dépendance à la position
+  \quad (c) Le fait qu'un filtre ne détecte qu'un motif
+\end{itemize}
+\end{qbox}
+\begin{solbox}[Réponses]
+\textbf{1.} (b). \quad
+\textbf{2.} (b) : $5 \times 5 \times 3 \times 32 + 32 = 2\,400 + 32 = 2\,432$. \quad
+\textbf{3.} (c) : il faut \emph{plusieurs} filtres, d'où les canaux de sortie
+(chapitre 3).
+\end{solbox}
+\end{frame}
+
+\begin{frame}{Travail pratique 1 --- noyaux de convolution}
+\begin{columns}[t]
+\begin{column}{0.55\textwidth}
+\begin{abox}[TP1 : \file{notebooks/TP1_noyaux_convolution.ipynb}]
+\begin{itemize}
+  \item Charger une image réelle et la manipuler comme une matrice.
+  \item Construire les noyaux classiques : flou, netteté, contours, relief.
+  \item Appliquer un noyau et \textbf{interpréter} la carte d'activation.
+  \item Refaire un calcul de convolution \textbf{à la main} sur une matrice
+  $5 \times 5$, puis vérifier avec \file{scipy}.
+\end{itemize}
+\medskip
+Durée conseillée : \textbf{1 h 30} --- barème : \textbf{10 points}.
+\end{abox}
+\end{column}
+\begin{column}{0.42\textwidth}
+\begin{wbox}[Avant de commencer]
+Ne codez pas avant d'avoir répondu par écrit : « que doit produire ce noyau ? ».
+L'intuition précède le code ; c'est la même démarche que dans un projet réel.
+\end{wbox}
+\begin{solbox}[Ce qui sera évalué]
+La cohérence entre votre prédiction et le résultat observé, et la qualité de
+l'interprétation des cartes obtenues.
+\end{solbox}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Ce que le chapitre 2 va préciser}
+\begin{columns}[t]
+\begin{column}{0.48\textwidth}
+\begin{kbox}[Trois questions ouvertes]
+\begin{itemize}
+  \item Comment se calcule \emph{exactement} une convolution, élément par élément ?
+  \item Que deviennent les bords de l'image ? (\textbf{padding})
+  \item Peut-on balayer plus vite ? (\textbf{stride})
+\end{itemize}
+\end{kbox}
+\end{column}
+\begin{column}{0.48\textwidth}
+\begin{kbox}[Et une question de taille]
+Comment prédire la \textbf{dimension} de la sortie d'une couche convolutive
+sans la calculer ?
+
+\medskip
+C'est la formule du chapitre 2 --- et l'erreur la plus fréquente en
+pratique.
+\end{kbox}
+\end{column}
+\end{columns}
+\end{frame}

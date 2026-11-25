@@ -1,0 +1,12 @@
+# This file records the segment order used by Manim.
+file 'file:C:/Users/HP/Documents/cours-cnn-30h/video/media/videos/script_cnn/720p30/partial_movie_files/S4_ReLU/5416b5a7fcefa0148453620ee7625550fe73f6b87d9620b05bc279df2a535cd5.mp4'
+file 'file:C:/Users/HP/Documents/cours-cnn-30h/video/media/videos/script_cnn/720p30/partial_movie_files/S4_ReLU/e619086f818f33281161e9d424940e49b9b41dc5e76a5d673a3068890f2d58bc.mp4'
+file 'file:C:/Users/HP/Documents/cours-cnn-30h/video/media/videos/script_cnn/720p30/partial_movie_files/S4_ReLU/488a00e0a9729aa76f05c8886bc3ce85bcbcf00f78f5d0702a3d55b3fb3aec0a.mp4'
+file 'file:C:/Users/HP/Documents/cours-cnn-30h/video/media/videos/script_cnn/720p30/partial_movie_files/S4_ReLU/66b0fe88c8a3ca081b2ad848555f191400552bc73c464412f16e95200d27c3d9.mp4'
+file 'file:C:/Users/HP/Documents/cours-cnn-30h/video/media/videos/script_cnn/720p30/partial_movie_files/S4_ReLU/66111ef115817705095b659be4b512a39908183b6380a5e68f08dc883bdefcb9.mp4'
+file 'file:C:/Users/HP/Documents/cours-cnn-30h/video/media/videos/script_cnn/720p30/partial_movie_files/S4_ReLU/8d38eb4e239d835e90231c9b2b8bdd90abb4786be519595213851adeca7c89c6.mp4'
+file 'file:C:/Users/HP/Documents/cours-cnn-30h/video/media/videos/script_cnn/720p30/partial_movie_files/S4_ReLU/e3be21321a5e96cc5c49fcc518c5b3a14391d38b44b909393ccfad33d5dc5f75.mp4'
+file 'file:C:/Users/HP/Documents/cours-cnn-30h/video/media/videos/script_cnn/720p30/partial_movie_files/S4_ReLU/f1b565a1d5e026469308140dbdf457a52e315afe27b68d3a6a7c8e5669f6a573.mp4'
+file 'file:C:/Users/HP/Documents/cours-cnn-30h/video/media/videos/script_cnn/720p30/partial_movie_files/S4_ReLU/bf6cf64a6c687f8def871db1132ed3f74f410ae753b9c4e9fb8ba20d54cd8af9.mp4'
+file 'file:C:/Users/HP/Documents/cours-cnn-30h/video/media/videos/script_cnn/720p30/partial_movie_files/S4_ReLU/bd27b05581a654f850b89d4fd43c51050ee3766610026525ecf470ec3af8fc52.mp4'
+file 'file:C:/Users/HP/Documents/cours-cnn-30h/video/media/videos/script_cnn/720p30/partial_movie_files/S4_ReLU/212a5a04015d1a884f0ad844019e1e9039cd3dee052267e9871be697994629e4.mp4'

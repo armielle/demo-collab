@@ -1,0 +1,12 @@
+1
+00:00:00,000 --> 00:00:02,000
+De l'image a la decision
+
+2
+00:00:05,100 --> 00:00:07,100
+Voici notre image de travail
+
+3
+00:00:08,200 --> 00:00:11,200
+Comment 9 nombres suffisent-ils a decider ?
+

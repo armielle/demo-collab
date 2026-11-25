@@ -1,0 +1,8 @@
+1
+00:00:03,000 --> 00:00:07,000
+Chaque couche elargit le champ recepteur de deux pixels de chaque cote
+
+2
+00:00:11,800 --> 00:00:14,800
+Empiler plutot qu'agrandir le noyau
+

@@ -1,0 +1,60 @@
+=== Chapitre-1-du-MLP-aux-CNN.pdf — 25 pages ===
+   p12  [        DROITE] +  1.0 pt  ¬   Même   image,   même   tâche,   de
+   p8   [     SOUS-PIED] +  6.1 pt  structure   spatiale   est   perdue.
+   p8   [     SOUS-PIED] +  6.1 pt  3.   (b)   :   chaque   connexion   es
+   p14  [     SOUS-PIED] +  6.5 pt  croît   comme   le   carré   de   la  
+   p8   [   ENCADRE-BAS] + 25.3 pt  
+   p8   [   ENCADRE-BAS] + 24.5 pt  
+   p9   [   ENCADRE-BAS] + 27.1 pt  
+   p9   [   ENCADRE-BAS] + 26.2 pt  
+   p12  [ENCADRE-DROITE] +  3.5 pt  
+   p12  [ENCADRE-DROITE] +  3.5 pt  
+   p14  [   ENCADRE-BAS] + 11.8 pt  
+   p14  [   ENCADRE-BAS] + 10.9 pt  
+   ... +2 autres
+=== Chapitre-2-operation-de-convolution.pdf — 41 pages ===
+   p20  [     SOUS-PIED] +  2.8 pt  dix   couches   convolutives
+   p22  [     SOUS-PIED] +  3.7 pt  Ď   Pourquoi   empiler ?
+   p28  [     SOUS-PIED] +  0.2 pt  Ď   Lecture
+   p36  [     SOUS-PIED] +  3.3 pt  té,   plus   grande   que   l’image.
+   p37  [     SOUS-PIED] +  4.0 pt  Le coût est réel, mais il est  partagé
+   p39  [     SOUS-PIED] +  7.8 pt  sien,   Laplacien,   Sobel),   la   co
+   p19  [   ENCADRE-BAS] + 52.2 pt  
+   p19  [   ENCADRE-BAS] + 51.3 pt  
+   p22  [   ENCADRE-BAS] +  7.2 pt  
+   p22  [   ENCADRE-BAS] +  7.2 pt  
+   p23  [   ENCADRE-BAS] + 41.1 pt  
+   p23  [   ENCADRE-BAS] + 40.2 pt  
+   ... +26 autres
+=== Chapitre-3-architecture-CNN.pdf — 47 pages ===
+   p15  [   ENCADRE-BAS] +  6.1 pt  
+   p15  [   ENCADRE-BAS] +  5.2 pt  
+=== Chapitre-4-entrainement-regularisation.pdf — 30 pages ===
+   p24  [     SOUS-PIED] +  1.8 pt  On   réentraîne   seulement   une   ou
+   p27  [     SOUS-PIED] +  7.7 pt  scratch   ou   faire   du   transfert 
+   p24  [   ENCADRE-BAS] + 48.9 pt  
+   p24  [   ENCADRE-BAS] + 48.0 pt  
+   p27  [   ENCADRE-BAS] + 24.7 pt  
+   p27  [   ENCADRE-BAS] + 23.8 pt  
+=== Chapitre-5-au-dela-de-la-classification.pdf — 26 pages ===
+   p3   [     SOUS-PIED] +  0.5 pt  Ď   La   question   posée   par   chaq
+   p17  [     SOUS-PIED] +  5.1 pt  détecte   11   battements   sur   ces 
+   p23  [     SOUS-PIED] +  6.0 pt  (c)   À   augmenter   la   résolution 
+   p3   [   ENCADRE-BAS] + 40.4 pt  
+   p3   [   ENCADRE-BAS] +  4.0 pt  
+   p3   [   ENCADRE-BAS] +  4.0 pt  
+   p8   [   ENCADRE-BAS] + 36.5 pt  
+   p8   [   ENCADRE-BAS] + 35.6 pt  
+   p8   [   ENCADRE-BAS] +  0.7 pt  
+   p8   [   ENCADRE-BAS] +  0.7 pt  
+   p10  [   ENCADRE-BAS] + 36.2 pt  
+   p10  [   ENCADRE-BAS] + 35.3 pt  
+   ... +10 autres
+=== Chapitre-6-evaluation-et-projet.pdf — 27 pages ===
+   p24  [     SOUS-PIED] +  3.4 pt  Grad-CAM   s’appuie   sur…
+   p15  [   ENCADRE-BAS] + 28.7 pt  
+   p15  [   ENCADRE-BAS] + 27.8 pt  
+   p24  [   ENCADRE-BAS] + 32.3 pt  
+   p24  [   ENCADRE-BAS] + 31.4 pt  
+
+RESULTAT : 87 DEFAUT(S)

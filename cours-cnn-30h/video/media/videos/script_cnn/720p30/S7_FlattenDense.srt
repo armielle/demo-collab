@@ -1,0 +1,8 @@
+1
+00:00:03,000 --> 00:00:06,000
+On aplatit la carte en un vecteur de 16 valeurs
+
+2
+00:00:10,600 --> 00:00:13,600
+Chaque connexion porte un poids appris
+

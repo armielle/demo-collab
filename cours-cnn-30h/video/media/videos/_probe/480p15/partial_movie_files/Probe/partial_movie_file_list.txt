@@ -1,0 +1,3 @@
+# This file records the segment order used by Manim.
+file 'file:C:/Users/HP/Documents/cours-cnn-30h/video/media/videos/_probe/480p15/partial_movie_files/Probe/7dc240421ebd0cfbca6d9fb8dfba04609e51731202c241e4a091587d76e94709.mp4'
+file 'file:C:/Users/HP/Documents/cours-cnn-30h/video/media/videos/_probe/480p15/partial_movie_files/Probe/ca7ad7349b9cc8c887e85c1b617754e0665cae679b94b0c1bae71e8bc439d436.mp4'

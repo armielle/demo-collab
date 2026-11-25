@@ -1,0 +1,12 @@
+1
+00:00:04,600 --> 00:00:07,600
+On multiplie la zone par le noyau, puis on additionne
+
+2
+00:00:10,266 --> 00:00:13,266
+Le noyau balaie toute l'image
+
+3
+00:00:16,266 --> 00:00:19,266
+La carte complete, calculee sur l'image reelle
+
