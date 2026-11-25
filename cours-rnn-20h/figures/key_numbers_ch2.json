@@ -1,0 +1,29 @@
+{
+ "pas_de_temps": 4,
+ "etat_cache_amplitude": [
+  -0.977,
+  0.977
+ ],
+ "w_rec": 0.85,
+ "rayons_testes": [
+  0.55,
+  0.85,
+  1.0,
+  1.15,
+  1.35
+ ],
+ "norme_t20": {
+  "0.55": 6e-06,
+  "0.85": 0.03876,
+  "1.0": 1.0,
+  "1.15": 16.366537,
+  "1.35": 404.273589
+ },
+ "gradient_norme_mediane": 3.43,
+ "gradient_norme_p95": 33.99,
+ "clip_max": 5.0,
+ "params_rnn_10_32": 1376,
+ "params_rnn_300_128": 54912,
+ "params_dense_300_128": 38528,
+ "gain_param_sequence": 0.7
+}

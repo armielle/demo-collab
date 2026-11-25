@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8">
+<style>
+  body { margin:0; padding:0; background:transparent; color:var(--foreground, #111827);
+         font-family:inherit; font-size:14px; }
+  h2 { font-size:15px; margin:0 0 10px; font-weight:650; }
+  .grille { display:flex; gap:22px; flex-wrap:wrap; align-items:flex-start; }
+  .grille > div:first-child { flex:1 1 420px; min-width:320px; }
+  .carte { border:1px solid var(--border); border-radius:10px; padding:12px 14px;
+            background:color-mix(in srgb, var(--card) 55%, transparent); }
+  table { border-collapse:collapse; font-size:12.5px; }
+  th, td { padding:5px 9px; text-align:left; border-bottom:1px solid var(--border); }
+  th { color:var(--muted-foreground); font-weight:600; }
+  td:last-child { text-align:right; font-variant-numeric:tabular-nums; }
+  .note { color:var(--muted-foreground); font-size:12px; margin-top:8px; line-height:1.5; }
+  .formule { font-family:ui-monospace,Consolas,monospace; font-size:13px;
+              background:color-mix(in srgb, var(--accent) 12%, transparent);
+              border-left:3px solid var(--accent); padding:7px 10px; border-radius:4px;
+              margin:0 0 12px; }
+  .mesure { display:flex; gap:18px; margin-top:10px; flex-wrap:wrap; }
+  .mesure div { font-size:12px; color:var(--muted-foreground); }
+  .mesure b { display:block; font-size:19px; color:var(--foreground, #111827); font-weight:650; }
+  .gl { stroke: var(--border, #d4d4d8); }
+  .tx { fill: var(--muted-foreground, #6b7280); }
+  .pt { fill: var(--muted-foreground, #6b7280); }
+  .lserie { stroke: var(--muted-foreground, #6b7280); }
+  .lsma { stroke: var(--foreground, #111827); }
+  .lema { stroke: var(--accent, #2563eb); }
+</style></head>
+<body>
+  <h2>Moyenne mobile : lisser une série sans perdre sa tendance</h2>
+  <div class="formule">SMA(k) à l'instant t = (x<sub>t−k+1</sub> + … + x<sub>t</sub>) / k</div>
+  <div class="grille">
+    <div><svg viewBox="0 0 560 270" width="100%" style="width:100%;max-width:540px;height:auto" role="img">
+  <desc>Serie brute, moyenne mobile simple de fenetre 3 et moyenne mobile exponentielle</desc>
+  <line x1="60" y1="197.0" x2="540" y2="197.0" class="gl" stroke-width="1" opacity=".55"/><text x="52" y="201.0" text-anchor="end" font-size="10" class="tx">12</text><line x1="60" y1="163.6" x2="540" y2="163.6" class="gl" stroke-width="1" opacity=".55"/><text x="52" y="167.6" text-anchor="end" font-size="10" class="tx">14</text><line x1="60" y1="130.2" x2="540" y2="130.2" class="gl" stroke-width="1" opacity=".55"/><text x="52" y="134.2" text-anchor="end" font-size="10" class="tx">16</text><line x1="60" y1="96.8" x2="540" y2="96.8" class="gl" stroke-width="1" opacity=".55"/><text x="52" y="100.8" text-anchor="end" font-size="10" class="tx">18</text><line x1="60" y1="63.4" x2="540" y2="63.4" class="gl" stroke-width="1" opacity=".55"/><text x="52" y="67.4" text-anchor="end" font-size="10" class="tx">20</text><line x1="60" y1="30.0" x2="540" y2="30.0" class="gl" stroke-width="1" opacity=".55"/><text x="52" y="34.0" text-anchor="end" font-size="10" class="tx">22</text><text x="60.0" y="240" text-anchor="middle" font-size="10" class="tx">t=0</text><text x="220.0" y="240" text-anchor="middle" font-size="10" class="tx">t=3</text><text x="380.0" y="240" text-anchor="middle" font-size="10" class="tx">t=6</text><text x="540.0" y="240" text-anchor="middle" font-size="10" class="tx">t=9</text>
+  <polyline points="60.0,197.0 113.3,155.2 166.7,180.3 220.0,130.2 273.3,88.4 326.7,113.5 380.0,138.5 433.3,80.1 486.7,46.7 540.0,63.4" fill="none" class="lserie" stroke-width="1.6" opacity=".8"/>
+  <circle cx="60.0" cy="197.0" r="3.6" class="pt"/><circle cx="113.3" cy="155.2" r="3.6" class="pt"/><circle cx="166.7" cy="180.3" r="3.6" class="pt"/><circle cx="220.0" cy="130.2" r="3.6" class="pt"/><circle cx="273.3" cy="88.4" r="3.6" class="pt"/><circle cx="326.7" cy="113.5" r="3.6" class="pt"/><circle cx="380.0" cy="138.5" r="3.6" class="pt"/><circle cx="433.3" cy="80.1" r="3.6" class="pt"/><circle cx="486.7" cy="46.7" r="3.6" class="pt"/><circle cx="540.0" cy="63.4" r="3.6" class="pt"/>
+  <polyline points="60.0,197.0 113.3,176.1 166.7,178.2 220.0,154.2 273.3,121.3 326.7,117.4 380.0,128.0 433.3,104.0 486.7,75.4 540.0,69.4" fill="none" class="lema" stroke-width="2.6"
+            opacity=".95" stroke-dasharray="7 4"/>
+  <polyline points="166.7,177.5 220.0,155.2 273.3,133.0 326.7,110.7 380.0,113.5 433.3,110.7 486.7,88.4 540.0,63.4" fill="none" class="lsma" stroke-width="3"/>
+  <text x="60" y="14" font-size="11" class="tx">
+    serie brute, SMA(3) pleine, EMA(3) pointillee</text>
+</svg>
+      <div class="mesure">
+        <div><b>20.000</b> SMA(3) au dernier point</div>
+        <div><b>19.642</b> EMA(3) au dernier point</div>
+        <div><b>0.50</b> poids α de l'EMA</div>
+      </div>
+    </div>
+    <div class="carte">
+      <table>
+        <tr><th>t</th><th>calcul</th><th>somme</th><th>moyenne</th></tr>
+        <tr><td>t=2</td><td>(12 + 14.5 + 13) / 3</td><td>39.5</td><td><b>13.167</b></td></tr><tr><td>t=3</td><td>(14.5 + 13 + 16) / 3</td><td>43.5</td><td><b>14.500</b></td></tr><tr><td>t=4</td><td>(13 + 16 + 18.5) / 3</td><td>47.5</td><td><b>15.833</b></td></tr>
+      </table>
+      <div class="note">Les 2 premiers points n'ont pas de moyenne :
+      la série passe de 10 à 8 valeurs.</div>
+    </div>
+  </div>
+  <div class="carte" style="margin-top:14px">
+    <table>
+      <tr><th>fenêtre</th><th>points perdus</th><th>rugosité</th><th>étendue</th></tr>
+      <tr><td>série brute</td><td>—</td><td>2.065</td><td>9.00</td></tr><tr><td>k = 2</td><td>1</td><td>1.280</td><td>7.25</td></tr><tr><td>k = 3</td><td>2</td><td>0.626</td><td>6.83</td></tr><tr><td>k = 5</td><td>4</td><td>0.408</td><td>3.70</td></tr>
+    </table>
+    <div class="note"><b>Rugosité</b> = écart-type des écarts successifs : elle mesure
+    les dents de scie. Elle chute de 2,065 (brut) à 0,408 (k = 5). Plus k grandit, plus la
+    courbe est lisse — mais plus elle <b>retarde</b> sur le signal : retard de k−1 pas en mode
+    « trailing » (celui d'ici), (k−1)/2 seulement si la fenêtre est centrée.</div>
+  </div>
+</body></html>

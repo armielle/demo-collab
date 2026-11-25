@@ -1,0 +1,27 @@
+{
+ "bptt_tronque_k": 4,
+ "courbe_finale": {
+  "train": 0.19,
+  "test": 0.336
+ },
+ "acc_modeles": {
+  "RNN simple": 79.4,
+  "LSTM": 85.1,
+  "GRU": 84.3,
+  "LSTM bidirectionnel": 88.6,
+  "+ attention": 90.2
+ },
+ "ar_coefficients": [
+  0.572,
+  0.381,
+  0.119,
+  -0.13
+ ],
+ "horizon": 60,
+ "rmse_prevision": 0.713,
+ "temperatures": [
+  0.5,
+  1.0,
+  1.6
+ ]
+}

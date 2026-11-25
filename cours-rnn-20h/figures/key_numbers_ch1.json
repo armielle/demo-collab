@@ -1,0 +1,47 @@
+{
+ "embedding_exemple": {
+  "roi": [
+   2.4,
+   3.1
+  ],
+  "reine": [
+   2.9,
+   3.6
+  ],
+  "homme": [
+   1.4,
+   1.7
+  ],
+  "femme": [
+   1.9,
+   2.2
+  ],
+  "chat": [
+   -2.2,
+   2.6
+  ],
+  "chien": [
+   -1.7,
+   2.1
+  ],
+  "tapis": [
+   -2.6,
+   -1.4
+  ],
+  "table": [
+   -1.9,
+   -2.0
+  ]
+ },
+ "mots_communs": 5,
+ "longueurs": [
+  3,
+  7,
+  5,
+  9,
+  4
+ ],
+ "distance_dependance": 6,
+ "trajectoire_observe": 80,
+ "trajectoire_predire": 40
+}
