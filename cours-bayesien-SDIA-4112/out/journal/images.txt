@@ -1,0 +1,17 @@
+
+=== Chapitre-1-fondements-bayesiens.pdf — pied a 247.7 pt, page 255.1 pt ===
+  aucune image rognee
+
+=== Chapitre-2-a-priori-a-posteriori.pdf — pied a 247.7 pt, page 255.1 pt ===
+  aucune image rognee
+
+=== Chapitre-3-estimation-inference.pdf — pied a 247.7 pt, page 255.1 pt ===
+  aucune image rognee
+
+=== Chapitre-4-comparaison-decision.pdf — pied a 247.7 pt, page 255.1 pt ===
+  aucune image rognee
+
+=== Chapitre-5-mcmc-mini-projet.pdf — pied a 247.7 pt, page 255.1 pt ===
+  aucune image rognee
+
+TOTAL images rognees : 0

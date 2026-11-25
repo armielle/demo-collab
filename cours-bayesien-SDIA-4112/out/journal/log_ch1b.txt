@@ -1,0 +1,65 @@
+WARNING (pytensor.configdefaults): g++ not available, if using conda: `conda install gxx`
+Initializing NUTS using jitter+adapt_diag...
+Sequential sampling (2 chains in 1 job)
+NUTS: [theta]
+Sampling 2 chains for 1_000 tune and 2_000 draw iterations (2_000 + 4_000 draws total) took 5 seconds.
+We recommend running at least 4 chains for robust computation of convergence diagnostics
+[fig] f10_pymc_coin.png                        159.9 Ko
+[fig] f11_pymc_diagnostics.png                  57.7 Ko
+[fig] f12_prior_sensitivity.png                157.4 Ko
+[fig] f13_prior_vs_data.png                    115.4 Ko
+
+=== CH1 (PyMC) ===
+{
+ "pymc_coin_mean": 0.6479676192784136,
+ "pymc_coin_ci": [
+  0.38344856336018884,
+  0.8637173242482756
+ ],
+ "pymc_coin_rhat": 1.0005232125431462,
+ "pymc_coin_ess": 1513.9899942632424,
+ "pymc_coin_seconds": 5.84,
+ "pymc_coin_draws": 4000,
+ "f12_table": [
+  {
+   "prior": "Beta(1, 1) — uniforme",
+   "posterior": "Beta(8, 4)",
+   "moyenne": 0.667,
+   "IC95": [
+    0.39,
+    0.891
+   ]
+  },
+  {
+   "prior": "Beta(2, 2) — faiblement informatif",
+   "posterior": "Beta(9, 5)",
+   "moyenne": 0.643,
+   "IC95": [
+    0.386,
+    0.861
+   ]
+  },
+  {
+   "prior": "Beta(5, 3) — informatif (biais)",
+   "posterior": "Beta(12, 6)",
+   "moyenne": 0.667,
+   "IC95": [
+    0.44,
+    0.858
+   ]
+  },
+  {
+   "prior": "Beta(50, 50) — très informatif",
+   "posterior": "Beta(57, 53)",
+   "moyenne": 0.518,
+   "IC95": [
+    0.425,
+    0.611
+   ]
+  }
+ ],
+ "f13_mean_n100": 0.43,
+ "f13_mean_n250": 0.386,
+ "f13_mean_n500": 0.355
+}
+total 7.4 s

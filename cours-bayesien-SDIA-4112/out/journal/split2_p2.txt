@@ -1,0 +1,30 @@
+
+=== chapitre 1 : 7 page(s) a scinder ===
+  p62  un seul bloc : a traiter a la main
+  p50  un seul bloc : a traiter a la main
+  p45  un seul bloc : a traiter a la main
+  p43  un seul bloc : a traiter a la main
+  p36  un seul bloc : a traiter a la main
+  p34  un seul bloc : a traiter a la main
+  p22  un seul bloc : a traiter a la main
+
+=== chapitre 2 : 6 page(s) a scinder ===
+  p63  un seul bloc : a traiter a la main
+  p48  un seul bloc : a traiter a la main
+  p35  un seul bloc : a traiter a la main
+  p19  un seul bloc : a traiter a la main
+  p17  un seul bloc : a traiter a la main
+  p14  un seul bloc : a traiter a la main
+=== chapitre 3 : rien a scinder ===
+
+=== chapitre 4 : 1 page(s) a scinder ===
+  p9   un seul bloc : a traiter a la main
+
+=== chapitre 5 : 5 page(s) a scinder ===
+  p62  un seul bloc : a traiter a la main
+  p57  un seul bloc : a traiter a la main
+  p52  un seul bloc : a traiter a la main
+  p48  un seul bloc : a traiter a la main
+  p45  un seul bloc : a traiter a la main
+
+0 frame(s) scindee(s)

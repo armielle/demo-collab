@@ -1,0 +1,29 @@
+
+======================================================================
+>>> nb_projet.py
+======================================================================
+    [nb] PROJET_modele_hierarchique_radon.ipynb    13 cellules (6 code, 2 figures)    97.2 Ko
+    (938.7 s)
+
+======================================================================
+>>> nb_tp34.py
+======================================================================
+    [nb] TP3_estimation_prediction_regression.ipynb  13 cellules (6 code, 3 figures)   153.2 Ko
+    !!! ECHEC :
+       [32m     10[39m                    + (c_fn * np.trapezoid(t * p.pdf(t), t[t <= s]) [38;5;28;01mif[39;00m (t <= s).any() [38;5;28;01melse[39;00m 
+       [32m     11[39m                    for s in seuils])
+       [32m     12[39m best = seuils[risque.argmin()]
+       
+       [36mCell[39m[36m [39m[32mIn[4][39m[32m, line 9[39m, in [36m<listcomp>[39m[34m(.0)[39m
+       [32m----> [39m[32m9[39m post = stats.beta([32m1[39m + [32m47[39m, [32m1[39m + [32m1000[39m - [32m47[39m)   [38;5;66;03m# posterior sur 
+       
+       [31mNameError[39m: name 't' is not defined
+    (125.4 s)
+
+======================================================================
+>>> nb_tp5.py
+======================================================================
+    [nb] TP5_mcmc_diagnostics.ipynb                19 cellules (9 code, 6 figures)   541.8 Ko
+    (34.7 s)
+
+2/3 notebooks regeneres en 1099 s

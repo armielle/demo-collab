@@ -1,0 +1,150 @@
+% =====================================================================
+%  EPD-SDIA-4112 -- Statistique Bayesienne -- Master 1 SDIA
+%  CHAPITRE 1 : Introduction et fondements bayesiens   (50 slides, 8 h)
+%  Fichier de frames : aucune dependance a \title (build maitre + build seul)
+% =====================================================================
+\section{Chapitre 1 --- Fondements bayésiens}
+
+% ---------------------------------------------------------------- 1
+\chapterslide{Chapitre 1}{Introduction et fondements bayésiens}{8 h --- 5 sections --- 50 slides}{%
+\textbf{Objectifs} --- distinguer les deux interprétations de la probabilité ;
+énoncer et appliquer le théorème de Bayes ; définir prior, vraisemblance,
+posterior et loi prédictive ; écrire un premier modèle en PyMC ;
+lire un intervalle de crédibilité à 95~\%.}
+
+
+% ---------------------------------------------------------------- 2
+\begin{frame}{Pourquoi le bayésien ?}
+\begin{columns}[t]
+\begin{column}{0.52\textwidth}
+\begin{ebox}[Trois raisons décisives]
+\begin{itemize}
+  \item \textbf{Données rares} : en santé, finance ou industrie, on ne dispose
+        pas de 10\,000 observations. Le prior compense.
+  \item \textbf{Connaissance experte} : l'expert sait déjà quelque chose ;
+        le bayésien lui donne un langage pour l'écrire.
+  \item \textbf{Incertitude honnête} : on répond par
+        « $P(\theta > 0{,}5 \given y) = 0{,}97$ », pas par un rejet binaire.
+\end{itemize}
+\end{ebox}
+\end{column}
+\begin{column}{0.44\textwidth}
+\begin{kbox}[Applications en M1 SDIA]
+\begin{itemize}
+  \item Dépistage et essais cliniques
+  \item A/B testing en ligne
+  \item Filtrage de spam, détection de fraude
+  \item Systèmes de recommandation
+  \item Modèles hiérarchiques et petits effectifs
+  \item Apprentissage bayésien profond (BNN)
+\end{itemize}
+\end{kbox}
+\end{column}
+\end{columns}
+\vspace{1mm}
+\centering
+\begin{tcolorbox}[colback=byCyan!8,colframe=byCyan,width=.94\textwidth,arc=2mm]
+\centering\small
+\textbf{Fil rouge du cours :} transformer une croyance a priori en
+\textbf{distribution de probabilité} sur le paramètre, puis la mettre à jour par les données.
+\end{tcolorbox}
+\end{frame}
+
+% ---------------------------------------------------------------- 3
+\begin{frame}{Le problème qui met tout le monde d'accord}
+\begin{columns}[t]
+\begin{column}{0.48\textwidth}
+\begin{ebox}[Énoncé]
+Un test de dépistage a
+\begin{itemize}
+  \item sensibilité $P(T^+ \given M) = 0{,}99$
+  \item spécificité $P(T^- \given \bar M) = 0{,}95$
+  \item maladie rare : prévalence $P(M) = 0{,}01$
+\end{itemize}
+\vspace{1mm}
+\textbf{Question :} le test est positif. Quelle est la probabilité d'être malade ?
+\vspace{1mm}
+
+\centering\large\textbf{Réponse intuitive la plus fréquente : 95 \%}
+\end{ebox}
+\end{column}
+\begin{column}{0.48\textwidth}
+\begin{center}
+\begin{tikzpicture}[scale=.82,every node/.style={font=\scriptsize},
+   level 1/.style={sibling distance=30mm,level distance=15mm},
+   level 2/.style={sibling distance=15mm,level distance=17mm}]
+\node[draw,rounded corners,fill=byLight,inner sep=2pt] {1000 personnes}
+  child {node[draw,rounded corners,fill=byRed!12] {Malades (10)}
+    child {node[fill=byRed!25,draw,rounded corners] {$T^+$ : 9,9}}
+    child {node[fill=byLight,draw,rounded corners] {$T^-$ : 0,1}}}
+  child {node[draw,rounded corners,fill=byBlue!12] {Sains (990)}
+    child {node[fill=byOrange!25,draw,rounded corners] {$T^+$ : 49,5}}
+    child {node[fill=byLight,draw,rounded corners] {$T^-$ : 940,5}}};
+\end{tikzpicture}
+\end{center}
+\vspace{-1mm}
+\begin{solbox}[Le calcul qui fâche]
+\centering
+$P(M \given T^+) = \dfrac{9{,}9}{9{,}9 + 49{,}5} = \mathbf{16{,}7\ \%}$
+\end{solbox}
+\end{column}
+\end{columns}
+\end{frame}
+
+% ---------------------------------------------------------------- 4
+\begin{frame}{Quiz d'ouverture (Kahoot / Mentimeter, 3 min)}
+\begin{qbox}[Question 1 -- Diagnostic médical]
+Même test (sensibilité 99 \%, spécificité 95 \%). La prévalence passe de 1 \% à 20 \%.
+Quelle est la nouvelle probabilité d'être malade après un test positif ?
+\vspace{2mm}
+\begin{enumerate}
+  \item[(A)] environ 17 \% \quad \textit{(inchangé : le test est le même)}
+  \item[(B)] environ 83 \% \quad \checkmark
+  \item[(C)] environ 99 \%
+  \item[(D)] impossible à dire sans plus de données
+\end{enumerate}
+\vspace{2mm}
+\textcolor{byBlue}{\textbf{Votez avant de calculer.}} Puis :
+$P(M \given T^+) = \frac{0{,}99 \times 0{,}20}{0{,}99 \times 0{,}20 + 0{,}05 \times 0{,}80} = 0{,}832$.
+\end{qbox}
+\vspace{1mm}
+\begin{kbox}[Le message de la séance]
+La réponse ne dépend pas seulement du test : elle dépend de ce qu'on
+\textbf{croyait avant}. C'est toute la statistique bayésienne en une phrase.
+\end{kbox}
+\end{frame}
+
+% ---------------------------------------------------------------- 5
+\begin{frame}{Trois siècles d'une idée contrariée}
+\begin{center}
+\begin{tikzpicture}[xscale=1.0,yscale=1.0]
+\draw[very thick,byDeep!30,-{Latex[length=3mm]}] (0,0) -- (13.2,0);
+\foreach \x/\y/\n/\t in {
+   0.6/1/{1763}/{Théorème de Bayes (posthume)},
+   2.6/-1/{1774--1812}/{Laplace : inférence bayésienne},
+   4.8/1/{1920s}/{Fisher : le fréquentisme s'impose},
+   6.9/-1/{1939}/{Jeffreys : priors non informatifs},
+   9.0/1/{1990s}/{MCMC : renaissance (Gelfand--Smith)},
+   11.0/-1/{2015+}/{PyMC, Stan, ArviZ},
+   12.2/1/{2020s}/{IA bayésienne, LLM incertains}}
+{
+  \fill[byBlue] (\x,0) circle (2.2pt);
+  \draw[byBlue!45] (\x,0) -- (\x,0.30*\y+0.0);
+  \node[anchor=south,align=center,font=\scriptsize\bfseries,text=byDeep]
+       at (\x,0.36*\y+0.06) {\n};
+  \node[anchor=north,align=center,font=\tiny,text=byGrey,text width=2.3cm]
+       at (\x,0.32*\y-0.02) {\t};
+}
+\end{tikzpicture}
+\end{center}
+\vspace{2mm}
+\begin{ebox}[Pourquoi si longtemps ?]
+\begin{itemize}
+  \item Le calcul bayésien exige des intégrales $\int p(\theta) p(y \given \theta)\,\mathrm{d}\theta$,
+        souvent sans forme close.
+  \item Les ordinateurs et les algorithmes MCMC (chapitre 5) ont levé ce verrou
+        \textbf{à la fin des années 1980}.
+  \item Aujourd'hui une régression bayésienne tient en cinq lignes de \py{pm.sample()}.
+\end{itemize}
+\end{ebox}
+\end{frame}

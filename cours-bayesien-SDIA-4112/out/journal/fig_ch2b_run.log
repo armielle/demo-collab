@@ -1,0 +1,149 @@
+WARNING (pytensor.configdefaults): g++ not available, if using conda: `conda install gxx`
+Initializing NUTS using jitter+adapt_diag...
+Sequential sampling (2 chains in 1 job)
+NUTS: [p]
+Sampling 2 chains for 1_000 tune and 2_000 draw iterations (2_000 + 4_000 draws total) took 34 seconds.
+We recommend running at least 4 chains for robust computation of convergence diagnostics
+[fig] g07_analytique_vs_pymc.png               167.5 Ko
+[t] modele Beta-Binomial termine en 44.7 s
+Sampling: [mu, sigma, y]
+Sampling: [mu, sigma, y]
+[fig] g11_prior_predictive_pymc.png            133.1 Ko
+[t] prior predictive termine en 50.3 s
+Initializing NUTS using jitter+adapt_diag...
+Sequential sampling (2 chains in 1 job)
+NUTS: [mu, tau, z]
+Sampling 2 chains for 1_500 tune and 2_000 draw iterations (3_000 + 4_000 draws total) took 640 seconds.
+We recommend running at least 4 chains for robust computation of convergence diagnostics
+[fig] g13_shrinkage_8groupes.png               141.2 Ko
+
+=== CH2 (PyMC) ===
+{
+ "mcmc_bb": {
+  "mean": 0.3196,
+  "sd": 0.0923,
+  "ic95": [
+   0.1536,
+   0.5138
+  ],
+  "analytique_mean": 0.32,
+  "analytique_ic95": [
+   0.1563,
+   0.5109
+  ],
+  "rhat": 1.00158,
+  "ess": 1719.3,
+  "seconds": 41.2,
+  "draws": 4000
+ },
+ "g11_ecoles": {
+  "y": [
+   28.39,
+   7.94,
+   -2.75,
+   6.82,
+   -0.64,
+   0.63,
+   18.01,
+   12.16
+  ],
+  "se": [
+   14.9,
+   10.2,
+   16.3,
+   11.0,
+   9.4,
+   11.4,
+   10.4,
+   17.6
+  ],
+  "moyenne_brute": 8.82
+ },
+ "prior_predictive_uniform": {
+  "q05": -142.73,
+  "q95": 238.22,
+  "P_abs_gt_100": 0.4302,
+  "P_abs_gt_200": 0.1093,
+  "amplitude_p99": 324.9
+ },
+ "prior_predictive_halfnorm": {
+  "q05": -37.0,
+  "q95": 35.97,
+  "P_abs_gt_100": 0.0002,
+  "P_abs_gt_200": 0.0,
+  "amplitude_p99": 60.1
+ },
+ "hier": {
+  "mu_mean": 7.766,
+  "mu_ic95": [
+   -1.23,
+   16.576
+  ],
+  "tau_mean": 4.867,
+  "tau_ic95": [
+   0.193,
+   13.97
+  ],
+  "post_mean": [
+   10.233,
+   7.765,
+   6.808,
+   7.731,
+   5.914,
+   6.657,
+   9.869,
+   8.08
+  ],
+  "post_ic95": [
+   [
+    -1.454,
+    26.652
+   ],
+   [
+    -3.559,
+    19.208
+   ],
+   [
+    -7.919,
+    19.428
+   ],
+   [
+    -4.026,
+    19.696
+   ],
+   [
+    -7.027,
+    16.582
+   ],
+   [
+    -6.264,
+    17.912
+   ],
+   [
+    -1.253,
+    23.544
+   ],
+   [
+    -5.896,
+    21.728
+   ]
+  ],
+  "rhat_mu": 1.00067,
+  "rhat_tau": 1.00039,
+  "ess_min": 2143.6,
+  "epaisseur_brute": 49.59,
+  "epaisseur_post": 25.27,
+  "shrinkage": [
+   0.88,
+   1.008,
+   0.909,
+   0.962,
+   0.78,
+   0.845,
+   0.795,
+   0.929
+  ],
+  "seconds": 693.7
+ }
+}
+total 697.2 s

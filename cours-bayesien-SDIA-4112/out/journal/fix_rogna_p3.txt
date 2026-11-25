@@ -1,0 +1,37 @@
+
+=== chapitre 1 : 3 frame(s) traitee(s) [escalade] (seuil 2.0 pt) ===
+  p38  + 9.8 pt : figure 0.78 -> 0.70        | −1
+  p45  + 6.7 pt : figure 0.86 -> 0.78        | l’autocorrélation qui retombe 
+  p43  + 2.3 pt : \small -> \footnotesize    | Ď Le conseil du cours
+
+=== chapitre 2 : 6 frame(s) traitee(s) [escalade] (seuil 2.0 pt) ===
+  p41  + 9.0 pt : figure 0.84 -> 0.76        | leur théorique.
+  p31  + 8.5 pt : figure 0.95 -> 0.87        | données décider.
+  p39  + 6.6 pt : figure 0.84 -> 0.76        | Beta(𝑎0𝑠0 + 𝑠1 + 1,
+  p30  + 6.6 pt : figure 0.95 -> 0.87        | Conclusion : un prior centré s
+  p12  + 6.3 pt : figure 0.93 -> 0.85        | dériver le noyau du posterior,
+  p14  + 3.3 pt : figure 0.94 -> 0.86        | est calculable.
+
+=== chapitre 3 : 1 frame(s) traitee(s) [escalade] (seuil 2.0 pt) ===
+  p36  + 5.6 pt : figure 0.80 -> 0.72        | croyance molle.
+
+=== chapitre 4 : 8 frame(s) traitee(s) [escalade] (seuil 2.0 pt) ===
+  p24  + 9.7 pt : figure 0.95 -> 0.87        | la formule des poids pseudo-BM
+  p10  + 9.3 pt : figure 0.80 -> 0.72        | tité estimée. Conséquence prat
+  p37  + 7.4 pt : figure 0.73 -> 0.65        | 𝑧-test répété à chaque regard
+  p21  + 7.1 pt : figure 0.84 -> 0.76        | chique : 𝜃𝑖∼Beta(𝜇𝜅, (1−𝜇)𝜅)).
+  p14  + 6.9 pt : figure 0.78 -> 0.70        | faveur à 𝐻1
+  p6   + 5.2 pt : figure 0.86 -> 0.78        | tolérance arbitraire ; le rapp
+  p29  + 4.7 pt : figure 0.78 -> 0.70        | à 0,05 et la probabilité posté
+  p13  + 3.2 pt : figure 0.95 -> 0.87        | alertes par construction, pas 
+
+=== chapitre 5 : 5 frame(s) traitee(s) [escalade] (seuil 2.0 pt) ===
+  p16  + 6.2 pt : figure 0.76 -> 0.68        | cible 1D de cette slide, l’opt
+  p15  + 5.6 pt : A RETOUCHER A LA MAIN       | corrélés.
+  p50  + 5.5 pt : figure 0.90 -> 0.82        | ▶Après hiérarchie : de 0,882 à
+  p32  + 5.0 pt : \small -> \footnotesize    | Á Trois signaux d’alerte
+  p20  + 4.6 pt : A RETOUCHER A LA MAIN       | soit 0,1 ESS par évaluation, c
+  p23  + 3.9 pt : figure 0.58 -> 0.50        | en quelques dizaines d’itérati
+  p42  + 2.3 pt : figure 0.94 -> 0.86        | ici) ;
+
+23 frame(s) corrigee(s)

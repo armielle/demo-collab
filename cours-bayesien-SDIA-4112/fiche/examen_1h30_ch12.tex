@@ -1,0 +1,93 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=2.2cm]{geometry}
+\usepackage[french]{babel}
+\usepackage{fontspec}
+\setmainfont{Cambria}
+\usepackage{amsmath,amssymb}
+\usepackage[most]{tcolorbox}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+
+\definecolor{bleuenspd}{HTML}{1F4E79}
+\definecolor{grisClair}{HTML}{F2F2F2}
+\definecolor{vertOK}{HTML}{2E7D32}
+
+\newtcolorbox{consignedur}{colback=grisClair, colframe=bleuenspd, boxrule=0.8pt, arc=2pt, top=3pt, bottom=3pt}
+\newtcolorbox{donnees}{colback=white, colframe=bleuenspd!60, boxrule=0.6pt, arc=2pt, top=3pt, bottom=3pt}
+
+\pagestyle{empty}
+
+\begin{document}
+
+\begin{center}
+{\Large\bfseries Statistique Bayésienne --- EPD-SDIA-4112}\\[2mm]
+{\LARGE\bfseries Examen de mi-parcours (Chapitres 1 et 2)}\\[2mm]
+{\large Dr.\ Noulapeu Ngaffo Armielle}\\[2mm]
+Master 1 Science des Données et IA \quad --- \quad Durée : \textbf{1 h 30} \quad --- \quad Documents non autorisés\\[1mm]
+Barème : 20 points \quad (temps indicatif par exercice)
+\end{center}
+
+\vspace{2mm}
+\begin{consignedur}
+\small\textbf{Consignes.} Justifiez chaque calcul. Les résultats numériques seront donnés avec 3 à 4 chiffres significatifs. Les formules de conjugaison sont rappelées à la fin du sujet. \textbf{Barème :} Exercice 1 (4 pts, 15 min), Exercice 2 (5 pts, 20 min), Exercice 3 (6 pts, 25 min), Exercice 4 (5 pts, 25 min), dont 5 min de relecture.
+\end{consignedur}
+
+% ============================================================
+\section*{Exercice 1 --- Théorème de Bayes : test de dépistage (4 pts, 15 min)}
+
+Un test de dépistage a une sensibilité de \textbf{90~\%} et une spécificité de \textbf{96~\%}. La prévalence de la maladie dans la population testée est de \textbf{3~\%}.
+
+\begin{enumerate}[label=\alph*)]
+  \item Calculer la probabilité d'être malade sachant que le test est positif : $P(M \mid T^+)$. \hfill (2 pts)
+  \item Si le test est négatif, quelle est la probabilité d'être quand même malade, $P(M \mid T^-)$ ? \hfill (1,5 pts)
+  \item Interpréter ces deux résultats : que conclut-on sur la valeur du test positif et du test négatif ? \hfill (0,5 pt)
+\end{enumerate}
+
+% ============================================================
+\section*{Exercice 2 --- Calcul simple de posterior binomial (4 pts, 15 min)}
+
+On observe $y = 12$ succès sur $n = 25$ essais. A priori : $\theta \sim \mathrm{Beta}(3, 3)$.
+
+\begin{enumerate}[label=\alph*)]
+  \item Donner la loi a posteriori de $\theta$. \hfill (1 pt)
+  \item Calculer l'espérance a posteriori $\mathbb{E}(\theta \mid y)$. \hfill (1 pt)
+  \item En déduire l'estimateur de Bayes $\delta^\pi(y)$. \hfill (1 pt)
+  \item Calculer la variance a posteriori. \hfill (1 pt)
+\end{enumerate}
+
+% ============================================================
+\section*{Exercice 3 --- Comparaison de deux priors (6 pts, 25 min)}
+
+Mêmes données que l'exercice 2 : $y = 12$, $n = 25$.
+
+\begin{enumerate}[label=\alph*)]
+  \item Prior $\mathrm{Beta}(1, 1)$ : donner la posterior et calculer son espérance. \hfill (1,5 pts)
+  \item Prior $\mathrm{Beta}(5, 5)$ : donner la posterior et calculer son espérance. \hfill (1,5 pts)
+  \item Quel prior donne le plus de poids aux données ? Justifier à partir de la taille effective du prior. \hfill (1,5 pt)
+  \item Calculer l'estimateur de Bayes dans chaque cas et comparer les trois estimateurs (y compris celui de l'exercice 2). \hfill (1,5 pt)
+\end{enumerate}
+
+% ============================================================
+\section*{Exercice 4 --- Beta-Binomial : taux de clics (5 pts, 20 min)}
+
+Vous testez un nouveau bouton sur un site web. Sur 100 visiteurs, 15 cliquent.
+
+\begin{enumerate}[label=\alph*)]
+  \item Avec un prior $\mathrm{Beta}(1, 1)$, quelle est la distribution posterior du taux de clics ? \hfill (1 pt)
+  \item Calculer la moyenne et l'intervalle de crédibilité à 95~\%. \hfill (1,5 pt)
+  \item Avec un prior $\mathrm{Beta}(5, 20)$ (taux attendu 20~\%), quelle est la nouvelle posterior ? \hfill (1 pt)
+  \item Comparer les deux approches : quel prior est le plus influencé par les données, et quel prior estime le mieux le taux observé ? \hfill (1,5 pt)
+\end{enumerate}
+
+% ============================================================
+\vspace{3mm}
+\begin{donnees}
+\small\textbf{Rappels de cours.}
+\begin{itemize}[leftmargin=4mm, itemsep=0pt]
+  \item Théorème de Bayes : $p(\theta \mid D) \propto p(D \mid \theta)\, p(\theta)$.
+  \item Beta--Binomial : si $\theta \sim \mathrm{Beta}(\alpha, \beta)$ et $y \mid \theta \sim \mathrm{Bin}(n, \theta)$, alors $\theta \mid y \sim \mathrm{Beta}(\alpha + y,\; \beta + n - y)$.
+  \item $\mathbb{E}(\theta) = \dfrac{\alpha}{\alpha + \beta}$, \qquad $\mathrm{Var}(\theta) = \dfrac{\alpha\beta}{(\alpha+\beta)^2 (\alpha+\beta+1)}$.
+\end{itemize}
+\end{donnees}
+
+\end{document}

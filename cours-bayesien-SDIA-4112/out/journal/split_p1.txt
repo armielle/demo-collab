@@ -1,0 +1,76 @@
+
+=== chapitre 1 : 14 page(s) a separer ===
+  p40  separee  « frame}{La p-value n'est pas $P(H_0 \given \m »
+  p36  separee  « frame}{Prédire en bayésien : deux incertitud »
+  p35  separee  « frame}{Résultats réels (exécutés sur cette m »
+  p28  separee  « frame}{Le même test, six vérités différentes »
+  p18  separee  « frame}{Application : sondage électoral »
+  p15  separee  « frame}{Exemple fondateur : la pièce truquée  »
+  p10  separee  « frame}{Ce que dit une fréquence, et ce qu'el »
+
+=== chapitre 2 : 19 page(s) a separer ===
+  p42  separee  « frame}{Shrinkage : les huit écoles se rappro »
+  p31  separee  « frame}{Calibrer l'échelle : le cas d'école d »
+  p30  separee  « frame}{Que prédit chaque a priori ? Le cas C »
+  p24  separee  « frame}{La subtilité du prior uniforme sur un »
+  p12  separee  « frame}{Vue d'ensemble : quatre couples, un m »
+  p11  separee  « frame}{Dirichlet-Multinomial : les 556 pois  »
+  p10  separee  « frame}{Normal-Normal : une école, un bruit,  »
+  p9   separee  « frame}{Gamma-Poisson : le comptage de partic »
+  p8   separee  « frame}{Beta-Binomial : le cas d'école de Cha »
+
+=== chapitre 3 : 2 page(s) a separer ===
+  p46  separee  « frame}{Risque MSE : estimateur bayésien cont »
+
+=== chapitre 4 : 13 page(s) a separer ===
+  p37  separee  « frame}{Arrêt séquentiel : ce que le bayésien »
+  p29  separee  « frame}{Risque a posteriori et seuil optimal  »
+  p24  separee  « frame}{Poids de modèles et moyennage prédict »
+  p21  separee  « frame}{WAIC, DIC, LOO sur trois modèles : la »
+  p14  separee  « frame}{Le piège de Lindley : un prior vague  »
+  p13  separee  « frame}{2\,000 simulations sous $H_0$ : ce qu »
+  p10  separee  « frame}{Le $BF$ s'accumule : la preuve croît  »
+  p6   separee  « frame}{Un rapport de vraisemblances, pas une »
+
+=== chapitre 5 : 14 page(s) a separer ===
+  p50  separee  « frame}{Étape 6 : prédiction, décision et res »
+  p47  separee  « frame}{Étapes 1 à 3 : formulation, priors et »
+  p43  separee  « frame}{Valider la chaîne contre une référenc »
+  p42  separee  « frame}{Contrôle prédictif a posteriori : le  »
+  p23  separee  « frame}{Gibbs exécuté : trajectoire et oubli  »
+  p17  separee  « frame}{Diagnostic de mélange : trois proposi »
+  p16  separee  « frame}{Le rôle de la proposition : un seul c »
+  p12  separee  « frame}{Chaîne de Markov : le noyau de transi »
+
+33 frame(s) separee(s)
+
+29 frame(s) SANS figure en tete (autre remede requis) :
+   ch1 p52  ch1_f.tex
+   ch1 p48  ch1_f.tex
+   ch1 p41  ch1_f.tex
+   ch1 p38  ch1_e.tex
+   ch1 p31  ch1_e.tex
+   ch1 p29  ch1_e.tex
+   ch1 p16  ch1_c.tex
+   ch2 p50  ch2_c.tex
+   ch2 p45  ch2_c.tex
+   ch2 p36  ch2_c.tex
+   ch2 p32  ch2_b.tex
+   ch2 p28  ch2_b.tex
+   ch2 p27  ch2_b.tex
+   ch2 p25  ch2_b.tex
+   ch2 p19  ch2_b.tex
+   ch2 p3   ch2_a.tex
+   ch2 p2   ch2_a.tex
+   ch3 p48  ch3_c.tex
+   ch4 p51  ch4_c.tex
+   ch4 p27  ch4_b.tex
+   ch4 p18  ch4_b.tex
+   ch4 p7   ch4_a.tex
+   ch4 p5   ch4_a.tex
+   ch5 p51  ch5_c.tex
+   ch5 p41  ch5_c.tex
+   ch5 p38  ch5_c.tex
+   ch5 p35  ch5_c.tex
+   ch5 p32  ch5_b.tex
+   ch5 p20  ch5_b.tex

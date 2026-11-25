@@ -1,0 +1,825 @@
+note: "version 2" Tectonic command-line interface activated
+note: Running TeX ...
+note: Rerunning TeX because "_build_ch2.out" changed ...
+note: Running xdvipdfmx ...
+note: Writing `../out\_build_ch2.log` (65.185546875 KiB)
+note: Writing `../out\_build_ch2.pdf` (2.4857006072998047 MiB)
+note: Skipped writing 6 intermediate files (use --keep-intermediates to keep them)
+Fontconfig error: Cannot load default config file: No such file: (null)
+warning: parts/ch2_a:42: Overfull \vbox (24.39902pt too high) detected at line 42
+
+warning: parts/ch2_a:79: Underfull \hbox (badness 10000) in paragraph at lines 79--79
+warning: parts/ch2_a:79: Overfull \hbox (23.31674pt too wide) in paragraph at lines 79--79
+warning: parts/ch2_a:79: Underfull \hbox (badness 10000) in paragraph at lines 79--79
+warning: parts/ch2_a:126: Underfull \hbox (badness 10000) in paragraph at lines 126--126
+warning: parts/ch2_a:126: Underfull \hbox (badness 10000) in paragraph at lines 126--126
+warning: parts/ch2_a:126: Underfull \hbox (badness 1237) in paragraph at lines 126--126
+warning: parts/ch2_a:126: Overfull \vbox (41.84511pt too high) detected at line 126
+
+warning: parts/ch2_a:165: Overfull \vbox (18.27795pt too high) detected at line 165
+
+warning: parts/ch2_a:198: Underfull \hbox (badness 10000) in paragraph at lines 198--198
+warning: parts/ch2_a:198: Underfull \hbox (badness 10000) in paragraph at lines 198--198
+warning: parts/ch2_a:198: Underfull \hbox (badness 1019) in paragraph at lines 198--198
+warning: parts/ch2_a:198: Underfull \hbox (badness 10000) in paragraph at lines 198--198
+warning: parts/ch2_a:198: Overfull \vbox (6.90636pt too high) detected at line 198
+
+warning: parts/ch2_a:227: Underfull \hbox (badness 10000) in paragraph at lines 227--227
+warning: parts/ch2_a:227: Underfull \hbox (badness 10000) in paragraph at lines 227--227
+warning: parts/ch2_a:227: Overfull \vbox (41.19925pt too high) detected at line 227
+
+warning: parts/ch2_a:263: Overfull \vbox (37.20824pt too high) detected at line 263
+
+warning: parts/ch2_a:398: Underfull \hbox (badness 2573) in paragraph at lines 398--398
+warning: parts/ch2_a:398: Underfull \hbox (badness 3291) in paragraph at lines 398--398
+warning: parts/ch2_a:398: Underfull \hbox (badness 6893) in paragraph at lines 398--398
+warning: _build_ch2.vrb:35: Underfull \hbox (badness 10000) in paragraph at lines 33--35
+warning: parts/ch2_a:517: Overfull \vbox (35.6356pt too high) detected at line 517
+
+warning: parts/ch2_a:549: Overfull \hbox (3.32176pt too wide) in paragraph at lines 549--549
+warning: parts/ch2_a:549: Overfull \vbox (34.26953pt too high) detected at line 549
+
+warning: parts/ch2_a:617: Overfull \vbox (30.99702pt too high) detected at line 617
+
+warning: parts/ch2_a:655: Overfull \vbox (13.54124pt too high) detected at line 655
+
+warning: parts/ch2_b:57: Underfull \hbox (badness 4832) in paragraph at lines 57--57
+warning: parts/ch2_b:90: Underfull \hbox (badness 2285) in paragraph at lines 90--90
+warning: parts/ch2_b:90: Underfull \hbox (badness 10000) in paragraph at lines 90--90
+warning: parts/ch2_b:137: Overfull \hbox (21.30183pt too wide) detected at line 137
+warning: parts/ch2_b:137: Overfull \vbox (20.77586pt too high) detected at line 137
+
+warning: parts/ch2_b:170: Overfull \hbox (33.75139pt too wide) in paragraph at lines 170--170
+warning: parts/ch2_b:170: Underfull \hbox (badness 1924) in paragraph at lines 170--170
+warning: parts/ch2_b:170: Underfull \hbox (badness 2384) in paragraph at lines 170--170
+warning: parts/ch2_b:170: Underfull \hbox (badness 4699) in paragraph at lines 170--170
+warning: parts/ch2_b:170: Overfull \vbox (40.37358pt too high) detected at line 170
+
+warning: parts/ch2_b:206: Underfull \hbox (badness 10000) in paragraph at lines 206--206
+warning: parts/ch2_b:206: Underfull \hbox (badness 1163) in paragraph at lines 206--206
+warning: parts/ch2_b:206: Overfull \vbox (34.19356pt too high) detected at line 206
+
+warning: parts/ch2_b:285: Underfull \hbox (badness 1043) in paragraph at lines 285--285
+warning: parts/ch2_b:285: Underfull \hbox (badness 2334) in paragraph at lines 285--285
+warning: parts/ch2_b:285: Underfull \hbox (badness 3118) in paragraph at lines 285--285
+warning: parts/ch2_b:285: Overfull \vbox (31.89651pt too high) detected at line 285
+
+warning: parts/ch2_b:332: Overfull \vbox (10.16693pt too high) detected at line 332
+
+warning: parts/ch2_b:407: Underfull \hbox (badness 1087) in paragraph at lines 407--407
+warning: parts/ch2_b:442: Overfull \vbox (3.64828pt too high) detected at line 442
+
+warning: parts/ch2_b:525: Overfull \vbox (19.0662pt too high) detected at line 525
+
+warning: _build_ch2.vrb:33: Overfull \hbox (3.77892pt too wide) in paragraph at lines 31--33
+warning: parts/ch2_b:607: Overfull \vbox (14.03003pt too high) detected at line 607
+
+warning: parts/ch2_b:672: Overfull \vbox (26.22522pt too high) detected at line 672
+
+warning: parts/ch2_c:58: Overfull \hbox (17.88507pt too wide) in paragraph at lines 58--58
+warning: parts/ch2_c:86: Underfull \hbox (badness 2990) in paragraph at lines 86--86
+warning: parts/ch2_c:86: Overfull \vbox (35.6308pt too high) detected at line 86
+
+warning: parts/ch2_c:127: Overfull \hbox (52.75089pt too wide) detected at line 127
+warning: parts/ch2_c:127: Overfull \hbox (38.87294pt too wide) in paragraph at lines 127--127
+warning: parts/ch2_c:127: Overfull \vbox (31.0903pt too high) detected at line 127
+
+warning: parts/ch2_c:225: Overfull \vbox (12.37976pt too high) detected at line 225
+
+warning: parts/ch2_c:273: Overfull \hbox (6.34256pt too wide) in paragraph at lines 273--273
+warning: parts/ch2_c:273: Underfull \hbox (badness 3803) in paragraph at lines 273--273
+warning: parts/ch2_c:273: Overfull \vbox (29.49405pt too high) detected at line 273
+
+warning: parts/ch2_c:314: Overfull \vbox (32.85278pt too high) detected at line 314
+
+warning: parts/ch2_c:349: Overfull \vbox (37.17694pt too high) detected at line 349
+
+warning: parts/ch2_c:387: Overfull \vbox (14.81664pt too high) detected at line 387
+
+warning: parts/ch2_c:422: Overfull \vbox (26.82802pt too high) detected at line 422
+
+warning: parts/ch2_c:452: Overfull \vbox (1.85071pt too high) detected at line 452
+
+warning: parts/ch2_c:490: Overfull \vbox (34.16226pt too high) detected at line 490
+
+warning: parts/ch2_c:519: Underfull \hbox (badness 3547) in paragraph at lines 519--519
+warning: parts/ch2_c:519: Underfull \hbox (badness 1442) in paragraph at lines 519--519
+warning: parts/ch2_c:593: Overfull \vbox (40.61719pt too high) detected at line 593
+
+warning: parts/ch2_c:629: Overfull \vbox (51.84146pt too high) detected at line 629
+
+warning: parts/ch2_a:42: Overfull \vbox (24.39902pt too high) detected at line 42
+
+warning: parts/ch2_a:79: Underfull \hbox (badness 10000) in paragraph at lines 79--79
+warning: parts/ch2_a:79: Overfull \hbox (23.31674pt too wide) in paragraph at lines 79--79
+warning: parts/ch2_a:79: Underfull \hbox (badness 10000) in paragraph at lines 79--79
+warning: parts/ch2_a:126: Underfull \hbox (badness 10000) in paragraph at lines 126--126
+warning: parts/ch2_a:126: Underfull \hbox (badness 10000) in paragraph at lines 126--126
+warning: parts/ch2_a:126: Underfull \hbox (badness 1237) in paragraph at lines 126--126
+warning: parts/ch2_a:126: Overfull \vbox (41.84511pt too high) detected at line 126
+
+warning: parts/ch2_a:165: Overfull \vbox (18.27795pt too high) detected at line 165
+
+warning: parts/ch2_a:198: Underfull \hbox (badness 10000) in paragraph at lines 198--198
+warning: parts/ch2_a:198: Underfull \hbox (badness 10000) in paragraph at lines 198--198
+warning: parts/ch2_a:198: Underfull \hbox (badness 1019) in paragraph at lines 198--198
+warning: parts/ch2_a:198: Underfull \hbox (badness 10000) in paragraph at lines 198--198
+warning: parts/ch2_a:198: Overfull \vbox (6.90636pt too high) detected at line 198
+
+warning: parts/ch2_a:227: Underfull \hbox (badness 10000) in paragraph at lines 227--227
+warning: parts/ch2_a:227: Underfull \hbox (badness 10000) in paragraph at lines 227--227
+warning: parts/ch2_a:227: Overfull \vbox (41.19925pt too high) detected at line 227
+
+warning: parts/ch2_a:263: Overfull \vbox (37.20824pt too high) detected at line 263
+
+warning: parts/ch2_a:398: Underfull \hbox (badness 2573) in paragraph at lines 398--398
+warning: parts/ch2_a:398: Underfull \hbox (badness 3291) in paragraph at lines 398--398
+warning: parts/ch2_a:398: Underfull \hbox (badness 6893) in paragraph at lines 398--398
+warning: _build_ch2.vrb:35: Underfull \hbox (badness 10000) in paragraph at lines 33--35
+warning: parts/ch2_a:517: Overfull \vbox (35.6356pt too high) detected at line 517
+
+warning: parts/ch2_a:549: Overfull \hbox (3.32176pt too wide) in paragraph at lines 549--549
+warning: parts/ch2_a:549: Overfull \vbox (34.26953pt too high) detected at line 549
+
+warning: parts/ch2_a:617: Overfull \vbox (30.99702pt too high) detected at line 617
+
+warning: parts/ch2_a:655: Overfull \vbox (13.54124pt too high) detected at line 655
+
+warning: parts/ch2_b:57: Underfull \hbox (badness 4832) in paragraph at lines 57--57
+warning: parts/ch2_b:90: Underfull \hbox (badness 2285) in paragraph at lines 90--90
+warning: parts/ch2_b:90: Underfull \hbox (badness 10000) in paragraph at lines 90--90
+warning: parts/ch2_b:137: Overfull \hbox (21.30183pt too wide) detected at line 137
+warning: parts/ch2_b:137: Overfull \vbox (20.77586pt too high) detected at line 137
+
+warning: parts/ch2_b:170: Overfull \hbox (33.75139pt too wide) in paragraph at lines 170--170
+warning: parts/ch2_b:170: Underfull \hbox (badness 1924) in paragraph at lines 170--170
+warning: parts/ch2_b:170: Underfull \hbox (badness 2384) in paragraph at lines 170--170
+warning: parts/ch2_b:170: Underfull \hbox (badness 4699) in paragraph at lines 170--170
+warning: parts/ch2_b:170: Overfull \vbox (40.37358pt too high) detected at line 170
+
+warning: parts/ch2_b:206: Underfull \hbox (badness 10000) in paragraph at lines 206--206
+warning: parts/ch2_b:206: Underfull \hbox (badness 1163) in paragraph at lines 206--206
+warning: parts/ch2_b:206: Overfull \vbox (34.19356pt too high) detected at line 206
+
+warning: parts/ch2_b:285: Underfull \hbox (badness 1043) in paragraph at lines 285--285
+warning: parts/ch2_b:285: Underfull \hbox (badness 2334) in paragraph at lines 285--285
+warning: parts/ch2_b:285: Underfull \hbox (badness 3118) in paragraph at lines 285--285
+warning: parts/ch2_b:285: Overfull \vbox (31.89651pt too high) detected at line 285
+
+warning: parts/ch2_b:332: Overfull \vbox (10.16693pt too high) detected at line 332
+
+warning: parts/ch2_b:407: Underfull \hbox (badness 1087) in paragraph at lines 407--407
+warning: parts/ch2_b:442: Overfull \vbox (3.64828pt too high) detected at line 442
+
+warning: parts/ch2_b:525: Overfull \vbox (19.0662pt too high) detected at line 525
+
+warning: _build_ch2.vrb:33: Overfull \hbox (3.77892pt too wide) in paragraph at lines 31--33
+warning: parts/ch2_b:607: Overfull \vbox (14.03003pt too high) detected at line 607
+
+warning: parts/ch2_b:672: Overfull \vbox (26.22522pt too high) detected at line 672
+
+warning: parts/ch2_c:58: Overfull \hbox (17.88507pt too wide) in paragraph at lines 58--58
+warning: parts/ch2_c:86: Underfull \hbox (badness 2990) in paragraph at lines 86--86
+warning: parts/ch2_c:86: Overfull \vbox (35.6308pt too high) detected at line 86
+
+warning: parts/ch2_c:127: Overfull \hbox (52.75089pt too wide) detected at line 127
+warning: parts/ch2_c:127: Overfull \hbox (38.87294pt too wide) in paragraph at lines 127--127
+warning: parts/ch2_c:127: Overfull \vbox (31.0903pt too high) detected at line 127
+
+warning: parts/ch2_c:225: Overfull \vbox (12.37976pt too high) detected at line 225
+
+warning: parts/ch2_c:273: Overfull \hbox (6.34256pt too wide) in paragraph at lines 273--273
+warning: parts/ch2_c:273: Underfull \hbox (badness 3803) in paragraph at lines 273--273
+warning: parts/ch2_c:273: Overfull \vbox (29.49405pt too high) detected at line 273
+
+warning: parts/ch2_c:314: Overfull \vbox (32.85278pt too high) detected at line 314
+
+warning: parts/ch2_c:349: Overfull \vbox (37.17694pt too high) detected at line 349
+
+warning: parts/ch2_c:387: Overfull \vbox (14.81664pt too high) detected at line 387
+
+warning: parts/ch2_c:422: Overfull \vbox (26.82802pt too high) detected at line 422
+
+warning: parts/ch2_c:452: Overfull \vbox (1.85071pt too high) detected at line 452
+
+warning: parts/ch2_c:490: Overfull \vbox (34.16226pt too high) detected at line 490
+
+warning: parts/ch2_c:519: Underfull \hbox (badness 3547) in paragraph at lines 519--519
+warning: parts/ch2_c:519: Underfull \hbox (badness 1442) in paragraph at lines 519--519
+warning: parts/ch2_c:593: Overfull \vbox (40.61719pt too high) detected at line 593
+
+warning: parts/ch2_c:629: Overfull \vbox (51.84146pt too high) detected at line 629
+
+warning: warnings were issued by the TeX engine; use --print and/or --keep-logs for details.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [8.50402 -0.42043 162.403 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [229.023 -0.42043 342.439 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [8.50402 -0.42043 162.403 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [229.023 -0.42043 342.439 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [8.50402 -0.42043 162.403 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [229.023 -0.42043 342.439 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [8.50402 -0.42043 162.403 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [229.023 -0.42043 342.439 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [8.50402 -0.42043 162.403 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [229.023 -0.42043 342.439 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [8.50402 -0.42043 162.403 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [229.023 -0.42043 342.439 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [8.50402 -0.42043 162.403 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [229.023 -0.42043 342.439 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [8.50402 -0.42043 162.403 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [229.023 -0.42043 342.439 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [8.50402 -0.42043 162.403 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [229.023 -0.42043 342.439 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [8.50402 -0.42043 162.403 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [229.023 -0.42043 342.439 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [8.50402 -0.42043 162.403 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [229.023 -0.42043 342.439 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [8.50402 -0.42043 162.403 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [229.023 -0.42043 342.439 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [8.50402 -0.42043 162.403 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [229.023 -0.42043 342.439 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [8.50402 -0.42043 162.403 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [229.023 -0.42043 342.439 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [8.50402 -0.42043 162.403 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [229.023 -0.42043 342.439 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [8.50402 -0.42043 162.403 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [229.023 -0.42043 342.439 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [8.50402 -0.42043 162.403 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [229.023 -0.42043 342.439 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [8.50402 -0.42043 162.403 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [229.023 -0.42043 342.439 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [8.50402 -0.42043 162.403 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [229.023 -0.42043 342.439 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [8.50402 -0.42043 162.403 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [229.023 -0.42043 342.439 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [8.50402 -0.42043 162.403 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [229.023 -0.42043 342.439 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [8.50402 -0.42043 162.403 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [229.023 -0.42043 342.439 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [8.50402 -0.42043 162.403 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [229.023 -0.42043 342.439 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [8.50402 -0.42043 162.403 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [229.023 -0.42043 342.439 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [8.50402 -0.42043 162.403 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [229.023 -0.42043 342.439 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [8.50402 -0.42043 162.403 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [229.023 -0.42043 342.439 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [8.50402 -0.42043 162.403 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [229.023 -0.42043 342.439 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [8.50402 -0.42043 162.403 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [229.023 -0.42043 342.439 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [8.50402 -0.42043 162.403 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [229.023 -0.42043 342.439 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [8.50402 -0.42043 162.403 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [229.023 -0.42043 342.439 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [8.50402 -0.42043 162.403 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [229.023 -0.42043 342.439 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [8.50402 -0.42043 162.403 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [229.023 -0.42043 342.439 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [8.50402 -0.42043 162.403 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [229.023 -0.42043 342.439 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [8.50402 -0.42043 162.403 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [229.023 -0.42043 342.439 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [8.50402 -0.42043 162.403 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [229.023 -0.42043 342.439 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [8.50402 -0.42043 162.403 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [229.023 -0.42043 342.439 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [8.50402 -0.42043 162.403 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [229.023 -0.42043 342.439 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [8.50402 -0.42043 162.403 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [229.023 -0.42043 342.439 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [8.50402 -0.42043 162.403 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [229.023 -0.42043 342.439 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [8.50402 -0.42043 162.403 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [229.023 -0.42043 342.439 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [8.50402 -0.42043 162.403 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [229.023 -0.42043 342.439 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [8.50402 -0.42043 162.403 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [229.023 -0.42043 342.439 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [8.50402 -0.42043 162.403 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [229.023 -0.42043 342.439 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [8.50402 -0.42043 162.403 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [229.023 -0.42043 342.439 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [8.50402 -0.42043 162.403 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [229.023 -0.42043 342.439 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [8.50402 -0.42043 162.403 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [229.023 -0.42043 342.439 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [8.50402 -0.42043 162.403 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [229.023 -0.42043 342.439 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [8.50402 -0.42043 162.403 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [229.023 -0.42043 342.439 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [8.50402 -0.42043 162.403 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [229.023 -0.42043 342.439 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [8.50402 -0.42043 162.403 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [229.023 -0.42043 342.439 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [8.50402 -0.42043 162.403 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [229.023 -0.42043 342.439 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [8.50402 -0.42043 162.403 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [229.023 -0.42043 342.439 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [8.50402 -0.42043 162.403 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [229.023 -0.42043 342.439 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [8.50402 -0.42043 162.403 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [229.023 -0.42043 342.439 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [8.50402 -0.42043 162.403 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [229.023 -0.42043 342.439 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [8.50402 -0.42043 162.403 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [229.023 -0.42043 342.439 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [8.50402 -0.42043 162.403 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [229.023 -0.42043 342.439 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [8.50402 -0.42043 162.403 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [229.023 -0.42043 342.439 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [8.50402 -0.42043 162.403 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [229.023 -0.42043 342.439 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [8.50402 -0.42043 162.403 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [229.023 -0.42043 342.439 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [8.50402 -0.42043 162.403 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [229.023 -0.42043 342.439 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [8.50402 -0.42043 162.403 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [229.023 -0.42043 342.439 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [8.50402 -0.42043 162.403 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [229.023 -0.42043 342.439 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [8.50402 -0.42043 162.403 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [229.023 -0.42043 342.439 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [8.50402 -0.42043 162.403 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [229.023 -0.42043 342.439 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [8.50402 -0.42043 162.403 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [229.023 -0.42043 342.439 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [8.50402 -0.42043 162.403 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [229.023 -0.42043 342.439 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [8.50402 -0.42043 162.403 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [229.023 -0.42043 342.439 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [8.50402 -0.42043 162.403 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [229.023 -0.42043 342.439 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [8.50402 -0.42043 162.403 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [229.023 -0.42043 342.439 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [8.50402 -0.42043 162.403 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [229.023 -0.42043 342.439 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [8.50402 -0.42043 162.403 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [229.023 -0.42043 342.439 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [8.50402 -0.42043 162.403 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [229.023 -0.42043 342.439 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [8.50402 -0.42043 162.403 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [229.023 -0.42043 342.439 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [8.50402 -0.42043 162.403 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [229.023 -0.42043 342.439 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [8.50402 -0.42043 162.403 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Annotation out of page boundary.
+warning: Current page's MediaBox: [0 0 453.543 255.118]
+warning: Annotation: [229.023 -0.42043 342.439 9.81716]
+warning: Maybe incorrect paper size specified.
+warning: Creating ToUnicode CMap failed for "FontAwesome5Free-Solid-900.otf"
+warning: Failed to load ToUnicode CMap for font "FontAwesome5Free-Solid-900.otf"
+warning: Creating ToUnicode CMap failed for "FontAwesome5Brands-Regular-400.otf"
+warning: Failed to load ToUnicode CMap for font "FontAwesome5Brands-Regular-400.otf"
