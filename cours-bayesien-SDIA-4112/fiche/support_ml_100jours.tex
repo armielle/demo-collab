@@ -1,0 +1,390 @@
+% EPD — Support de cours Machine Learning (source : playlist « 100 Jours De ML »)
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=2.0cm]{geometry}
+\usepackage{fontspec}
+\usepackage[french]{babel}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage[most]{tcolorbox}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true, linkcolor=bleuenspd!70!black, urlcolor=bleuenspd!70!black}
+\definecolor{bleuenspd}{HTML}{1F4E79}
+\definecolor{vertOK}{HTML}{2E7D32}
+\definecolor{rougeAlerte}{HTML}{C0504D}
+\definecolor{grisClair}{HTML}{F2F2F2}
+\setmainfont{Cambria}
+
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small EPD — Apprentissage automatique appliqué}
+\fancyhead[R]{\small\thepage}
+\fancyfoot[C]{\small\color{grisClair!40!black} Séances de 4 h --- 2 h cours + 2 h TP}
+
+\newtcolorbox{seancebox}[1]{colback=bleuenspd!8, colframe=bleuenspd, title={#1}, fonttitle=\bfseries, boxrule=0.8pt, arc=2mm}
+\newtcolorbox{coursbox}[1]{colback=bleuenspd!4, colframe=bleuenspd!70, title={Cours magistral (2 h) — #1}, fonttitle=\bfseries, boxrule=0.6pt, arc=2mm}
+\newtcolorbox{tpbox}[1]{colback=vertOK!6, colframe=vertOK!80!black, title={Travaux pratiques (2 h) — #1}, fonttitle=\bfseries, boxrule=0.6pt, arc=2mm}
+\newtcolorbox{evalbox}{colback=grisClair, colframe=gray!60, title={Auto-évaluation}, fonttitle=\bfseries, boxrule=0.5pt, arc=2mm}
+
+\title{\vspace{-1.2cm}\includegraphics[width=3.2cm]{../assets/logo_enspd.png}\\[2mm]
+{\Large\color{bleuenspd} Apprentissage automatique appliqué}\\[1mm]
+{\large Support de cours complet — 12 séances de 4 h}\\[1mm]
+{\normalsize Fondé sur la playlist \og 100 Jours De ML \fg{} (100 vidéos, ~19 h de contenu)}}
+\author{Enseignante : Dr. Noulapeu Ngaffo Armielle\\
+École Nationale Supérieure Polytechnique de Douala\\
+Université de Douala --- Département Génie Informatique et Télécommunications}
+\date{}
+
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+
+\begin{seancebox}{Mode d'emploi du support}
+Chaque séance dure \textbf{4 h} et se découpe en \textbf{2 h de cours magistral} (notions, formules, démonstrations, illustrées par les vidéos de la playlist) et \textbf{2 h de travaux pratiques} (exercices et implémentation Python). Les vidéos sont citées par leur numéro dans la playlist (\og Jour $n$ \fg) ; elles servent de \emph{support visuel complémentaire}, pas de substitut au cours. Le fil conducteur des TP est un même jeu de données d'entreprise, réutilisé d'une séance à l'autre : \textbf{la flotte mobile d'un opérateur télécom camerounais} (tickets incidents, usage réseau, churn, trafic journalier).
+
+\textbf{Environnement} : Python 3.11 + Anaconda, bibliothèques \texttt{numpy}, \texttt{pandas}, \texttt{matplotlib}, \texttt{seaborn}, \texttt{scikit-learn}, \texttt{statsmodels}, \texttt{xgboost}.
+\end{seancebox}
+
+\vspace{2mm}
+\begin{center}
+\small
+\begin{tabular}{@{}llll@{}}
+\toprule
+\textbf{Séance} & \textbf{Thème} & \textbf{Jours (vidéos)} & \textbf{Fil conducteur TP}\\
+\midrule
+1 & Mise en route : écosystème Python & 1--7 & Installation, exploration des données\\
+2 & Statistiques descriptives et lois & 8--12 & Analyse univariée et bivariée\\
+3 & Analyse factorielle : ACP, AFC, ACM & 13--22 & Réduction de dimension\\
+4 & Prétraitement et sélection de variables & 23--32 & Préparer les données\\
+5 & Apprentissage supervisé et régression linéaire & 33--44 & Premier modèle prédictif\\
+6 & Régression logistique et validation croisée & 45--53 & Classification du churn\\
+7 & Régularisation et arbres de décision & 54--59 & Améliorer le churn\\
+8 & Ensembles : forêts et boosting & 60--73 & Modèle final de churn\\
+9 & k-NN et SVM & 74--80 & Comparaison de familles\\
+10 & Apprentissage non supervisé & 81--87 & Segmentation des clients\\
+11 & Séries temporelles & 88--98 & Prévoir le trafic\\
+12 & Données non structurées et NLP & 99--100 & Sentiment des réclamations\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\newpage
+\section*{Séance 1 — Mise en route : écosystème Python et données}
+\begin{seancebox}{4 h — 2 h cours / 2 h TP — Jours 1 à 7 de la playlist}
+\textbf{Vidéos sources} : 1 (présentation), 2 (les étapes d'un modèle), 3 (Anaconda), 4 (NumPy), 5 (Pandas), 6 (Matplotlib), 7 (Seaborn).
+\end{seancebox}
+\begin{coursbox}{30 min d'introduction + 4 outils (15 min chacun)}
+\begin{enumerate}[nosep]
+\item \textbf{Qu'est-ce que le ML ?} (Jour 2) — définition, apprentissage supervisé vs non supervisé, les 6 étapes d'un projet ML (question $\to$ données $\to$ préparation $\to$ modèle $\to$ évaluation $\to$ déploiement).
+\item \textbf{Environnement Python} (Jour 3) — Anaconda, Jupyter, écosystème des bibliothèques.
+\item \textbf{NumPy} (Jour 4) — tableaux \texttt{ndarray}, vectorisation, broadcasting, algèbre linéaire de base.
+\item \textbf{Pandas} (Jour 5) — \texttt{DataFrame}, indexation, \texttt{groupby}, jointures, valeurs manquantes.
+\item \textbf{Matplotlib} (Jour 6) — courbes, histogrammes, nuages, sous-graphiques, personnalisation.
+\item \textbf{Seaborn} (Jour 7) — graphiques statistiques en une ligne : \texttt{boxplot}, \texttt{heatmap}, \texttt{pairplot}.
+\end{enumerate}
+\end{coursbox}
+\begin{tpbox}{Prise en main + exploration des données TransNet}
+Installer l'environnement ; charger \texttt{transnet\_clients.csv} (10\,000 clients d'un opérateur camerounais : âge, forfait, revenu estimé, durée d'abonnement, tickets incidents, churn).
+\begin{enumerate}[nosep]
+\item Créer un notebook, importer les bibliothèques, charger le CSV (\texttt{pd.read\_csv}) — 20 min.
+\item \texttt{.info()}, \texttt{.describe()}, \texttt{.isna().sum()} : inventaire des données — 20 min.
+\item Exercices NumPy : extraire le sous-tableau des churners, calculer le revenu moyen par forfait avec une mask vectorisée — 30 min.
+\item Exercices Pandas : \texttt{groupby('forfait').agg()}, table croisée churn $\times$ forfait, imputation naïve par la médiane — 30 min.
+\item Visualisations : histogramme des âges, \texttt{boxplot} du revenu par churn, \texttt{heatmap} des corrélations — 30 min.
+\item \textbf{Livrable} : notebook d'exploration commenté (5 observations business écrites en une phrase chacune).
+\end{enumerate}
+\end{tpbox}
+\begin{evalbox}
+1. Quelle différence entre apprentissage supervisé et non supervisé ? 2. Que fait \texttt{df.groupby(...).mean()} ? 3. Pourquoi vectoriser plutôt que boucler en Python pur ?
+\end{evalbox}
+
+\section*{Séance 2 — Statistiques descriptives et lois de probabilité}
+\begin{seancebox}{4 h — 2 h cours / 2 h TP — Jours 8 à 12}
+\textbf{Vidéos sources} : 8 (concepts de base), 9 (types de variables), 10 (tendance centrale et dispersion), 11 (lois de probabilité), 12 (statistiques bivariées).
+\end{seancebox}
+\begin{coursbox}{Statistiques pour le ML (30 min) + variables (20 min) + indicateurs (30 min) + lois (20 min) + bivarié (20 min)}
+\begin{itemize}[nosep]
+\item Types de variables : quantitatives continues/discrètes, qualitatives nominales/ordinales — et pourquoi cela dicte le traitement.
+\item Tendance centrale (moyenne, médiane, mode), dispersion (écart-type, IQR, coefficient de variation), forme (asymétrie, aplatissement).
+\item Lois usuelles : Bernoulli, binomiale, normale (68--95--99,7), uniforme, exponentielle ; théorème central limite.
+\item Analyse bivariée : covariance, corrélation de Pearson/Spearman, tableaux de contingence, $\chi^2$ d'indépendance.
+\end{itemize}
+\end{coursbox}
+\begin{tpbox}{Caractériser la base TransNet}
+\begin{enumerate}[nosep]
+\item Classifier chaque colonne du dataset (type, échelle) et justifier le traitement futur — 20 min.
+\item Calculer moyenne/médiane/écart-type/skewness des variables numériques ; identifier les distributions asymétriques — 30 min.
+\item Exercice loi binomiale : probabilité d'au moins 3 tickets incident dans un mois si $p=0{,}05$ par client-jour — 20 min.
+\item Test de normalité (Shapiro-Wilk) sur 3 variables ; conclusion sur la transformation à prévoir — 30 min.
+\item Bivarié : corrélation revenu/âge, tableau churn $\times$ type de forfait + test du $\chi^2$ — 40 min.
+\item \textbf{Livrable} : fiche descriptive du dataset (1 tableau récapitulatif + 3 graphiques choisis).
+\end{enumerate}
+\end{tpbox}
+\begin{evalbox}
+1. Quelle mesure de tendance centrale choisir si la distribution est fortement asymétrique ? 2. Quelle loi modélise le nombre d'incidents par heure si les arrivées sont indépendantes ? 3. Une corrélation de 0,9 implique-t-elle une causalité ?
+\end{evalbox}
+
+\section*{Séance 3 — Analyse factorielle : ACP, AFC, ACM}
+\begin{seancebox}{4 h — 2 h cours / 2 h TP — Jours 13 à 22}
+\textbf{Vidéos sources} : 13 (ACP théorie), 14 (démarche), 15 (ACP Python), 16--17 (AFC), 18--19 (ACM), 20 (normalité), 21 (live ACP), 22 (points communs des méthodes factorielles).
+\end{seancebox}
+\begin{coursbox}{ACP (40 min) + AFC (25 min) + ACM (25 min) + synthèse (30 min)}
+\begin{itemize}[nosep]
+\item \textbf{ACP} : idée (projeter sur les directions de variance maximale), centrage-réduction, valeurs propres et vecteurs propres, variance expliquée, cercle des corrélations, choix du nombre d'axes (coude, Kaiser).
+\item \textbf{AFC} : tableau de contingence, profil lignes/colonnes, khi-deux d'inertie ; quand l'utiliser (2 variables qualitatives).
+\item \textbf{ACM} : généralisation de l'AFC à plusieurs variables qualitatives.
+\item Points communs des 4 méthodes factorielles (Jour 22) : même objectif de représentation, différences par nature des données.
+\end{itemize}
+\end{coursbox}
+\begin{tpbox}{Réduire et visualiser la base TransNet}
+\begin{enumerate}[nosep]
+\item ACP complète avec \texttt{scikit-learn} : variance expliquée, scree plot, nombre d'axes retenus — 40 min.
+\item Interprétation : cercle des corrélations, contribution des variables aux axes, projection des clients colorés par churn — 40 min.
+\item Vérification de la normalité des variables avant ACP (Jour 20) — 20 min.
+\item AFC sur le tableau forfait $\times$ niveau de réclamation — 30 min.
+\item \textbf{Livrable} : plan factoriel annoté + paragraphe \og que nous apprend le 1\ier{} axe ? \fg{}
+\end{enumerate}
+\end{tpbox}
+\begin{evalbox}
+1. Pourquoi centrer-réduire avant une ACP ? 2. À quoi sert le cercle des corrélations ? 3. Quelle méthode factorielle pour 5 variables qualitatives ?
+\end{evalbox}
+
+\section*{Séance 4 — Prétraitement et sélection de variables}
+\begin{seancebox}{4 h — 2 h cours / 2 h TP — Jours 23 à 32}
+\textbf{Vidéos sources} : 23 (normalisation vs standardisation), 24 (encodage), 25 (transformations), 26 (données manquantes), 27 (outliers), 28 (maths du ML), 29 (preprocessing), 30--32 (sélection de variables).
+\end{seancebox}
+\begin{coursbox}{Préparation des données (50 min) + sélection de variables (40 min) + rappels mathématiques (30 min)}
+\begin{itemize}[nosep]
+\item Normalisation (min-max) vs standardisation (z-score) : effets, quand choisir l'une ou l'autre.
+\item Encodage des catégorielles : label encoding, one-hot encoding ; piège de l'ordre implicite.
+\item Transformations de variables : log, Box-Cox, Yeo-Johnson, racine — objectifs (normalité, linéarité, variance).
+\item Données manquantes : MCAR/MAR/MNAR, imputation simple, KNN-imputer, suppression.
+\item Outliers : détection (IQR, z-score, isolation forest), décision de traitement.
+\item Sélection de variables : filtrage (corrélation, VIF, $\chi^2$), wrapper (RFE), embedded (Lasso, importance des arbres).
+\end{itemize}
+\end{coursbox}
+\begin{tpbox}{Préparer la base pour la modélisation}
+\begin{enumerate}[nosep]
+\item Pipeline \texttt{sklearn} complet : \texttt{StandardScaler} + \texttt{OneHotEncoder} + \texttt{SimpleImputer} dans un \texttt{ColumnTransformer} — 40 min.
+\item Détection et traitement des outliers du revenu (2 méthodes, comparaison) — 30 min.
+\item Transformation Box-Cox/Yeo-Johnson d'une variable très asymétrique — 20 min.
+\item Sélection de variables : classement par corrélation avec la cible, puis \texttt{SelectKBest} puis importance d'une forêt — 40 min.
+\item \textbf{Livrable} : un objet \texttt{Pipeline} réutilisable + tableau final des variables retenues, justifié.
+\end{enumerate}
+\end{tpbox}
+\begin{evalbox}
+1. Standardiser ou normaliser avant une SVM ? Pourquoi ? 2. Pourquoi le one-hot encoding plutôt que le label encoding pour une variable nominale ? 3. Citez une méthode de sélection embedded.
+\end{evalbox}
+
+\section*{Séance 5 — Apprentissage supervisé et régression linéaire}
+\begin{seancebox}{4 h — 2 h cours / 2 h TP — Jours 33 à 44 (hors 45)}
+\textbf{Vidéos sources} : 33 (4 piliers du supervisé), 34 (fonctions de coût régression), 35 (perte classification), 36--37 (over/underfitting), 38 (biais-variance), 39 (choix du modèle), 40--44 (régression linéaire : bases, hypothèses, Python, corrections, points influents).
+\end{seancebox}
+\begin{coursbox}{Cadre supervisé (25 min) + évaluation (20 min) + sur/sous-apprentissage (25 min) + régression linéaire (50 min)}
+\begin{itemize}[nosep]
+\item Les 4 piliers : données, hypothèse, fonction de coût, optimisation.
+\item Régression : MSE, MAE, $R^2$ ; classification : entropie croisée, accuracy, précision, rappel, F1.
+\item Overfitting/underfitting : courbes d'apprentissage, compromis biais-variance, remèdes.
+\item Régression linéaire : forme, MCO, interprétation des coefficients, les hypothèses (linéarité, indépendance, homoscédasticité, normalité des résidus), détection et corrections (Jour 41, 43), outliers et points de levier (Jour 44).
+\end{itemize}
+\end{coursbox}
+\begin{tpbox}{Prédire le revenu estimé des clients}
+\begin{enumerate}[nosep]
+\item Régression linéaire simple (surface $\to$ revenu) avec \texttt{LinearRegression} ; interprétation de la pente — 30 min.
+\item Régression multiple (toutes les variables) ; lecture des coefficients — 30 min.
+\item Diagnostic des résidus : 4 graphiques (résidus vs ajusté, QQ-plot, scale-location, distance de Cook) — 30 min.
+\item Courbe d'apprentissage (\texttt{learning\_curve}) : diagnostiquer le sur/sous-apprentissage — 30 min.
+\item \textbf{Livrable} : tableau des coefficients + 1 paragraphe \og quelles hypothèses sont violées et que fait-on ? \fg{}
+\end{enumerate}
+\end{tpbox}
+\begin{evalbox}
+1. Qu'est-ce que le compromis biais-variance ? 2. Comment détecter un overfitting sur les courbes d'apprentissage ? 3. Que signifie un résidu à forte distance de Cook ?
+\end{evalbox}
+
+\section*{Séance 6 — Régression logistique, déséquilibre et validation croisée}
+\begin{seancebox}{4 h — 2 h cours / 2 h TP — Jours 45 à 53}
+\textbf{Vidéos sources} : 45 (5 mythes), 46 (logistique théorie), 47 (hypothèses), 48 (avantages/inconvénients), 49 (logistique Python), 50 (oversampling/SMOTE), 51 (seuil optimal), 52--53 (validation croisée).
+\end{seancebox}
+\begin{coursbox}{Logistique (50 min) + déséquilibre et seuil (30 min) + validation croisée (40 min)}
+\begin{itemize}[nosep]
+\item Modèle logistique : sigmoïde, log-odds, interprétation des coefficients en odds-ratio ; hypothèses et limites.
+\item Matrice de confusion, précision/rappel/F1, courbe ROC et AUC, courbe précision-rappel.
+\item Déséquilibre de classes : undersampling, oversampling, SMOTE ; quand les utiliser (train uniquement !).
+\item Choix du seuil de décision : impact business (coût faux positif vs faux négatif).
+\item Validation croisée : $k$-fold, stratifiée, leave-one-out ; \texttt{cross\_val\_score} et pipelines.
+\end{itemize}
+\end{coursbox}
+\begin{tpbox}{Prédire le churn (cible binaire, ~15 \% de churners)}
+\begin{enumerate}[nosep]
+\item Régression logistique avec pipeline ; rapport de classification et matrice de confusion — 30 min.
+\item Courbe ROC/AUC, puis courbe précision-rappel : que conclure avec 15 \% de positifs ? — 30 min.
+\item Rééquilibrage SMOTE (uniquement dans le train) : comparaison des métriques avant/après — 30 min.
+\item Recherche du seuil optimal par maximisation du gain business (coût : contacter un client fidèle = 500 FCFA ; perdre un churner = 10\,000 FCFA) — 30 min.
+\item Validation croisée stratifiée 5-fold : moyenne ± écart-type de l'AUC — 20 min.
+\item \textbf{Livrable} : tableau comparatif (seuil 0,5 vs seuil optimal) + choix recommandé.
+\end{enumerate}
+\end{tpbox}
+\begin{evalbox}
+1. Que vaut l'odds-ratio si le coefficient vaut 0,3 ? 2. Pourquoi appliquer SMOTE seulement au train ? 3. Quelle métrique privilégier avec 2 \% de positifs ?
+\end{evalbox}
+
+\section*{Séance 7 — Régularisation et arbres de décision}
+\begin{seancebox}{4 h — 2 h cours / 2 h TP — Jours 54 à 59}
+\textbf{Vidéos sources} : 54--55 (Ridge/Lasso/ElasticNet), 56--59 (arbres : théorie, hyperparamètres, classification, régression).
+\end{seancebox}
+\begin{coursbox}{Régularisation (40 min) + arbres (60 min) + ouverture carrière (20 min)}
+\begin{itemize}[nosep]
+\item Pénalités $L_2$ (Ridge), $L_1$ (Lasso), mixte (Elastic Net) : effet sur les coefficients, sélection implicite de variables par le Lasso, choix de $\lambda$ par validation croisée.
+\item Arbre de décision : entropie/Gini, gain d'information, critères de coupe, hyperparamètres (\texttt{max\_depth}, \texttt{min\_samples\_leaf}), élagage.
+\item Arbres de régression : réduction de la variance, feuilles = moyennes.
+\item Lecture d'un arbre : règles métier extractibles.
+\end{itemize}
+\end{coursbox}
+\begin{tpbox}{Churn : régulariser puis arborer}
+\begin{enumerate}[nosep]
+\item Ridge/Lasso/ElasticNet sur la régression du revenu : trajectoire des coefficients en fonction de $\lambda$ (\texttt{lasso\_path}) — 40 min.
+\item Comparaison MCO vs pénalisés par validation croisée (RMSE) — 20 min.
+\item Arbre de classification du churn : entraînement, visualisation (\texttt{plot\_tree}), lecture de 3 règles métier — 40 min.
+\item Recherche d'hyperparamètres (\texttt{GridSearchCV}) sur \texttt{max\_depth} et \texttt{min\_samples\_leaf} — 30 min.
+\item \textbf{Livrable} : arbre élagué optimal + 3 règles métier + tableau des coefficients Lasso (variables conservées).
+\end{enumerate}
+\end{tpbox}
+\begin{evalbox}
+1. Quel régulariseur annule des coefficients à zéro ? 2. Que mesure l'entropie dans un nœud ? 3. Deux hyperparamètres anti-overfitting d'un arbre ?
+\end{evalbox}
+
+\section*{Séance 8 — Méthodes ensemblistes : forêts et boosting}
+\begin{seancebox}{4 h — 2 h cours / 2 h TP — Jours 61 à 73 (+ ouverture 60, 69)}
+\textbf{Vidéos sources} : 61--64 (forêts aléatoires), 65 (bagging/boosting/stacking), 66--67 (AdaBoost), 68 (gradient boosting), 70--73 (XGBoost/LightGBM/CatBoost).
+\end{seancebox}
+\begin{coursbox}{Bagging et forêts (40 min) + boosting (40 min) + gradient boosting industriel (40 min)}
+\begin{itemize}[nosep]
+\item Bagging : bootstrap, agrégation, réduction de la variance ; forêt aléatoire = bagging + sélection aléatoire des variables ; \texttt{n\_estimators}, \texttt{max\_features}.
+\item Boosting : modèles faibles séquentiels, correction des résidus ; AdaBoost (poids sur les erreurs), gradient boosting (descente de gradient dans l'espace des fonctions).
+\item XGBoost/LightGBM/CatBoost : régularisation, gestion des catégorielles, vitesse ; quand choisir lequel.
+\item Stacking : méta-modèle sur les prédictions.
+\end{itemize}
+\end{coursbox}
+\begin{tpbox}{Modèle final de churn : faire concourir les ensembles}
+\begin{enumerate}[nosep]
+\item Forêt aléatoire : importance des variables (\texttt{feature\_importances\_}), effet de \texttt{n\_estimators} — 30 min.
+\item Forêt de régression sur le revenu (comparaison avec l'arbre simple) — 20 min.
+\item Gradient boosting (\texttt{GradientBoostingClassifier}) : courbe d'apprentissage (staged), surapprentissage visible — 30 min.
+\item XGBoost vs LightGBM sur le churn : AUC, temps d'entraînement, importance des variables — 40 min.
+\item (Bonus) stacking logistique + forêt + XGBoost — 20 min.
+\item \textbf{Livrable} : tableau final des 6 modèles testés depuis la séance 6 (AUC ± écart-type en CV) et recommandation.
+\end{enumerate}
+\end{tpbox}
+\begin{evalbox}
+1. Quelle différence entre bagging et boosting ? 2. Pourquoi la forêt réduit-elle la variance ? 3. Un avantage de LightGBM sur XGBoost ?
+\end{evalbox}
+
+\section*{Séance 9 — k-NN et machines à vecteurs de support}
+\begin{seancebox}{4 h — 2 h cours / 2 h TP — Jours 74 à 80 (+ 80 : méthode en 5 étapes)}
+\textbf{Vidéos sources} : 74--75 (KNN), 76 (quiz arbres), 77--79 (SVM), 80 (5 étapes d'un modèle).
+\end{seancebox}
+\begin{coursbox}{k-NN (30 min) + SVM (60 min) + méthode en 5 étapes (30 min)}
+\begin{itemize}[nosep]
+\item k-NN : principe des plus proches voisins, choix de $k$, distance, normalisation indispensable, coût prédictif.
+\item SVM : marge maximale, vecteurs supports, astuce du noyau (linéaire, RBF, polynomial), paramètres $C$ et $\gamma$.
+\item Méthode en 5 étapes (Jour 80) : cadrer, préparer, entraîner, évaluer, itérer — la check-list de tout projet.
+\end{itemize}
+\end{coursbox}
+\begin{tpbox}{Churn avec k-NN et SVM + comparaison générale}
+\begin{enumerate}[nosep]
+\item k-NN : effet de $k$ (1 à 50) sur l'AUC en validation croisée ; courbe coude — 30 min.
+\item SVM linéaire vs RBF : grille $C \times \gamma$ (\texttt{GridSearchCV}), visualisation sur 2 variables — 40 min.
+\item Tableau comparatif complet du cours : logistique / arbre / forêt / XGBoost / k-NN / SVM (AUC CV + temps) — 30 min.
+\item \textbf{Livrable} : le \og champion \fg{} du churn avec sa configuration et son AUC, plus un paragraphe sur le compromis précision/interprétabilité.
+\end{enumerate}
+\end{tpbox}
+\begin{evalbox}
+1. Pourquoi standardiser avant k-NN et SVM mais pas avant un arbre ? 2. Quel rôle joue le noyau RBF ? 3. Que sont les vecteurs supports ?
+\end{evalbox}
+
+\section*{Séance 10 — Apprentissage non supervisé : clustering}
+\begin{seancebox}{4 h — 2 h cours / 2 h TP — Jours 81 à 87}
+\textbf{Vidéos sources} : 81 (non supervisé), 82--84 (k-means), 85 (CAH), 86 (bases du clustering), 87 (DBSCAN).
+\end{seancebox}
+\begin{coursbox}{Cadre non supervisé (20 min) + k-means (40 min) + CAH (30 min) + DBSCAN (30 min)}
+\begin{itemize}[nosep]
+\item Objectifs du non supervisé : segmentation, détection d'anomalies, compression.
+\item k-means : algorithme, inertie, méthode du coude, score de silhouette, choix de $k$ ; limites (sphères, sensible à l'initialisation).
+\item CAH : linkage (ward, complete, average), dendrogramme, coupe.
+\item DBSCAN : densité, \texttt{eps} et \texttt{min\_samples}, bruit ; détecte les formes arbitraires.
+\end{itemize}
+\end{coursbox}
+\begin{tpbox}{Segmenter les clients TransNet}
+\begin{enumerate}[nosep]
+\item k-means sur (revenu, usage données, tickets) : coude + silhouette pour choisir $k$ — 40 min.
+\item Profilage des clusters : moyenne des variables par cluster, nom métier de chaque segment (ex. \og petits usagers \fg{}, \og gros consommateurs à risque \fg{}) — 40 min.
+\item CAH sur un échantillon de 500 clients : dendrogramme, comparaison des groupes avec k-means — 30 min.
+\item DBSCAN : détection d'anomalies (clients atypiques) — 20 min.
+\item \textbf{Livrable} : 4 à 5 segments nommés + recommandation marketing par segment.
+\end{enumerate}
+\end{tpbox}
+\begin{evalbox}
+1. Comment choisir $k$ dans k-means ? 2. Que détecte DBSCAN que k-means rate ? 3. Que signifie une silhouette négative ?
+\end{evalbox}
+
+\section*{Séance 11 — Séries temporelles}
+\begin{seancebox}{4 h — 2 h cours / 2 h TP — Jours 88 à 98}
+\textbf{Vidéos sources} : 88 (notions), 89 (stationnarité), 90--91 (ARIMA), 92--93 (VAR), 94--95 (VECM), 96 (panorama), 97--98 (GARCH).
+\end{seancebox}
+\begin{coursbox}{Notions et stationnarité (30 min) + ARIMA (50 min) + multivarié VAR/VECM (30 min) + volatilité GARCH (30 min)}
+\begin{itemize}[nosep]
+\item Composantes (tendance, saisonnalité, bruit), autocorrélation (ACF/PACF), stationnarité (test ADF, différenciation).
+\item ARIMA$(p,d,q)$ : identification par ACF/PACF, estimation, résidus, prévision ; \texttt{SARIMA} pour la saisonnalité.
+\item VAR : plusieurs séries qui s'influencent ; causalité de Granger. VECM : relations de cointégration.
+\item GARCH : modéliser la volatilité variable (finance, trafic).
+\end{itemize}
+\end{coursbox}
+\begin{tpbox}{Prévoir le trafic journalier du réseau}
+\begin{enumerate}[nosep]
+\item Série du trafic (120 jours) : décomposition, ACF/PACF, test ADF — 30 min.
+\item ARIMA : identification de $(p,d,q)$, ajustement \texttt{statsmodels}, diagnostic des résidus (Ljung-Box) — 40 min.
+\item Prévision à 14 jours + intervalle de confiance ; découpage temporel propre (jamais de shuffle !) — 30 min.
+\item (Bonus) GARCH sur les rendements journaliers du trafic — 20 min.
+\item \textbf{Livrable} : graphique passé/prévision/intervalle + MAE sur l'horizon de validation.
+\end{enumerate}
+\end{tpbox}
+\begin{evalbox}
+1. Pourquoi différencier une série ? 2. Comment lire les graphiques ACF/PACF pour choisir $p$ et $q$ ? 3. Quel piège dans la validation d'un modèle temporel ?
+\end{evalbox}
+
+\section*{Séance 12 — Données non structurées et NLP}
+\begin{seancebox}{4 h — 2 h cours / 2 h TP — Jours 99 à 100 + synthèse du cours}
+\textbf{Vidéos sources} : 99 (ML sur texte/images/audio/vidéo), 100 (sentiment de tweets par régression logistique).
+\end{seancebox}
+\begin{coursbox}{Données non structurées (30 min) + pipeline NLP (40 min) + synthèse du cours (50 min)}
+\begin{itemize}[nosep]
+\item Panorama : texte, image, audio, vidéo — quelles représentations numériques ?
+\item Pipeline texte : nettoyage, tokenisation, stopwords, stemming/lemmatisation, Bag-of-Words, TF-IDF.
+\item Sentiment : régression logistique sur TF-IDF (le modèle de la séance 6 appliqué au texte !).
+\item \textbf{Synthèse} : carte du ML parcouru en 12 séances, checklist du data scientist (Jour 80), pièges classiques, suites possibles (deep learning, MLOps).
+\end{itemize}
+\end{coursbox}
+\begin{tpbox}{Sentiment des réclamations clients}
+\begin{enumerate}[nosep]
+\item Corpus de 2\,000 messages clients (positif/neutre/négatif) : nettoyage et tokenisation — 30 min.
+\item TF-IDF + régression logistique : AUC en validation croisée, mots les plus discriminants — 40 min.
+\item Erreurs d'analyse : 10 messages mal classés, hypothèses d'amélioration — 30 min.
+\item \textbf{Examen blanc} (1 h 30, comme pour le chapitre 1--2) : 6 exercices couvrant l'ensemble du cours.
+\end{enumerate}
+\end{tpbox}
+\begin{evalbox}
+1. Que mesure le TF-IDF ? 2. Pourquoi un modèle linéaire suffit-il souvent en NLP de base ? 3. Citez 3 pièges vus dans le cours.
+\end{evalbox}
+
+\vspace{4mm}
+\begin{seancebox}{Évaluation et modalités}
+\begin{itemize}[nosep]
+\item \textbf{Évaluation continue} (30 \%) : livrables des TP des séances 1 à 11 (un notebook par séance).
+\item \textbf{Projet} (30 \%) : à partir de la séance 6, un problème au choix (churn, trafic, sentiment) mené de bout en bout avec le pipeline complet.
+\item \textbf{Examen final} (40 \%) : 1 h 30, format \og sujet à 6 exercices \fg{} (cf. \texttt{examen\_1h30} du kit), portant sur les chapitres 1 à 12.
+\end{itemize}
+\end{seancebox}
+
+\end{document}

@@ -1,0 +1,526 @@
+% ---------------------------------------------------------------- 27
+% [suite5]
+\begin{frame}[fragile]{Boîte à outils : la fonction qui fait tout}
+% [rogna]
+\small
+\begin{columns}[t]
+\begin{column}{0.53\textwidth}
+\begin{codebox}[bayes.py — version minimale et générale]
+\begin{lstlisting}
+import numpy as np
+from scipy import stats
+
+def posterior_discret(prior_grid, prior_pdf, vraisemblance, y):
+    """Posterior sur une grille : suffit des que theta est
+    de dimension 1 ou 2. Aucune formule close requise."""
+    post = prior_pdf(prior_grid) * vraisemblance(prior_grid, y)
+    post /= np.trapezoid(post, prior_grid)     # normalisation
+    return post
+
+def proba(prior_grid, post, seuil):
+    """P(theta > seuil | y) : LA question a laquelle le
+    frequentiste ne peut pas repondre."""
+    m = prior_grid > seuil
+    return np.trapezoid(post[m], prior_grid[m])
+
+def intervale_credibilite(prior_grid, post, niveau=0.95):
+    c = np.cumsum(post) / post.sum()
+    lo = prior_grid[np.searchsorted(c, (1 - niveau) / 2)]
+    hi = prior_grid[np.searchsorted(c, 1 - (1 - niveau) / 2)]
+    return lo, hi
+\end{lstlisting}
+\end{codebox}
+\end{column}
+\begin{column}{0.45\textwidth}
+\begin{kbox}[Trois fonctions, tout le chapitre]
+\begin{itemize}
+  \item \textbf{grille $+$ normalisation} : la méthode universelle quand
+        aucune conjugaison n'est disponible ;
+  \item \textbf{proba dépassant un seuil} : la question décisionnelle ;
+  \item \textbf{intervalle de crédibilité} : la synthèse de l'incertitude.
+\end{itemize}
+\end{kbox}
+\end{column}
+\end{columns}
+\end{frame}
+
+% [suite5]
+\begin{frame}{Boîte à outils : la fonction qui fait tout (suite)}
+\begin{wbox}[Quand la grille ne suffit plus]
+En dimension $d$, une grille coûte $n^d$ points : impossible au-delà de
+$d \approx 3$. C'est \textbf{exactement} le mur qui a motivé les méthodes MCMC
+(chapitre 5).
+\end{wbox}
+\end{frame}
+
+% ---------------------------------------------------------------- 28
+\begin{frame}{Ce qui change quand le paramètre devient continu}
+\begin{columns}[t]
+\begin{column}{0.49\textwidth}
+\begin{ebox}[Cas continu, exemple complet]
+Mesures répétées d'une grandeur physique, $y_i \sim \N(\mu, \sigma^2)$ avec
+$\sigma$ connu :
+\[
+\begin{aligned}
+p(\mu) &= \N(\mu_0, \tau_0^2) \quad\text{(prior)}\\
+p(y \given \mu) &\propto \prod_{i=1}^n e^{-\frac{(y_i-\mu)^2}{2\sigma^2}}\\
+&\propto e^{-\frac{n(\bar y - \mu)^2}{2\sigma^2}}
+\end{aligned}
+\]
+Le posterior est encore \textbf{normal} : $\N(\mu_n, \tau_n^2)$ avec
+\[
+\frac{1}{\tau_n^2} = \frac{1}{\tau_0^2} + \frac{n}{\sigma^2}
+\]
+\end{ebox}
+\end{column}
+\begin{column}{0.49\textwidth}
+\begin{kbox}[Lecture : la précision s'additionne]
+Ce n'est pas $\mu$ qui s'additionne, c'est l'\textbf{information}
+$1/$variance. Le posterior est la moyenne pondérée des deux sources,
+avec les poids $1/\tau_0^2$ et $n/\sigma^2$.
+\vspace{1mm}
+\[
+\mu_n = \frac{\frac{\mu_0}{\tau_0^2}+\frac{n\bar y}{\sigma^2}}{\frac{1}{\tau_0^2}+\frac{n}{\sigma^2}}
+\]
+\end{kbox}
+\begin{ebox}[Chiffres]
+Avec $\mu_0 = 100$, $\tau_0 = 10$, $\sigma = 5$, $n = 4$, $\bar y = 92$ :
+$\mu_n = 93{,}3$ et $\tau_n = 2{,}44$.
+Le prior pèse encore, mais les données dominent déjà.
+\end{ebox}
+\end{column}
+\end{columns}
+\end{frame}
+
+% ---------------------------------------------------------------- 29
+% [suite]
+% [suite5]
+\begin{frame}{La constante de normalisation : pourquoi on l'ignore}
+\begin{columns}[t]
+\begin{column}{0.52\textwidth}
+\begin{kbox}[Le raisonnement]
+\[
+p(\theta \given y) = \frac{p(y \given \theta)p(\theta)}{\underbrace{p(y)}_{\text{indépendant de }\theta}}
+\]
+$p(y)$ est le \emph{même nombre} pour toutes les valeurs de $\theta$ :
+il \textbf{recentre} la courbe, il ne la \textbf{redessine} pas. Pour
+comparer deux valeurs de $\theta$, il disparaît.
+\end{kbox}
+\end{column}
+
+\begin{column}{0.46\textwidth}
+\begin{wbox}[Ne l'oubliez jamais : il revient]
+$p(y)$ réapparaît dans trois situations \textbf{décisives} :
+\begin{itemize}
+  \item \textbf{Comparer deux modèles} : c'est le facteur de Bayes
+        $BF_{12} = p(y \given M_1)/p(y \given M_2)$ (chapitre 4) ;
+  \item \textbf{Choisir un prior} : $p(y)$ mesure la \emph{plausibilité}
+        du prior avant de voir les données (checks prédictifs a priori) ;
+  \item \textbf{Modèles hiérarchiques} : il faut intégrer les effets
+        latents pour évaluer la vraisemblance marginale.
+\end{itemize}
+\end{wbox}
+\end{column}
+\end{columns}
+\end{frame}
+
+% [suite5]
+\begin{frame}{La constante de normalisation : pourquoi on l'ignore (suite)}
+\begin{ebox}[Ordre de grandeur]
+Dans l'exemple Beta-Binomial, $p(y)$ vaut exactement
+$P(Y = 7)$ sous la loi prédictive a priori :
+\[
+p(y) = \binom{10}{7}\frac{\Gamma(2)\Gamma(11)}{\Gamma(13)} = \frac{1}{12} = 0{,}0833
+\]
+Le posterior $\mathrm{Beta}(8,4)$ divisé par ce facteur redonne bien une densité d'aire 1.
+\end{ebox}
+\end{frame}
+
+% [suite]
+\begin{frame}{La constante de normalisation : pourquoi on l'ignore (suite)}
+\begin{kbox}[Règle pratique]
+On travaille en \textbf{logarithme} :
+$\log p(\theta \given y) = \log p(y \given \theta) + \log p(\theta) + \text{cte}$.
+Toute l'inférence numérique (grilles, MCMC, VI) optimise ou échantillonne ce log-posterior.
+\end{kbox}
+
+\end{frame}
+
+% ---------------------------------------------------------------- 30
+\begin{frame}{Le mécanisme : une multiplication, pas une recette}
+\begin{center}
+\begin{tikzpicture}[xscale=1.02,yscale=.96]
+% --- prior
+\draw[byGrey,thin] (-0.1,0) -- (3.1,0);
+\draw[-,thick,byGrey] (-0.1,0) -- (-0.1,1.4);
+\draw[byGrey!70,thick,domain=0:3,samples=60] plot (\x,{0.9*exp(-((\x-0.7)^2)/0.5)});
+\node[byGrey,font=\scriptsize\bfseries] at (1.5,-0.35) {$p(\theta)$ : a priori};
+\node[byGrey,font=\tiny] at (1.5,-0.75) {ce que l'expert affirme};
+% --- x
+\node[byDeep,font=\Large\bfseries] at (3.7,0.7) {$\times$};
+% --- vraisemblance
+\draw[byGrey,thin] (4.3,0) -- (7.5,0);
+\draw[-,thick,byGrey] (4.3,0) -- (4.3,1.4);
+\draw[byOrange!85,thick,domain=4.3:7.5,samples=60]
+   plot (\x,{0.95*exp(-((\x-6.2)^2)/0.22)});
+\node[byOrange!85!black,font=\scriptsize\bfseries] at (5.9,-0.35) {$p(y \given \theta)$ : vraisemblance};
+\node[byOrange!85!black,font=\tiny] at (5.9,-0.75) {ce que les données imposent};
+% --- =
+\node[byDeep,font=\Large\bfseries] at (8.1,0.7) {$=$};
+% --- posterior
+\draw[byGrey,thin] (8.7,0) -- (11.9,0);
+\draw[-,thick,byGrey] (8.7,0) -- (8.7,1.4);
+\draw[byBlue,very thick,domain=8.7:11.9,samples=80]
+   plot (\x,{1.15*exp(-((\x-10.35)^2)/0.30)});
+\fill[byBlue,opacity=.18,domain=8.7:11.9,samples=80]
+   (8.7,0) -- plot (\x,{1.15*exp(-((\x-10.35)^2)/0.30)}) -- (11.9,0) -- cycle;
+\node[byBlue,font=\scriptsize\bfseries] at (10.3,-0.35) {$p(\theta \given y)$ : a posteriori};
+\node[byBlue,font=\tiny] at (10.3,-0.75) {le compromis, avec son incertitude};
+% --- annotations
+\draw[byDeep,dashed,thin] (0.7,0.7) -- (10.35,0.7);
+\node[byDeep,font=\tiny,align=center] at (5.6,1.62) {le centre est tiré vers les données, \\ la largeur est fixée par la quantité d'information};
+\end{tikzpicture}
+\end{center}
+\vspace{1mm}
+\begin{columns}[t]
+\begin{column}{0.48\textwidth}
+\begin{kbox}[Trois cas]
+\begin{itemize}
+  \item $\,$ prior étroit, données rares $\Rightarrow$ le prior gagne ;
+  \item prior large, données nombreuses $\Rightarrow$ les données gagnent ;
+  \item les deux étroits et \textbf{déplacés} $\Rightarrow$ conflit prior/données :
+        \textbf{signalez-le}, ne le cachez pas.
+\end{itemize}
+\end{kbox}
+\end{column}
+\begin{column}{0.48\textwidth}
+\begin{abox}[Démonstration en direct]
+On rejoue la même figure avec $\alpha,\beta$ modifiables et
+$n$ croissant dans le notebook
+\file{TP1\_mise\_a\_jour\_\allowbreak bayesienne.ipynb} (dossier \file{notebooks/}), section 4.
+\end{abox}
+\end{column}
+\end{columns}
+\end{frame}
+
+% ---------------------------------------------------------------- 31
+\begin{frame}{Mise à jour séquentielle : la version formelle}
+\begin{columns}[t]
+\begin{column}{0.5\textwidth}
+\begin{kbox}[Traitement par lot]
+\[
+p(\theta \given y_1,\dots,y_n) \propto p(\theta)\prod_{i=1}^{n}p(y_i \given \theta)
+\]
+\end{kbox}
+\begin{kbox}[Traitement en flux (= c'est pareil)]
+\[
+\begin{aligned}
+p(\theta \given y_1) &\propto p(\theta)\,p(y_1 \given \theta)\\
+p(\theta \given y_1,y_2) &\propto p(\theta \given y_1)\,p(y_2 \given \theta)\\
+&\;\;\vdots
+\end{aligned}
+\]
+Aucune information n'est perdue : le posterior contient
+\emph{toute} l'information apportée par les données déjà vues.
+\end{kbox}
+\end{column}
+\begin{column}{0.48\textwidth}
+\begin{ebox}[Conséquence majeure]
+Un modèle bayésien peut être \textbf{actualisé en continu} : c'est ce qui
+rend le filtrage de Kalman, les bandits bayésiens, l'arrêt anticipé des essais
+cliniques et l'A/B testing séquentiel possibles \emph{sans pénalité de multiplicité}.
+\end{ebox}
+\begin{wbox}[Attention au raccourci]
+« Le posterior suffit » n'est vrai que si le \textbf{modèle} est resté le même.
+Changer de modèle (ajouter une covariable, abandonner la normalité) impose de
+réévaluer le prior et la vraisemblance : le posterior d'un modèle A n'est
+pas le prior d'un modèle B.
+\end{wbox}
+\end{column}
+\end{columns}
+\end{frame}
+
+% ---------------------------------------------------------------- 32
+\begin{frame}[fragile]{Exemple complet : régression linéaire bayésienne}
+\begin{columns}[t]
+\begin{column}{0.5\textwidth}
+\begin{ebox}[Données et modèle]
+12 mesures d'un rendement $y$ en fonction d'une dose $x$ (0 à 10).
+\[
+y_i = \beta_0 + \beta_1 x_i + \varepsilon_i, \qquad
+\varepsilon_i \sim \N(0, \sigma^2)
+\]
+Priors \textbf{faiblement informatifs} :
+\[
+\beta_0 \sim \N(0, 5^2),\quad
+\beta_1 \sim \N(0{,}5, 1^2),\quad
+\sigma \sim \text{Demi-Normale}(2)
+\]
+\end{ebox}
+\begin{kbox}[Pourquoi ces priors ?]
+Volontairement larges : ils n'imposent rien de précis, mais ils
+\textbf{empêchent des valeurs absurdes} (une pente de $10^6$). Ils disent
+« je m'attends à un effet modéré, dans un ordre de grandeur raisonnable ».
+\end{kbox}
+\end{column}
+\begin{column}{0.48\textwidth}
+\begin{codebox}[PyMC — le modèle complet]
+\begin{lstlisting}
+with pm.Model() as modele:
+    b0 = pm.Normal("b0", mu=0, sigma=5)
+    b1 = pm.Normal("b1", mu=0.5, sigma=1)
+    sigma = pm.HalfNormal("sigma", sigma=2)
+    mu = b0 + b1 * x
+    pm.Normal("y", mu=mu, sigma=sigma, observed=y)
+    trace = pm.sample(draws=2000, tune=1500, chains=2)
+\end{lstlisting}
+\end{codebox}
+\begin{abox}[Ce que l'on va lire sur le résultat]
+\begin{itemize}
+  \item la postérieure de chaque coefficient ;
+  \item l'intervalle de crédibilité à 95 \% ;
+  \item la prévision \textbf{avec} son incertitude.
+\end{itemize}
+\end{abox}
+\end{column}
+\end{columns}
+\end{frame}
+
+% ---------------------------------------------------------------- 33
+% [rogna]
+% [split]
+\begin{frame}{Résultats réels (exécutés sur cette machine, CPU)}
+\begin{center}
+\includegraphics[width=.86\textwidth]{f14_regression_bayesienne.png}
+\end{center}
+\end{frame}
+
+% [split]
+\begin{frame}{Résultats réels (exécutés sur cette machine, CPU)}
+
+\vspace{-1mm}
+\begin{columns}[t]
+\begin{column}{0.60\textwidth}
+\begin{tabular}{@{}lccc@{}}
+\toprule
+Paramètre & Moyenne a post. & Crédibilité 95 \% & MCO (fréquentiste) \\
+\midrule
+$\beta_0$ (ordonnée) & 2,600 & $[1{,}513 \,;\, 3{,}613]$ & 2,611 \\
+$\beta_1$ (pente) & 0,624 & $[0{,}449 \,;\, 0{,}801]$ & 0,624 \\
+$\sigma$ (bruit) & 0,936 & --- & 0,92 \\
+\bottomrule
+\end{tabular}
+\vspace{1mm}
+
+\small Modèle échantillonné par NUTS : 2 chaînes, 4 000 tirages retenus,
+$\hat R_{\max} = 1{,}0006$, 160 s sur un CPU 8 c\oe urs \emph{sans GPU}.
+\end{column}
+\begin{column}{0.38\textwidth}
+\begin{kbox}[Apport du bayésien]
+\begin{itemize}
+  \item une \textbf{distribution} pour la pente, pas seulement un point ;
+  \item $P(\beta_1 > 0 \given y) \approx 1$ : l'effet est certain ;
+  \item avec 4 points au lieu de 12, MCO donnerait un IC énorme.
+
+\end{itemize}
+\end{kbox}
+\end{column}
+\end{columns}
+\end{frame}
+
+% ---------------------------------------------------------------- 34
+% [split]
+\begin{frame}{Prédire en bayésien : deux incertitudes, pas une}
+\begin{center}
+\includegraphics[width=\textwidth]{f15_prediction.png}
+\end{center}
+\end{frame}
+
+% [split]
+% [suite5]
+\begin{frame}{Prédire en bayésien : deux incertitudes, pas une}
+\begin{columns}[t]
+\begin{column}{0.46\textwidth}
+\begin{kbox}[La loi prédictive a posteriori]
+\[
+p(\tilde y \given y) = \int \underbrace{p(\tilde y \given \theta)}_{\text{bruit}}
+\underbrace{p(\theta \given y)}_{\text{paramètre inconnu}} \mathrm{d}\theta
+\]
+On \textbf{intègre} sur l'incertitude du paramètre : la prédiction est
+plus large qu'une prédiction faite à $\hat\theta$ fixé.
+\end{kbox}
+\begin{ebox}[Chiffres réels à $x = 8$]
+\begin{itemize}
+  \item valeur prédite moyenne : $7{,}59$
+  \item crédibilité 95 \% de la \emph{moyenne} : $[6{,}83 \,;\, 8{,}40]$
+  \item crédibilité 95 \% d'une \emph{observation} : $[5{,}52 \,;\, 9{,}68]$
+\end{itemize}
+\vspace{1mm}
+\small L'écart entre les deux intervalles \textbf{est} la variabilité
+$\sigma$ du processus : 0,94 ici.
+\end{ebox}
+\end{column}
+\end{columns}
+\end{frame}
+
+% [suite5]
+\begin{frame}{Prédire en bayésien : deux incertitudes, pas une (suite)}
+\begin{wbox}[Erreur classique]
+Confondre l'incertitude sur la \textbf{moyenne prédite} et celle sur la
+\textbf{prochaine observation}. La seconde est toujours plus large et
+c'est celle qui intéresse l'ingénieur.
+\end{wbox}
+\end{frame}
+
+% ---------------------------------------------------------------- 35
+\begin{frame}{Activité 2 — à vous de jouer (15 min)}
+\begin{abox}[Consigne]
+Par binôme, sur le jeu de données fourni \file{data/rendement\_12points.csv} (12 points,
+colonnes \texttt{x} et \texttt{y}) :
+\begin{enumerate}
+  \item Refaites la régression de la slide précédente, mais avec un prior
+        \textbf{très informatif} : $\beta_1 \sim \N(0{,}5, 0{,}05^2)$.
+  \item Comparez la pente obtenue à celle du prior faiblement informatif.
+  \item Que se passe-t-il si vous n'avez que les \textbf{4 premiers} points ?
+        Le prior informatif aide-t-il ou trompe-t-il ?
+  \item Rejouez l'analyse en doublant l'échelle de $x$ (convertissez $x$ en \% au lieu d'unités).
+        Le prior sur $\beta_1$ devient-il raisonnable ?
+\end{enumerate}
+\end{abox}
+\vspace{1mm}
+\begin{columns}[t]
+\begin{column}{0.48\textwidth}
+\begin{kbox}[Ce que l'activité doit établir]
+Un prior est \textbf{une hypothèse d'échelle}. Mal normalisé, il devient
+une erreur silencieuse : le posterior sera précis et faux.
+\end{kbox}
+\end{column}
+\begin{column}{0.48\textwidth}
+\begin{kbox}[Indice]
+Normaliser $x$ (centrer-réduire) rend les priors comparables entre études.
+C'est la première recommandation pratique de Gelman.
+\end{kbox}
+\end{column}
+\end{columns}
+\end{frame}
+
+% ---------------------------------------------------------------- 36
+% [suite]
+\begin{frame}{Correction collective et grille d'évaluation}
+\begin{columns}[t]
+\begin{column}{0.52\textwidth}
+\begin{solbox}[Réponses attendues]
+\begin{itemize}
+  \item Prior $\N(0{,}5; 0{,}05^2)$ : le posterior de $\beta_1$ est
+        \textbf{écrasé} autour de 0,5 (l'écart-type du prior est 10 fois trop petit).
+  \item Avec 4 points seulement : le résultat suit le prior, l'intervalle de
+        crédibilité est \emph{faussement étroit}. C'est le pire cas :
+        \textbf{précis et faux}.
+  \item En doublant l'échelle de $x$, la pente est divisée par 2 :
+        le prior sur $\beta_1$ n'est plus adapté, il faut le renormaliser.
+\end{itemize}
+\end{solbox}
+\end{column}
+\begin{column}{0.46\textwidth}
+{\setlength{\tabcolsep}{3pt}\begin{tabular}{@{}p{3.3cm}p{0.8cm}p{1.3cm}@{}}
+\toprule
+Critère d'évaluation & Points & Acquis ? \\
+\midrule
+Modèle PyMC correct et exécuté & 3 & \hspace{1.2cm} \\
+Priors justifiés par écrit & 3 & \\
+Comparaison chiffrée des deux priors & 3 & \\
+Diagnostic de convergence ($\hat R$) & 2 & \\
+Interprétation en une phrase & 3 & \\
+Discussion de la sensibilité à l'échelle & 2 & \\
+\midrule
+\textbf{Total} & \textbf{16} & \\
+\bottomrule
+\end{tabular}}
+\end{column}
+\end{columns}
+\vspace{1.5mm}
+\end{frame}
+
+% [suite]
+\begin{frame}{Correction collective et grille d'évaluation (suite)}
+\begin{wbox}[Le réflexe à acquérir]
+Toujours se demander : \textbf{« mes données peuvent-elles seulement me contredire ? »}
+Si non, votre prior est un dogme, pas un a priori.
+\end{wbox}
+\end{frame}
+
+% ---------------------------------------------------------------- 37
+\begin{frame}{Les deux écoles face au même jeu de données}
+\begin{center}
+\small
+\begin{tabular}{@{}p{3.0cm}p{5.1cm}p{5.1cm}@{}}
+\toprule
+\textbf{Aspect} & \textbf{Fréquentiste} & \textbf{Bayésien} \\
+\midrule
+Ce qui est aléatoire & $\hat\theta$ (l'estimateur) sur des échantillons répétés
+                     & $\theta$ (le paramètre) \\
+Ce qui est fixe & $\theta$ & les données observées $y$ \\
+Réponse donnée & point $+$ intervalle de confiance & distribution a posteriori \\
+Question à laquelle on peut répondre & « si l'expérience était répétée \dots » &
+« quelle est la plausibilité de ce que j'avance ? » \\
+Information externe & non incorporable sans changer la méthode &
+explicitée dans le prior \\
+Arrêt anticipé & gonfle le risque de type I (sauf correction séquentielle) &
+licite : la conclusion est conditionnelle aux données \\
+Petits échantillons & inférence fragile, IC trompeur & le prior régularise
+(\emph{shrinkage}) \\
+Coût de calcul & faible (formules closes) & élevé (intégrales, MCMC) \\
+Besoin de supervision & modèle seul & modèle \textbf{et} priors \\
+\bottomrule
+\end{tabular}
+\end{center}
+\vspace{1mm}
+\begin{kbox}[La bonne posture]
+Ce ne sont pas deux religions : ce sont deux façons de répondre à deux
+\textbf{questions différentes}. Choisissez la question ; l'outil suivra.
+\end{kbox}
+\end{frame}
+
+% ---------------------------------------------------------------- 38
+% [rogna]
+% [rogna]
+% [rogna]
+% [split]
+\begin{frame}{La p-value n'est pas $P(H_0 \given \mathrm{données})$}
+\begin{center}
+\includegraphics[width=.86\textwidth]{f08_pvalue_vs_posterior.png}
+\end{center}
+\end{frame}
+
+% [split]
+\begin{frame}{La p-value n'est pas $P(H_0 \given \mathrm{données})$}
+
+\vspace{-1mm}
+\begin{columns}[t]
+\begin{column}{0.55\textwidth}
+\begin{ebox}[Ce que la figure montre (calcul réel)]
+Pour un test bilatéral, une p-value de $0{,}05$ \textbf{ne} signifie pas
+« 5 \% de chance que $H_0$ soit vraie ». Avec un prior neutre
+$P(H_0) = P(H_1) = 0{,}5$ et la calibration de Sellke--Johnson :
+\[
+BF_{01} \approx \frac{-1}{e\, p \log p} = 2{,}46
+\;\Rightarrow\;
+P(H_0 \given y) = 0{,}71
+\]
+\vspace{1mm}
+\small Avec 10 \% de prior sur $H_0$ : $P(H_0 \given y) = 0{,}21$ ; avec 90 \% : $0{,}96$.
+\textbf{Même p-value, trois conclusions.}
+\end{ebox}
+\end{column}
+\begin{column}{0.43\textwidth}
+\begin{kbox}[La formule à retenir]
+$P(H_0 \given y)$ dépend de deux choses et de deux seulement :
+\begin{itemize}
+  \item ce que l'on croyait \textbf{avant} ($P(H_0)$) ;
+  \item la force de l'évidence ($BF_{01}$).
+\end{itemize}
+La p-value ne contient que la seconde.
+\end{kbox}
+\end{column}
+\end{columns}
+\end{frame}

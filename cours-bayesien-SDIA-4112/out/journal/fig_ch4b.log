@@ -1,0 +1,48 @@
+WARNING (pytensor.configdefaults): g++ not available, if using conda: `conda install gxx`
+WARNING (pytensor.configdefaults): g++ not detected!  PyTensor will be unable to compile C-implementations and will default to Python. Performance may be severely degraded. To remove this warning, set PyTensor flags cxx to an empty string.
+C:\Users\HP\Documents\cours-bayesien-SDIA-4112\.venv\Lib\site-packages\arviz\stats\stats.py:782: UserWarning: Estimated shape parameter of Pareto distribution is greater than 0.67 for one or more samples. You should consider using a more robust model, this is because importance sampling is less likely to work well if the marginal posterior and LOO posterior are very different. This is more likely to happen with a non-robust model and highly influential observations.
+  warnings.warn(
+C:\Users\HP\Documents\cours-bayesien-SDIA-4112\.venv\Lib\site-packages\arviz\stats\stats.py:782: UserWarning: Estimated shape parameter of Pareto distribution is greater than 0.67 for one or more samples. You should consider using a more robust model, this is because importance sampling is less likely to work well if the marginal posterior and LOO posterior are very different. This is more likely to happen with a non-robust model and highly influential observations.
+  warnings.warn(
+C:\Users\HP\Documents\cours-bayesien-SDIA-4112\.venv\Lib\site-packages\arviz\stats\stats.py:1652: UserWarning: For one or more samples the posterior variance of the log predictive densities exceeds 0.4. This could be indication of WAIC starting to fail. 
+See http://arxiv.org/abs/1507.04544 for details
+  warnings.warn(
+C:\Users\HP\Documents\cours-bayesien-SDIA-4112\.venv\Lib\site-packages\arviz\stats\stats.py:1652: UserWarning: For one or more samples the posterior variance of the log predictive densities exceeds 0.4. This could be indication of WAIC starting to fail. 
+See http://arxiv.org/abs/1507.04544 for details
+  warnings.warn(
+C:\Users\HP\Documents\cours-bayesien-SDIA-4112\.venv\Lib\site-packages\arviz\stats\stats.py:1652: UserWarning: For one or more samples the posterior variance of the log predictive densities exceeds 0.4. This could be indication of WAIC starting to fail. 
+See http://arxiv.org/abs/1507.04544 for details
+  warnings.warn(
+C:\Users\HP\Documents\cours-bayesien-SDIA-4112\.venv\Lib\site-packages\arviz\stats\stats.py:782: UserWarning: Estimated shape parameter of Pareto distribution is greater than 0.67 for one or more samples. You should consider using a more robust model, this is because importance sampling is less likely to work well if the marginal posterior and LOO posterior are very different. This is more likely to happen with a non-robust model and highly influential observations.
+  warnings.warn(
+C:\Users\HP\Documents\cours-bayesien-SDIA-4112\.venv\Lib\site-packages\arviz\stats\stats.py:782: UserWarning: Estimated shape parameter of Pareto distribution is greater than 0.67 for one or more samples. You should consider using a more robust model, this is because importance sampling is less likely to work well if the marginal posterior and LOO posterior are very different. This is more likely to happen with a non-robust model and highly influential observations.
+  warnings.warn(
+C:\Users\HP\Documents\cours-bayesien-SDIA-4112\.venv\Lib\site-packages\arviz\stats\stats.py:782: UserWarning: Estimated shape parameter of Pareto distribution is greater than 0.67 for one or more samples. You should consider using a more robust model, this is because importance sampling is less likely to work well if the marginal posterior and LOO posterior are very different. This is more likely to happen with a non-robust model and highly influential observations.
+  warnings.warn(
+C:\Users\HP\Documents\cours-bayesien-SDIA-4112\.venv\Lib\site-packages\arviz\stats\stats.py:782: UserWarning: Estimated shape parameter of Pareto distribution is greater than 0.67 for one or more samples. You should consider using a more robust model, this is because importance sampling is less likely to work well if the marginal posterior and LOO posterior are very different. This is more likely to happen with a non-robust model and highly influential observations.
+  warnings.warn(
+[i07] données : [(35, 14), (40, 21), (30, 16), (45, 29), (40, 30), (35, 27), (30, 23), (40, 28)]
+[cache] idata recharges depuis _ch4b_cache (échantillonnage non refait)
+                 rank   elpd_loo     p_loo  elpd_diff       dse        weight
+M2 indépendant      0 -22.790416  4.461746   0.000000  0.000000  1.000000e+00
+M3 hiérarchique     1 -23.096135  4.847167   0.305719  0.353945  0.000000e+00
+M1 regroupé         2 -27.518222  2.577315   4.727806  3.537741  2.489995e-16
+                 rank  elpd_waic    p_waic  elpd_diff       dse    weight
+M3 hiérarchique     0 -21.725322  3.476354   0.000000  0.000000  0.607648
+M2 indépendant      1 -21.731580  3.402910   0.006258  0.245675  0.392352
+M1 regroupé         2 -27.478525  2.537618   5.753203  3.469352  0.000000
+stacking : {'M2 indépendant': 1.0, 'M3 hiérarchique': 0.0, 'M1 regroupé': 2.4899950215898243e-16}
+  pareto_k M1 regroupé: max = 0.540, n>0.67 = 0/8, good_k = 0.67
+  pareto_k M2 indépendant: max = 0.889, n>0.67 = 6/8, good_k = 0.67
+  pareto_k M3 hiérarchique: max = 1.043, n>0.67 = 7/8, good_k = 0.67
+DIC : {'M1 regroupé': 53.72, 'M2 indépendant': 46.26, 'M3 hiérarchique': 45.37}
+[fig] i07_waic_dic_loo.png                     147.5 Ko
+[fig] i08_model_averaging.png                  144.5 Ko
+[fig] i09_risk_threshold.png                   244.2 Ko
+[i10] H0 : fréquentiste avec peeking 0.393 | bayésien seq. 0,95 0.305 | bayésien seq. 0,99 0.140 | test unique 0.060
+[fig] i10_ab_test.png                          157.3 Ko
+[i10] experience arretee : 72/800 vs 100/800 (0.0900 vs 0.1250) ; z = 2.260, p = 0.0238, IC 95 % = [0.0047 ; 0.0653] ; n par bras (80 % puissance) = 1226
+[i11] cas n=5000 (500 vs 502) : P(below)=0.1846, P(in ROPE)=0.5939, P(above)=0.2215
+[i11] experience imbriquee : in_rope=[np.float64(0.18), np.float64(0.247), np.float64(0.011), np.float64(0.003), np.float64(0.005), np.float64(0.075), np.float64(0.126)], above=[np.float64(0.597), np.float64(0.557), np.float64(0.988), np.float64(0.997), np.float64(0.995), np.float64(0.925), np.float64(0.874)]
+[fig] i11_rope.png                             174.2 Ko
+[key_numbers_ch4.json] cles : ['i01', 'i02', 'i03', 'i04', 'i05', 'i06', 'i07', 'i08', 'i09', 'i10', 'i10_frequentiste', 'i11']

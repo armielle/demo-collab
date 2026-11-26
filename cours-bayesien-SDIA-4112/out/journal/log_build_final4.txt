@@ -1,0 +1,8 @@
+[OK ] chapitre1          29.4s    1410.5 Ko  0 erreur(s)  ->  Chapitre-1-fondements-bayesiens.pdf
+[OK ] chapitre2          32.0s    2520.7 Ko  0 erreur(s)  ->  Chapitre-2-a-priori-a-posteriori.pdf
+[OK ] chapitre3          31.7s    2329.5 Ko  0 erreur(s)  ->  Chapitre-3-estimation-inference.pdf
+[OK ] chapitre4          31.0s    2140.7 Ko  0 erreur(s)  ->  Chapitre-4-comparaison-decision.pdf
+[OK ] chapitre5          31.7s    2280.3 Ko  0 erreur(s)  ->  Chapitre-5-mcmc-mini-projet.pdf
+[OK ] cours_complet     133.0s   10149.9 Ko  0 erreur(s)  ->  Cours-complet-Statistique-Bayesienne.pdf
+
+Frames par chapitre : {"1": 49, "2": 50, "3": 49, "4": 50, "5": 50}

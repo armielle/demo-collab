@@ -1,0 +1,38 @@
+[ECHEC] chapitre1          21.2s       0.0 Ko  6 erreur(s)  ->  aucun PDF
+       error: parts/ch1_e:137: Undefined control sequence
+       error: something bad happened inside XeTeX; its output follows:
+       (pgfplots.errorbars.code.tex) (pgfplots.markers.code.tex)
+       ! Undefined control sequence.
+       error: the XeTeX engine had an unrecoverable error
+       caused by: halted on potentially-recoverable error as specified
+[ECHEC] chapitre2          11.2s       0.0 Ko  6 erreur(s)  ->  aucun PDF
+       error: parts/ch2_b:252: Undefined control sequence
+       error: something bad happened inside XeTeX; its output follows:
+       (pgfplots.errorbars.code.tex) (pgfplots.markers.code.tex)
+       ! Undefined control sequence.
+       error: the XeTeX engine had an unrecoverable error
+       caused by: halted on potentially-recoverable error as specified
+[OK ] chapitre3          51.5s    2332.4 Ko  0 erreur(s)  ->  Chapitre-3-estimation-inference.pdf
+[ECHEC] chapitre4           8.6s       0.0 Ko  6 erreur(s)  ->  aucun PDF
+       error: _build_ch4.vrb:7: Extra }, or forgotten \endgroup
+       error: something bad happened inside XeTeX; its output follows:
+       (pgfplots.errorbars.code.tex) (pgfplots.markers.code.tex)
+       ! Extra }, or forgotten \endgroup.
+       error: the XeTeX engine had an unrecoverable error
+       caused by: halted on potentially-recoverable error as specified
+[ECHEC] chapitre5          21.3s       0.0 Ko  6 erreur(s)  ->  aucun PDF
+       error: parts/ch5_c:145: Undefined control sequence
+       error: something bad happened inside XeTeX; its output follows:
+       (pgfplots.errorbars.code.tex) (pgfplots.markers.code.tex)
+       ! Undefined control sequence.
+       error: the XeTeX engine had an unrecoverable error
+       caused by: halted on potentially-recoverable error as specified
+[ECHEC] cours_complet      15.9s       0.0 Ko  6 erreur(s)  ->  aucun PDF
+       error: parts/ch1_e:137: Undefined control sequence
+       error: something bad happened inside XeTeX; its output follows:
+       (pgfplots.errorbars.code.tex) (pgfplots.markers.code.tex)
+       ! Undefined control sequence.
+       error: the XeTeX engine had an unrecoverable error
+       caused by: halted on potentially-recoverable error as specified
+
+Frames par chapitre : {"1": 64, "2": 72, "3": 53, "4": 63, "5": 64}

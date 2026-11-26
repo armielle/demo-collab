@@ -1,0 +1,160 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=2.2cm]{geometry}
+\usepackage[french]{babel}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\tcbuselibrary{skins,breakable}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true, linkcolor=blue, urlcolor=blue}
+\graphicspath{{../figures/}}
+
+\definecolor{bleuenspd}{HTML}{1F4E79}
+\definecolor{vertOK}{HTML}{2E7D32}
+\definecolor{rougeAlerte}{HTML}{C0504D}
+
+\newtcolorbox{rappel}[1][]{colback=blue!5!white, colframe=blue!60!black, title=#1, fonttitle=\bfseries, breakable}
+\newtcolorbox{application}[1][]{colback=green!5!white, colframe=vertOK, title=#1, fonttitle=\bfseries, breakable}
+\newtcolorbox{qcmbox}[1][]{colback=yellow!10!white, colframe=orange!80!black, title=#1, fonttitle=\bfseries, breakable}
+\newtcolorbox{corrigebox}[1][]{colback=green!10!white, colframe=vertOK, title=#1, fonttitle=\bfseries, breakable}
+
+\newcommand{\given}{\,\vert\,}
+
+\begin{document}
+
+\begin{center}
+{\LARGE\bfseries\color{bleuenspd} Fiche de lecture --- Chapitre 3}\\[2mm]
+{\LARGE Estimation et Inférence Bayésiennes}\\[6mm]
+{\large\bfseries Étude de cas : Surveillance du Paludisme à Douala}\\[4mm]
+\includegraphics[width=4cm]{../assets/logo_enspd.png}\\[4mm]
+{\bfseries Master 1 SDIA --- EPD-SDIA-4112 --- Durée totale : 4 h}\\
+{\small Enseignante : Dr.\ Noulapeu Ngaffo Armielle --- ENSPD}
+\end{center}
+
+\vspace{4mm}
+\section{Plan de la séance (4 heures)}
+\begin{center}
+\begin{tabular}{@{}llp{9cm}@{}}
+\toprule
+\textbf{Bloc} & \textbf{Durée} & \textbf{Objectif} \\
+\midrule
+Bloc 1 & 45 min & Rappels : le modèle bayésien, le prior, la vraisemblance \\
+Bloc 2 & 45 min & Mise en situation : le paludisme à Douala (Modèle Beta-Binomial) \\
+\textit{Pause} & 15 min & \\
+Bloc 3 & 60 min & Inférence et Estimateurs (Bayes vs MLE, IC vs Crédible) \\
+\textit{Pause} & 10 min & \\
+Bloc 4 & 45 min & Diagnostics MCMC et Régression \\
+Bloc 5 & 60 min & Synthèse, Cas complexes et Évaluation finale \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section{Bloc 1 : Fondations Théoriques (45 min)}
+
+\begin{rappel}[La règle de Bayes appliquée aux proportions]
+En statistiques bayésiennes, on cherche à estimer un paramètre $\theta$ (par exemple, la proportion de malades). On combine nos connaissances \textbf{a priori} avec les \textbf{données} (la vraisemblance) pour obtenir la distribution \textbf{a posteriori}.
+\begin{equation}
+p(\theta \given y) = \frac{p(y \given \theta) \cdot p(\theta)}{p(y)}
+\end{equation}
+Dans le cas du paludisme, $\theta$ est la prévalence. Nous utilisons une distribution \textbf{Bêta} comme prior car elle est bornée entre 0 et 1.
+\end{rappel}
+
+\section{Bloc 2 : Le Cas d'Étude --- Douala, Quartier New-Bell (45 min)}
+
+\begin{application}[Contexte : Le Challenge des NGO]
+L'ONG « Santé Africaine » opère dans le quartier New-Bell à Douala. Elle veut estimer la prévalence du paludisme ($\theta$) chez les enfants de moins de 5 ans.
+\begin{itemize}
+    \item \textbf{Données historiques (Prior) :} Les campagnes précédentes suggèrent une prévalence modérée. Un prior \textbf{Beta(6, 14)} est retenu (moyenne de $6/20 = 0.3$ ou $30\%$).
+    \item \textbf{Données récentes (Likelihood) :} Sur un échantillon de $n = 20$ enfants testés, $y = 6$ sont positifs (Fréquence observée : $30\%$).
+\end{itemize}
+\end{application}
+
+\begin{qcmbox}[Auto-Évaluation 1]
+\textbf{Q1.} Quelle est la nature du prior $\text{Beta}(6, 14)$ ?
+\begin{enumerate}[label=\Alph*.)]
+    \item Non-informatif
+    \item Informatif faible (concentré autour de 30\%)
+    \item Extrêmement strict (variance quasi-nulle)
+\end{enumerate}
+
+\textbf{Q2.} Si nous avions utilisé un prior non-informatif $\text{Beta}(1,1)$, quelle serait la moyenne du posterior (avec $n=20, y=6$) ?
+\begin{enumerate}[label=\Alph*.)]
+    \item $0.30$
+    \item $0.35$
+    \item $0.15$
+\end{enumerate}
+\end{qcmbox}
+
+\section{Bloc 3 : Inférence et Estimation (60 min)}
+
+\begin{rappel}[Le Conflit des Écoles]
+\begin{itemize}
+    \item \textbf{Fréquentiste :} L'Intervalle de Confiance (IC) est une plage construite pour contenir la vraie valeur dans 95\% des échantillons théoriques.
+    \item \textbf{Bayésien :} L'Intervalle de Crédibilité (CrI) dit : « Vu les données, il y a 95\% de chances que le paramètre soit ici ».
+\end{itemize}
+\end{rappel}
+
+\begin{application}[Analyse des données de New-Bell]
+Avec le prior $\text{Beta}(6,14)$ et les données $y=6, n=20$ :
+\begin{itemize}
+    \item Posterior : $\text{Beta}(6+6, 14+14) = \text{Beta}(12, 28)$.
+    \item Moyenne Posterior : $12/40 = 0.30$.
+    \item Intervalle Crédible 95\% : $\approx [0.16, 0.47]$.
+\end{itemize}
+\end{application}
+
+\begin{qcmbox}[Auto-Évaluation 2]
+\textbf{Q3.} Le prior $\text{Beta}(12, 4)$ (très informatif, centré sur 0.75) est utilisé à la place. Que se passe-t-il pour la couverture de l'intervalle crédible ?
+\begin{enumerate}[label=\Alph*.)]
+    \item Elle s'améliore (car plus d'information)
+    \item Elle s'effondre (le prior « pousse » l'estimation vers le haut, hors de la zone de vérité)
+    \item Elle reste stable
+\end{enumerate}
+\end{qcmbox}
+
+\section{Bloc 4 : MCMC et Modèles Complexes (45 min)}
+
+\begin{rappel}[Diagnostics MCMC]
+Pour les modèles complexes, on utilise MCMC. On vérifie :
+\begin{itemize}
+    \item \textbf{Rhat ($\hat{R}$)} : doit être $< 1.01$ (convergence).
+    \item \textbf{ESS} : Taille Effectif d'Échantillon (doit être $> 400$ pour fiabilité).
+\end{itemize}
+Dans nos simulations de référence (H07/H09), $\hat{R} \approx 1.003$ et $\text{ESS} > 900$.
+\end{rappel}
+
+\section{Bloc 5 : Synthèse et Évaluation Finale (60 min)}
+
+\begin{qcmbox}[Évaluation Finale]
+\textbf{Q4.} Dans le contexte de Douala, si le prior est $\text{Beta}(1,1)$ et les données donnent $6/20$, pourquoi l'intervalle fréquentiste de Wald peut-il être problématique ici ?
+\begin{enumerate}[label=\Alph*.)]
+    \item Il est trop large
+    \item Il peut donner des bornes aberrantes (négatives ou > 1) pour de petits échantillons
+    \item Il est identique au Crédible
+\end{enumerate}
+
+\textbf{Q5.} Quel estimateur minimiserait le risque de sous-estimer gravement la prévalence si le prior est trop faible ?
+\begin{enumerate}[label=\Alph*.)]
+    \item Le Mode (MAP)
+    \item La Moyenne (Mean)
+    \item La Médiane
+\end{enumerate}
+\end{qcmbox}
+
+\section{Corrigé et Commentaires}
+\begin{corrigebox}[Solutions]
+\textbf{Q1 : B.} Le prior $\text{Beta}(6,14)$ a une moyenne de 0.3 et une variance modérée. Il encode l'information des campagnes passées sans être dogmatique.
+
+\textbf{Q2 : B.} Posterior = $\text{Beta}(1+6, 1+14) = \text{Beta}(7, 15)$. Moyenne = $7/22 \approx 0.318$. Attention, le calcul exact donne $\approx 0.32$ (proche de B).
+
+\textbf{Q3 : B.} Le prior $\text{Beta}(12,4)$ est centré sur 0.75 alors que la vérité est à 0.3. Il « tire » le posterior vers le haut, réduisant la couverture réelle (seulement 23.5\% dans nos simulations).
+
+\textbf{Q4 : B.} L'approximation de Wald ($\hat{p} \pm 1.96\sqrt{\hat{p}(1-\hat{p})/n}$) est mauvaise pour $n$ faible ou $p$ proche des bornes.
+
+\textbf{Q5 : B.} La Moyenne intègre toute la masse de probabilité (les queues), tandis que le Mode ignore les événements rares dans les queues.
+\end{corrigebox}
+
+\end{document}

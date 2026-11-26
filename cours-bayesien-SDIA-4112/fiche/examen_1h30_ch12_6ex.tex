@@ -1,0 +1,130 @@
+\documentclass[9pt]{extarticle}
+\usepackage[a4paper,landscape,margin=0.9cm]{geometry}
+\setlength{\parskip}{0pt plus 1pt}
+\usepackage[french]{babel}
+\usepackage{fontspec}
+\setmainfont{Cambria}
+\usepackage{amsmath,amssymb}
+\usepackage[most]{tcolorbox}
+\usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage[hidelinks]{hyperref}
+
+\definecolor{bleuenspd}{HTML}{1F4E79}
+\definecolor{grisClair}{HTML}{F2F2F2}
+
+\newtcolorbox{consignedur}{colback=grisClair, colframe=bleuenspd, boxrule=0.8pt, arc=2pt, top=3pt, bottom=3pt}
+\newtcolorbox{donnees}{colback=white, colframe=bleuenspd!60, boxrule=0.6pt, arc=2pt, top=3pt, bottom=3pt}
+
+\pagestyle{empty}
+
+\begin{document}
+
+\begin{center}
+\includegraphics[width=1.8cm]{../assets/logo_enspd.png}\hfill
+\begin{minipage}{0.78\textwidth}
+\centering
+{\large\bfseries École Nationale Supérieure Polytechnique de Douala}\\
+{\large\bfseries Statistique Bayésienne --- EPD-SDIA-4112 \quad --- \quad Session : Normale}\\
+{\small Dr.\ Noulapeu Ngaffo Armielle --- Master 1 Science des Données et IA \quad Durée : \textbf{1 h 30} \quad Documents non autorisés \quad Barème : 20 points}
+\end{minipage}
+\end{center}
+
+\vspace{2mm}
+\begin{consignedur}
+\small\textbf{Consignes.} Justifiez chaque calcul. Les résultats numériques seront donnés avec 3 à 4 chiffres significatifs. Les formules de conjugaison sont rappelées à la fin du sujet. \textbf{Barème :} Exercice 1 (3 pts), Exercice 2 (3 pts), Exercice 3 (3,5 pts), Exercice 4 (3,5 pts), Exercice 5 (3,5 pts), Exercice 6 (3,5 pts).
+\end{consignedur}
+
+\begin{multicols}{2}
+\small
+% ============================================================
+\section*{Exercice 1 --- Théorème de Bayes : test de dépistage}
+
+Un test de dépistage a une sensibilité de \textbf{90~\%} et une spécificité de \textbf{96~\%}. La prévalence de la maladie dans la population testée est de \textbf{3~\%}.
+
+\begin{enumerate}[label=\alph*)]
+  \item Calculer la probabilité d'être malade sachant que le test est positif : $P(M \mid T^+)$. \hfill (1,5 pts)
+  \item Si le test est négatif, quelle est la probabilité d'être quand même malade, $P(M \mid T^-)$ ? \hfill (1 pt)
+  \item Interpréter ces deux résultats : que conclut-on sur la valeur du test positif et du test négatif ? \hfill (0,5 pt)
+\end{enumerate}
+
+% ============================================================
+\section*{Exercice 2 --- Calcul simple de posterior binomial}
+
+On observe $y = 12$ succès sur $n = 25$ essais. A priori : $\theta \sim \mathrm{Beta}(3, 3)$.
+
+\begin{enumerate}[label=\alph*)]
+  \item Donner la loi a posteriori de $\theta$. \hfill (0,5 pt)
+  \item Calculer l'espérance a posteriori $\mathbb{E}(\theta \mid y)$. \hfill (1 pt)
+  \item En déduire l'estimateur de Bayes $\delta^\pi(y)$. \hfill (0,5 pt)
+  \item Calculer la variance a posteriori. \hfill (1 pt)
+\end{enumerate}
+
+% ============================================================
+\section*{Exercice 3 --- Comparaison de deux priors}
+
+Mêmes données que le TD : $y = 8$, $n = 20$.
+
+\begin{enumerate}[label=\alph*)]
+  \item Prior $\mathrm{Beta}(1, 1)$ : donner la posterior et calculer son espérance. \hfill (1 pt)
+  \item Prior $\mathrm{Beta}(5, 5)$ : donner la posterior et calculer son espérance. \hfill (1 pt)
+  \item Quel prior donne le plus de poids aux données ? Justifier à partir de la taille effective du prior. \hfill (0,75 pt)
+  \item Calculer l'estimateur de Bayes dans chaque cas et le comparer à la moyenne empirique $y/n$. \hfill (0,75 pt)
+\end{enumerate}
+
+% ============================================================
+\columnbreak
+\section*{Exercice 4 --- Formule de la moyenne pondérée}
+
+On rappelle que pour $\theta \sim \mathrm{Beta}(\alpha, \beta)$ et $Y \mid \theta \sim \mathrm{Bin}(n, \theta)$ :
+\[
+\mathbb{E}(\theta \mid y) = \frac{\alpha + y}{\alpha + \beta + n}.
+\]
+
+\begin{enumerate}[label=\alph*)]
+  \item Montrer que cette moyenne peut s'écrire comme une moyenne pondérée
+        $\mathbb{E}(\theta \mid y) = w \cdot \dfrac{y}{n} + (1 - w) \cdot \dfrac{\alpha}{\alpha + \beta}$,
+        et donner l'expression de $w$. \hfill (2 pts)
+  \item Application : $\alpha = 3$, $\beta = 2$, $n = 25$, $y = 15$. Calculer $w$, la moyenne a priori et l'estimateur de Bayes. \hfill (1,5 pt)
+\end{enumerate}
+
+% ============================================================
+\section*{Exercice 5 --- Beta-Binomial : taux de clics}
+
+Vous testez un nouveau bouton sur un site web. Sur 100 visiteurs, 15 cliquent.
+
+\begin{enumerate}[label=\alph*)]
+  \item Avec un prior $\mathrm{Beta}(1, 1)$, quelle est la distribution posterior du taux de clics ? \hfill (0,75 pt)
+  \item Calculer la moyenne a posteriori et un intervalle de crédibilité approximatif à 95~\%. \hfill (1 pt)
+  \item Avec un prior $\mathrm{Beta}(5, 20)$ (taux attendu 20~\%), quelle est la nouvelle posterior ? \hfill (0,75 pt)
+  \item Comparer les deux approches : quel prior est le plus influencé par les données, et vers quoi le prior informatif tire-t-il la posterior ? \hfill (1 pt)
+\end{enumerate}
+
+% ============================================================
+\section*{Exercice 6 --- Gamma-Poisson : appels dans un centre}
+
+Le nombre d'appels horaires d'un centre d'appels suit une loi de Poisson. Vous avez un prior $\lambda \sim \mathrm{Gamma}(10, 2)$ (moyenne a priori : 5 appels/heure). Sur 8 heures, vous observez : $[6, 4, 7, 5, 6, 8, 5, 7]$.
+
+\begin{enumerate}[label=\alph*)]
+  \item Quelle est la distribution posterior de $\lambda$ ? \hfill (1 pt)
+  \item Calculer la moyenne a posteriori. \hfill (1 pt)
+  \item Quelle est la probabilité que le taux dépasse 6 appels/heure ? \hfill (1 pt)
+  \item Comparer avec la moyenne empirique des observations. \hfill (0,5 pt)
+\end{enumerate}
+
+% ============================================================
+\begin{donnees}
+{\scriptsize\textbf{Rappels de cours.}}
+\begin{itemize}[leftmargin=4mm, itemsep=0pt]
+  \item \small Théorème de Bayes : $p(\theta \mid D) \propto p(D \mid \theta)\, p(\theta)$.
+  \item \small Beta--Binomial : si $\theta \sim \mathrm{Beta}(\alpha, \beta)$ et $y \mid \theta \sim \mathrm{Bin}(n, \theta)$, alors $\theta \mid y \sim \mathrm{Beta}(\alpha + y,\; \beta + n - y)$.
+  \item \small Gamma--Poisson : si $\lambda \sim \mathrm{Gamma}(\alpha, \beta)$ et $y_i \mid \lambda \sim \mathrm{Pois}(\lambda)$, alors $\lambda \mid y \sim \mathrm{Gamma}(\alpha + \sum y_i,\; \beta + n)$.
+  \item \small $\mathbb{E}(\mathrm{Beta}) = \dfrac{\alpha}{\alpha + \beta}$, \qquad
+        $\mathrm{Var}(\mathrm{Beta}) = \dfrac{\alpha\beta}{(\alpha+\beta)^2 (\alpha+\beta+1)}$, \qquad
+        $\mathbb{E}(\mathrm{Gamma}) = \dfrac{\alpha}{\beta}$.
+\end{itemize}
+\end{donnees}
+\end{multicols}
+
+\end{document}

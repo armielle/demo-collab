@@ -1,0 +1,25 @@
+{
+ "source": "https://files.data.gouv.fr/geo-dvf/latest/csv/2024/departements/75.csv.gz",
+ "producteur": "DGFiP / Etalab -- DVF (Demandes de valeurs foncieres), geo-dvf 2024, departement 75",
+ "licence": "Licence Ouverte / Open Licence 2.0",
+ "n": 200,
+ "graine_echantillon": 4112,
+ "surface_m2": {
+  "min": 10.0,
+  "max": 185.0,
+  "moyenne": 52.2
+ },
+ "prix_euros": {
+  "min": 70000.0,
+  "max": 2131250.0,
+  "moyenne": 490469.0
+ },
+ "prix_m2": {
+  "min": 2458.0,
+  "max": 14583.0,
+  "moyenne": 9324.0,
+  "median": 9388.0
+ },
+ "ventes_totales_exploitables": 24174,
+ "note": "Fichier construit par src/make_dataset_logements.py. Les prix sont les valeurs foncieres reelles declarees aux mutations."
+}
