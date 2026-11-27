@@ -1,0 +1,65 @@
+name: Vérification du dépôt de cours (Taille & Notebooks)
+
+# Déclenchement sur chaque push ou Pull Request vers main
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch: # Permet aussi de le lancer manuellement depuis GitHub
+
+jobs:
+  # JOB 1 : Garde-fou contre les fichiers volumineux (> 50 Mo)
+  controle-taille-fichiers:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Récupérer le code du dépôt
+        uses: actions/checkout@v4
+
+      - name: Vérifier qu'aucun fichier ne dépasse 50 Mo
+        run: |
+          echo "Recherche de fichiers dépassant 50 Mo..."
+          # Cherche tous les fichiers > 50M en ignorant le dossier interne .git
+          GROS_FICHIERS=$(find . -path ./.git -prune -o -type f -size +50M -print)
+
+          if [ -n "$GROS_FICHIERS" ]; then
+            echo "❌ ERREUR : Les fichiers suivants dépassent la limite autorisée de 50 Mo :"
+            echo "$GROS_FICHIERS"
+            echo "Veuillez les retirer avec 'git rm --cached' et les ajouter au .gitignore."
+            exit 1
+          else
+            echo "✅ Aucun fichier volumineux détecté."
+          fi
+
+  # JOB 2 : Vérification de la qualité et de la validité des Notebooks Jupyter
+  verification-notebooks:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Récupérer le code du dépôt
+        uses: actions/checkout@v4
+
+      - name: Installer Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Installer les outils de validation de notebooks
+        run: |
+          python -m pip install --upgrade pip
+          pip install nbformat ruff
+
+      - name: Vérifier la syntaxe et le format JSON des notebooks (.ipynb)
+        run: |
+          # Vérifie le code Python à l'intérieur de tous les notebooks avec Ruff
+          ruff check --select E9,F63,F7,F82 .
+
+          # Vérifie que chaque fichier .ipynb est un notebook valide et non corrompu
+          python -c "
+          import glob, nbformat
+          notebooks = glob.glob('**/*.ipynb', recursive=True)
+          print(f'{len(notebooks)} notebook(s) trouvé(s).')
+          for nb_path in notebooks:
+              nbformat.read(nb_path, as_version=4)
+              print(f'✅ Valide : {nb_path}')
+          "
